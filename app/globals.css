@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #6e3496;
+  --foreground: #0a0a0a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,5 +23,25 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer components {
+  .inputDarkModeOverride {
+    &:-webkit-autofill {
+      box-shadow: 0 0 0 30px #1c1c1d inset;
+    }
+
+    &:-webkit-autofill:hover {
+      box-shadow: 0 0 0 30px #1c1c1d inset;
+    }
+
+    &:-webkit-autofill:focus {
+      box-shadow: 0 0 0 30px #1c1c1d inset;
+    }
+
+    &:-webkit-autofill:active {
+      box-shadow: 0 0 0 30px #1c1c1d inset;
+    }
   }
 }
