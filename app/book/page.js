@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
 export default async function Home() {
-  const response = await fetch('http://localhost:5000/api/availability', {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/availability`, {
     cache: 'no-store', // Ensures fresh data is fetched every time
   });
 
