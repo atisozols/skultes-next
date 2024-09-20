@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-background p-8 py-3 rounded-full">
+    <nav className="w-full bg-background p-7 sm:p-8 py-2 sm:py-3 rounded-full">
       <div className="">
         <div className="flex gap-10 items-center h-16">
           {/* Logo */}
@@ -25,7 +25,7 @@ const Navbar = () => {
                 alt="Logo"
                 width={220}
                 height={107}
-                className="h-16 w-auto"
+                className="h-12 sm:h-16 w-auto"
                 priority
               />
             </Link>
@@ -53,7 +53,7 @@ const Navbar = () => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } lg:hidden`}
       >
-        <button onClick={toggleMenu} className="absolute top-14 right-16">
+        <button onClick={toggleMenu} className="absolute top-9 right-10 sm:top-14 sm:right-16">
           <HiX className="h-10 w-10 text-white" />
         </button>
         <div className="text-white flex flex-col text-3xl tracking-wider font-semibold justify-center items-center gap-12 h-full bg-background">

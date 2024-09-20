@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-col lg:flex-row gap-8 items-stretch w-full max-w-xl lg:max-w-5xl">
+      <main className="flex flex-col lg:flex-row gap-4 sm:gap-8 items-stretch w-full max-w-xl lg:max-w-5xl">
         <Timetable availability={availability} />
         <ReservationForm availability={availability} />
       </main>
