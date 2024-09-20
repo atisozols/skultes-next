@@ -177,7 +177,7 @@ const ReservationForm = ({ availability }) => {
           <input
             type="text"
             name="name"
-            className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200 dark:bg-transparent"
+            className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -189,7 +189,7 @@ const ReservationForm = ({ availability }) => {
           <input
             type="tel"
             name="phone"
-            className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200 dark:bg-transparent"
+            className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
@@ -202,7 +202,7 @@ const ReservationForm = ({ availability }) => {
             type="date"
             name="date"
             min={getCurrentDateInRiga()} // Restrict to today and future dates
-            className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200 dark:bg-transparent w-full"
+            className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200 w-full"
             value={date}
             onChange={handleDateChange}
           />
@@ -214,7 +214,7 @@ const ReservationForm = ({ availability }) => {
             <label htmlFor="time">Laiks</label>
             <select
               name="time"
-              className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200 dark:bg-transparent"
+              className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200"
               value={time}
               onChange={(e) => setTime(e.target.value)}
               disabled={isDurationDisabled}
@@ -238,7 +238,7 @@ const ReservationForm = ({ availability }) => {
             <label htmlFor="duration">Ilgums</label>
             <select
               name="duration"
-              className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200 dark:bg-transparent"
+              className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200"
               value={duration}
               onChange={handleDurationChange}
               disabled={isDurationDisabled}

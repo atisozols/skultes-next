@@ -31,19 +31,19 @@ const Timetable = ({ availability }) => {
 
   return (
     <div className="w-full bg-white dark:bg-background rounded-lg p-7 flex justify-center items-center">
-      <div className="flex flex-row">
+      <div className="flex w-full justify-center items-center">
         {/* Left Side (Time Labels) */}
-        <div className="hidden sm:flex flex-col text-right justify-between mr-2 mt-10 mb-14 lg:mt-14 lg:mb-20 text-foreground">
-          <span className="">8:00</span>
-          <span className="">12:00</span>
-          <span className="">16:00</span>
-          <span className="">20:00</span>
+        <div className="hidden sm:flex flex-col text-right gap-10 pb-4 lg:pb-2 mr-2 text-foreground h-full">
+          <span className="lg:pb-8">8:00</span>
+          <span className="lg:pb-8">12:00</span>
+          <span className="lg:pb-8">16:00</span>
+          <span className="lg:pb-8">20:00</span>
         </div>
 
         {/* Right Side (Dates and Timetable) */}
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           {/* Dates Row */}
-          <div className="flex justify-between mb-2">
+          <div className="flex justify-around mb-2">
             {availability.slice(0, 7).map((object, objectIndex) => (
               <span
                 key={objectIndex}
@@ -61,10 +61,10 @@ const Timetable = ({ availability }) => {
                 {row.map((cell, cellIndex) => (
                   <div
                     key={cellIndex}
-                    className={`w-10 sm:w-14 md:w-16 lg:w-14 h-1 lg:h-1.5 ${
+                    className={`w-full h-1 lg:h-1.5 ${
                       cellIndex === 6 ? '' : 'border-r border-r-white dark:border-r-background'
                     } ${
-                      cell === 0 ? 'bg-zinc-200 dark:bg-zinc-700' : 'bg-background dark:bg-zinc-800'
+                      cell === 0 ? 'bg-zinc-200 dark:bg-zinc-700' : 'bg-background dark:bg-zinc-900'
                     } ${
                       (rowIndex + 2) % 4 === 0 ? 'border-t border-white dark:border-background' : ''
                     } ${
