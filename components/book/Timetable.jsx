@@ -30,7 +30,7 @@ const Timetable = ({ availability }) => {
   };
 
   return (
-    <div className="w-full bg-white dark:bg-background rounded-lg p-7 flex justify-center items-center">
+    <div className="w-full bg-white dark:bg-background rounded-3xl p-7 flex justify-center items-center">
       <div className="flex w-full justify-center items-center">
         {/* Left Side (Time Labels) */}
         <div className="hidden sm:flex flex-col text-right gap-10 pb-4 lg:pb-2 mr-2 text-foreground h-full">

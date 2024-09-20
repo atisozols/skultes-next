@@ -164,7 +164,7 @@ const ReservationForm = ({ availability }) => {
   };
 
   return (
-    <div className="w-full rounded-lg bg-white dark:bg-background p-5 py-10 flex flex-col items-center gap-8">
+    <div className="w-full rounded-3xl bg-white dark:bg-background p-5 py-10 flex flex-col items-center gap-8">
       <form
         className="grid grid-cols-1 justify-items-center w-full gap-6 text-lg"
         onSubmit={handleSubmit}
