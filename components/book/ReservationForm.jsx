@@ -202,7 +202,7 @@ const ReservationForm = ({ availability }) => {
             type="date"
             name="date"
             min={getCurrentDateInRiga()} // Restrict to today and future dates
-            className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200 dark:bg-transparent"
+            className="p-1 px-3 shadow-md rounded-md dark:bg-zinc-700 bg-zinc-200 dark:bg-transparent w-full"
             value={date}
             onChange={handleDateChange}
           />

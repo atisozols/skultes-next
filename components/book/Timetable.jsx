@@ -45,20 +45,23 @@ const Timetable = ({ availability }) => {
           {/* Dates Row */}
           <div className="flex justify-between mb-2">
             {availability.slice(0, 7).map((object, objectIndex) => (
-              <span key={objectIndex} className="text-foreground w-12 text-center">
+              <span
+                key={objectIndex}
+                className="text-foreground text-xs sm:text-sm sm:w-12 text-center"
+              >
                 {dateText(object.date)}
               </span>
             ))}
           </div>
 
           {/* Timetable */}
-          <div className="">
+          <div className="w-full">
             {timetable.map((row, rowIndex) => (
-              <div className="flex" key={rowIndex}>
+              <div className="flex w-full" key={rowIndex}>
                 {row.map((cell, cellIndex) => (
                   <div
                     key={cellIndex}
-                    className={`w-14 md:w-16 lg:w-14 h-1 lg:h-1.5 ${
+                    className={`w-10 sm:w-14 md:w-16 lg:w-14 h-1 lg:h-1.5 ${
                       cellIndex === 6 ? '' : 'border-r border-r-white dark:border-r-background'
                     } ${
                       cell === 0 ? 'bg-zinc-200 dark:bg-zinc-700' : 'bg-background dark:bg-zinc-800'
