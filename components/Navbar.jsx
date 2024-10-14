@@ -14,25 +14,25 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-background p-7 sm:p-8 py-2 sm:py-3 rounded-full">
+    <nav className="w-full rounded-full bg-background p-7 py-2 shadow-md sm:p-8 sm:py-3">
       <div className="">
-        <div className="flex gap-10 items-center h-16">
+        <div className="flex h-16 items-center gap-10">
           {/* Logo */}
-          <div className="flex-shrink-0 mr-auto">
+          <div className="mr-auto flex-shrink-0">
             <Link href="/">
               <Image
                 src="/logo.png"
                 alt="Logo"
                 width={220}
                 height={107}
-                className="h-12 sm:h-16 w-auto"
+                className="h-12 w-auto sm:h-16"
                 priority
               />
             </Link>
           </div>
 
           {/* Links for larger screens */}
-          <div className="font-normal text-white dark:text-foreground text-xl hidden lg:flex space-x-8">
+          <div className="hidden space-x-8 text-xl font-normal text-white lg:flex dark:text-foreground">
             <NavbarLinks />
           </div>
 
@@ -49,14 +49,14 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`fixed inset-0 z-50 text-lg transition-transform transform ${
+        className={`fixed inset-0 z-50 transform text-lg transition-transform ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } lg:hidden`}
       >
-        <button onClick={toggleMenu} className="absolute top-9 right-10 sm:top-14 sm:right-16">
+        <button onClick={toggleMenu} className="absolute right-10 top-9">
           <HiX className="h-10 w-10 text-white" />
         </button>
-        <div className="text-white flex flex-col text-3xl tracking-wider font-semibold justify-center items-center gap-12 h-full bg-background">
+        <div className="flex h-full flex-col items-center justify-center gap-12 bg-background text-3xl font-semibold tracking-wider text-white">
           <NavbarLinks />
         </div>
       </div>
