@@ -1,12 +1,13 @@
 import { LuTrash2, LuCalendarPlus } from 'react-icons/lu';
 import timeSlots from '../book/utils/timeSlots';
+import { formatAppointmentDate } from '@/utils/appointmentFormatter';
 
 const CartItem = ({ item }) => {
   return (
     <div className="flex w-full justify-between border-t p-3 px-5">
       <div className="flex flex-col items-start justify-center">
         <span className="text-xl font-medium tracking-wider text-background dark:text-foreground">
-          {item.date}
+          {formatAppointmentDate(item.date)}
         </span>
         <span className="font-light">
           {timeSlots[item.start_index]} - {timeSlots[item.end_index]}

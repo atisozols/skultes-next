@@ -16,6 +16,10 @@ export const formatAppointmentData = (appointments) => {
   });
 };
 
+export const formatAppointmentDate = (date) => {
+  return moment(date).format('DD.MM.YYYY');
+};
+
 const generateGoogleCalendarUrl = (appointment) => {
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
     'Skultes Gym apmeklējums',

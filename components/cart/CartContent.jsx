@@ -10,7 +10,7 @@ const CartContent = ({ toggleCart }) => {
   return (
     <div className="absolute inset-0 flex items-start justify-end p-4 sm:p-8" onClick={toggleCart}>
       <div
-        className="relative top-20 mt-2 w-full max-w-lg rounded-3xl bg-white p-4 shadow-md sm:top-24 dark:bg-background"
+        className="relative top-20 mt-2 w-full max-w-lg rounded-3xl bg-white px-4 shadow-md sm:top-24 dark:bg-background"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="pb-2 pt-4 text-center text-lg font-bold text-background dark:text-white">
@@ -24,7 +24,7 @@ const CartContent = ({ toggleCart }) => {
               </div>
             ))}
             <div className="w-full px-2 pb-2">
-              <button className="w-full border-t py-4 underline-offset-4 hover:underline">
+              <button className="w-full border-t py-4 font-medium text-background underline-offset-4 hover:underline dark:text-white">
                 Apmaksāt
               </button>
             </div>
