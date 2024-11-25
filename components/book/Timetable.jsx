@@ -1,15 +1,12 @@
 import moment from 'moment-timezone';
 import { FaCircle } from 'react-icons/fa';
 
-// This is a Server Component in Next.js
 const Timetable = ({ availability }) => {
-  // Function to check if a specific cell should be unavailable
   const isUnavailable = (column, row) => {
     const ranges = availability[column].ranges;
     return ranges.some((range) => row >= range.start.index && row < range.end.index);
   };
 
-  // Function to generate the timetable (without state)
   const generateTimetable = () => {
     const rows = [];
     for (let i = 0; i < 70; i++) {
@@ -23,7 +20,7 @@ const Timetable = ({ availability }) => {
     return rows;
   };
 
-  const timetable = generateTimetable(); // Generate the timetable directly in the server component
+  const timetable = generateTimetable();
 
   // Function to format the date in Riga/Latvia timezone using moment-timezone
   const dateText = (date) => {
@@ -65,8 +62,8 @@ const Timetable = ({ availability }) => {
                         cellIndex === 6 ? '' : 'border-r border-r-white dark:border-r-background'
                       } ${
                         cell === 0
-                          ? 'bg-zinc-200 dark:bg-zinc-700'
-                          : 'bg-background dark:bg-zinc-900'
+                          ? 'bg-zinc-200 dark:bg-zinc-800'
+                          : 'bg-background dark:bg-foreground'
                       } ${
                         (rowIndex + 2) % 4 === 0
                           ? 'border-t border-white dark:border-background'
@@ -86,11 +83,11 @@ const Timetable = ({ availability }) => {
       </div>
       <div className="mt-5 flex w-full justify-end gap-5">
         <div className="flex items-center gap-2">
-          <FaCircle className="h-4 w-4 text-zinc-200 dark:text-zinc-700" />
+          <FaCircle className="h-4 w-4 text-zinc-200 dark:rounded-full dark:text-zinc-800" />
           <span>Brīvs</span>
         </div>
         <div className="flex items-center gap-2">
-          <FaCircle className="h-4 w-4 text-background dark:text-zinc-900" />
+          <FaCircle className="h-4 w-4 text-background dark:text-foreground" />
           <span>Aizņemts</span>
         </div>
       </div>

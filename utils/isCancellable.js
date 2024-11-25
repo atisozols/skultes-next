@@ -16,7 +16,7 @@ export const isCancellable = (appointment) => {
   const currentTime = moment().tz('Europe/Riga').utc(true);
 
   const cancellableUntil =
-    timeDifference.asDays() > 1 ? appointmentTime.add(-1, 'days') : fiveMinutesLater;
+    timeDifference.asHours() > 12 ? appointmentTime.add(-12, 'hours') : fiveMinutesLater;
 
   return currentTime.isBefore(cancellableUntil);
 };

@@ -2,32 +2,36 @@
 import React, { useState, useEffect } from 'react';
 import { findClosestSlot } from './utils/findClosestSlot';
 import timeSlots from './utils/timeSlots';
-import availableSlotsForEachDuration from './utils/availableTimeSlotsForEachDuration';
+import availableSlotsForEachDuration from './utils/availableSlotsForEachDuration';
 import getCurrentDateInRiga from './utils/getCurrentDateInRiga';
+import durations from './utils/durations';
+import { useCart } from '../cart/CartContext';
 
 const ReservationForm = ({ availability }) => {
+  const { cart, addToCart } = useCart();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [date, setDate] = useState(getCurrentDateInRiga());
-  const [time, setTime] = useState('');
   const [duration, setDuration] = useState(3);
-  const [availableTimeSlots, setAvailableTimeSlots] = useState(
-    availableSlotsForEachDuration(availability, date, timeSlots),
+  const [time, setTime] = useState(
+    availableSlotsForEachDuration(cart, availability, date, timeSlots)[duration][0],
   );
-  const [availableDurations, setAvailableDurations] = useState([3, 4, 5, 6]);
-  const [defaultTime, setDefaultTime] = useState('');
+  const [availableTimeSlots, setAvailableTimeSlots] = useState(
+    availableSlotsForEachDuration(cart, availability, date, timeSlots),
+  );
+  const [availableDurations, setAvailableDurations] = useState(durations);
   const [isDurationDisabled, setIsDurationDisabled] = useState(false);
   const [lastSelectedTime, setLastSelectedTime] = useState('');
 
   useEffect(() => {
-    const slotsForDuration = availableSlotsForEachDuration(availability, date, timeSlots);
+    const slotsForDuration = availableSlotsForEachDuration(cart, availability, date, timeSlots);
     setAvailableTimeSlots(slotsForDuration);
 
     const durations = Object.keys(slotsForDuration).filter(
       (duration) => slotsForDuration[duration].length > 0,
     );
     setAvailableDurations(durations.map(Number));
-  }, [date, duration, availability]);
+  }, [date, duration, availability, cart]);
 
   const handleDateChange = (e) => {
     setDate(e.target.value);
@@ -39,10 +43,9 @@ const ReservationForm = ({ availability }) => {
 
     setLastSelectedTime(time);
 
-    const slotsForDuration = availableSlotsForEachDuration(availability, date, timeSlots);
+    const slotsForDuration = availableSlotsForEachDuration(cart, availability, date, timeSlots);
     if (slotsForDuration[newDuration] && slotsForDuration[newDuration].length > 0) {
       const closestSlot = findClosestSlot(slotsForDuration[newDuration], time);
-      setDefaultTime(closestSlot);
       setTime(closestSlot);
     } else {
       setTime('');
@@ -51,6 +54,8 @@ const ReservationForm = ({ availability }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log(date, time, duration);
 
     if (!name || !phone || !time || !duration) {
       console.log('Please fill in all fields!');
@@ -66,8 +71,7 @@ const ReservationForm = ({ availability }) => {
       end_index: timeIndex + duration,
     };
 
-    console.log('Appointment:', appointment);
-    // Here we will add the appointment to the cart later
+    addToCart(appointment);
   };
 
   return (
@@ -80,25 +84,23 @@ const ReservationForm = ({ availability }) => {
           Rezervēt laiku
         </h3>
 
-        {/* Name Field */}
         <div className="flex w-full max-w-sm flex-col justify-between md:max-w-md">
           <label htmlFor="name">Vārds, uzvārds</label>
           <input
             type="text"
             name="name"
-            className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-700"
+            className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
 
-        {/* Phone Field */}
         <div className="flex w-full max-w-sm flex-col justify-between md:max-w-md">
           <label htmlFor="phone">Telefona numurs</label>
           <input
             type="tel"
             name="phone"
-            className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-700"
+            className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
@@ -111,7 +113,7 @@ const ReservationForm = ({ availability }) => {
             type="date"
             name="date"
             min={getCurrentDateInRiga()} // Restrict to today and future dates
-            className="w-full rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-700"
+            className="w-full rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
             value={date}
             onChange={handleDateChange}
           />
@@ -123,7 +125,7 @@ const ReservationForm = ({ availability }) => {
             <label htmlFor="time">Laiks</label>
             <select
               name="time"
-              className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-700"
+              className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
               value={time}
               onChange={(e) => setTime(e.target.value)}
               disabled={isDurationDisabled}
@@ -147,7 +149,7 @@ const ReservationForm = ({ availability }) => {
             <label htmlFor="duration">Ilgums</label>
             <select
               name="duration"
-              className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-700"
+              className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
               value={duration}
               onChange={handleDurationChange}
               disabled={isDurationDisabled}
@@ -172,7 +174,7 @@ const ReservationForm = ({ availability }) => {
           type="submit"
           className="mt-5 w-full max-w-sm rounded-md bg-background p-2 px-3 text-white shadow-lg hover:underline hover:underline-offset-4 md:max-w-md dark:bg-foreground dark:text-background"
         >
-          Pieteikt rezervāciju
+          Pievienot grozam
         </button>
       </form>
     </div>

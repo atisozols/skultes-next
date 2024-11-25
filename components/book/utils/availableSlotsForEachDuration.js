@@ -1,20 +1,23 @@
 import getCurrentDateInRiga from './getCurrentDateInRiga';
+import durations from './durations';
+import mergeCartIntoAvailability from './mergeCartIntoAvailability';
 
-const availableSlotsForEachDuration = (availability, date, timeSlots) => {
-  const currentAvailability = availability.find((item) => item.date.slice(0, 10) === date);
+const availableSlotsForEachDuration = (cart, availability, date, timeSlots) => {
+  const mergedAvailability = mergeCartIntoAvailability(cart, availability);
+  const currentAvailability = mergedAvailability.find(
+    (item) => item.date.toISOString().split('T')[0] === date,
+  );
   let filteredSlots = { ...timeSlots };
 
-  const today = getCurrentDateInRiga(); // Get today's date in Riga time
+  const today = getCurrentDateInRiga();
   if (date === today) {
     const now = new Date();
     const currentHours = now.getHours();
     const currentMinutes = now.getMinutes();
 
-    // Iterate over the timeSlots and remove those that are before the current time
     Object.keys(filteredSlots).forEach((slotIndex) => {
       const [hours, minutes] = filteredSlots[slotIndex].split(':').map(Number);
 
-      // Compare slot time with current time
       if (hours < currentHours || (hours === currentHours && minutes <= currentMinutes)) {
         delete filteredSlots[slotIndex];
       }
@@ -30,7 +33,7 @@ const availableSlotsForEachDuration = (availability, date, timeSlots) => {
   }
 
   const result = {};
-  [3, 4, 5, 6].forEach((duration) => {
+  durations.forEach((duration) => {
     const validSlots = {};
     Object.keys(filteredSlots).forEach((slotIndex) => {
       const slotInt = parseInt(slotIndex);

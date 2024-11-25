@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import NavbarLinks from './NavbarLinks';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
-import CartButton from './CartButton';
+import Cart from './cart/Cart';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,7 @@ const Navbar = () => {
             <NavbarLinks />
           </div>
 
-          <CartButton />
+          <Cart />
 
           {/* Hamburger Menu Button for smaller screens */}
           <div className="lg:hidden">
