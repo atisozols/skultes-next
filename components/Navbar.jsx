@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <nav className="w-full rounded-full bg-background p-7 py-2 shadow-md sm:p-8 sm:py-3">
       <div className="">
-        <div className="flex h-16 items-center gap-10">
+        <div className="flex h-16 items-center gap-6">
           {/* Logo */}
           <div className="mr-auto flex-shrink-0">
             <Link href="/">

@@ -1,34 +1,44 @@
+'use client';
+import { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 import { FaCircle } from 'react-icons/fa';
+import TimetableSkeleton from './TimetableSkeleton';
 
 const Timetable = ({ availability }) => {
-  const isUnavailable = (column, row) => {
-    const ranges = availability[column].ranges;
-    return ranges.some((range) => row >= range.start.index && row < range.end.index);
-  };
+  const [timetable, setTimetable] = useState([]);
 
-  const generateTimetable = () => {
-    const rows = [];
-    for (let i = 0; i < 70; i++) {
-      const row = [];
-      for (let j = 0; j < 7; j++) {
-        const value = isUnavailable(j, i) ? 1 : 0;
-        row.push(value);
+  useEffect(() => {
+    const isUnavailable = (column, row) => {
+      const ranges = availability[column].ranges;
+      return ranges.some((range) => row >= range.start.index && row < range.end.index);
+    };
+
+    const generateTimetable = () => {
+      const rows = [];
+      for (let i = 0; i < 70; i++) {
+        const row = [];
+        for (let j = 0; j < 7; j++) {
+          const value = isUnavailable(j, i) ? 1 : 0;
+          row.push(value);
+        }
+        rows.push(row);
       }
-      rows.push(row);
-    }
-    return rows;
-  };
+      return rows;
+    };
 
-  const timetable = generateTimetable();
+    if (availability && availability.length > 0) {
+      const newTimetable = generateTimetable();
+      setTimetable(newTimetable);
+    }
+  }, [availability]);
 
   // Function to format the date in Riga/Latvia timezone using moment-timezone
   const dateText = (date) => {
     return moment.tz(date, 'Europe/Riga').format('DD.MM');
   };
 
-  return (
-    <div className="rounded-3xl bg-white p-7 shadow-md dark:bg-background">
+  return timetable.length > 0 ? (
+    <div className="w-full rounded-3xl bg-white p-7 shadow-md lg:w-1/2 dark:bg-background">
       <div className="flex w-full items-center justify-center">
         <div className="flex w-full items-center justify-center">
           {/* Left Side (Time Labels) */}
@@ -83,7 +93,7 @@ const Timetable = ({ availability }) => {
       </div>
       <div className="mt-5 flex w-full justify-end gap-5">
         <div className="flex items-center gap-2">
-          <FaCircle className="h-4 w-4 text-zinc-200 dark:rounded-full dark:text-zinc-800" />
+          <FaCircle className="h-4 w-4 text-zinc-200 dark:text-zinc-800" />
           <span>Brīvs</span>
         </div>
         <div className="flex items-center gap-2">
@@ -92,6 +102,8 @@ const Timetable = ({ availability }) => {
         </div>
       </div>
     </div>
+  ) : (
+    <TimetableSkeleton />
   );
 };
 

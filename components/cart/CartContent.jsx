@@ -1,11 +1,11 @@
 'use client';
 import Link from 'next/link';
 import { useCart } from './CartContext';
-import timeSlots from '../book/utils/timeSlots';
+import timeSlots from '../../utils/book/timeSlots';
 import CartItem from './CartItem';
 
 const CartContent = ({ toggleCart }) => {
-  const { cart } = useCart();
+  const { cart, checkout, total } = useCart();
 
   return (
     <div className="absolute inset-0 flex items-start justify-end p-4 sm:p-8" onClick={toggleCart}>
@@ -19,13 +19,16 @@ const CartContent = ({ toggleCart }) => {
         {cart.length > 0 ? (
           <div className="flex w-full flex-col items-center">
             {cart.map((item) => (
-              <div className="w-full p-2" key={item.start_index}>
+              <div className="w-full" key={item.start_index}>
                 <CartItem item={item} />
               </div>
             ))}
-            <div className="w-full px-2 pb-2">
-              <button className="w-full border-t py-4 font-medium text-background underline-offset-4 hover:underline dark:text-white">
-                Apmaksāt
+            <div className="w-full pb-2">
+              <button
+                className="w-full border-t py-4 font-medium text-background underline underline-offset-4 dark:text-white"
+                onClick={() => checkout()}
+              >
+                Apmaksāt: &euro;{(total() / 100).toFixed(2)}
               </button>
             </div>
           </div>
@@ -34,10 +37,10 @@ const CartContent = ({ toggleCart }) => {
             <p className="">Grozs ir tukšs</p>
             <Link
               href="/book"
-              className="font-medium text-background underline-offset-4 hover:underline dark:text-white"
+              className="font-medium text-background underline underline-offset-4 dark:text-white"
               onClick={toggleCart}
             >
-              Pieteikties
+              Rezervēt
             </Link>
           </div>
         )}

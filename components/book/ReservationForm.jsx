@@ -1,16 +1,16 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { findClosestSlot } from './utils/findClosestSlot';
-import timeSlots from './utils/timeSlots';
-import availableSlotsForEachDuration from './utils/availableSlotsForEachDuration';
-import getCurrentDateInRiga from './utils/getCurrentDateInRiga';
-import durations from './utils/durations';
+import { findClosestSlot } from '../../utils/book/findClosestSlot';
+import timeSlots from '../../utils/book/timeSlots';
+import availableSlotsForEachDuration from '../../utils/book/availableSlotsForEachDuration';
+import getCurrentDateInRiga from '../../utils/book/getCurrentDateInRiga';
+import durations from '../../utils/book/durations';
 import { useCart } from '../cart/CartContext';
 
 const ReservationForm = ({ availability }) => {
   const { cart, addToCart } = useCart();
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('Atis Ozols');
+  const [phone, setPhone] = useState('27804609');
   const [date, setDate] = useState(getCurrentDateInRiga());
   const [duration, setDuration] = useState(3);
   const [time, setTime] = useState(
@@ -55,8 +55,6 @@ const ReservationForm = ({ availability }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(date, time, duration);
-
     if (!name || !phone || !time || !duration) {
       console.log('Please fill in all fields!');
       return;
@@ -75,7 +73,7 @@ const ReservationForm = ({ availability }) => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center gap-8 rounded-3xl bg-white p-5 py-10 shadow-lg dark:bg-background">
+    <div className="flex w-full flex-col items-center gap-8 rounded-3xl bg-white p-5 py-10 shadow-lg lg:w-1/2 dark:bg-background">
       <form
         className="grid w-full grid-cols-1 justify-items-center gap-6 text-lg"
         onSubmit={handleSubmit}
@@ -84,7 +82,7 @@ const ReservationForm = ({ availability }) => {
           Rezervēt laiku
         </h3>
 
-        <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
+        {/* <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
           <label htmlFor="name">Vārds, uzvārds</label>
           <input
             type="text"
@@ -104,7 +102,7 @@ const ReservationForm = ({ availability }) => {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-        </div>
+        </div> */}
 
         {/* Date Field */}
         <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
