@@ -84,7 +84,7 @@ const ReservationForm = ({ availability }) => {
           Rezervēt laiku
         </h3>
 
-        <div className="flex w-full max-w-sm flex-col justify-between md:max-w-md">
+        <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
           <label htmlFor="name">Vārds, uzvārds</label>
           <input
             type="text"
@@ -95,7 +95,7 @@ const ReservationForm = ({ availability }) => {
           />
         </div>
 
-        <div className="flex w-full max-w-sm flex-col justify-between md:max-w-md">
+        <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
           <label htmlFor="phone">Telefona numurs</label>
           <input
             type="tel"
@@ -107,7 +107,7 @@ const ReservationForm = ({ availability }) => {
         </div>
 
         {/* Date Field */}
-        <div className="flex w-full max-w-sm flex-col justify-between md:max-w-md">
+        <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
           <label htmlFor="date">Datums</label>
           <input
             type="date"
@@ -120,7 +120,7 @@ const ReservationForm = ({ availability }) => {
         </div>
 
         {/* Time and Duration */}
-        <div className="flex w-full max-w-sm items-center justify-between gap-3 md:max-w-md">
+        <div className="flex w-full max-w-sm items-center justify-between gap-3 sm:max-w-md">
           <div className="flex w-1/2 flex-col justify-between">
             <label htmlFor="time">Laiks</label>
             <select
@@ -172,7 +172,7 @@ const ReservationForm = ({ availability }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="mt-5 w-full max-w-sm rounded-md bg-background p-2 px-3 text-white shadow-lg hover:underline hover:underline-offset-4 md:max-w-md dark:bg-foreground dark:text-background"
+          className="mt-5 w-full max-w-sm rounded-md bg-background p-2 px-3 text-white shadow-lg hover:underline hover:underline-offset-4 sm:max-w-md dark:bg-foreground dark:text-background"
         >
           Pievienot grozam
         </button>

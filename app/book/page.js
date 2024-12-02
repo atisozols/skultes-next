@@ -4,6 +4,8 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { getAvailability } from '@/utils/getAvailability';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const availability = await getAvailability();
 

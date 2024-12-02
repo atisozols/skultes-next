@@ -70,7 +70,7 @@ const Timetable = ({ availability }) => {
                           : ''
                       } ${
                         rowIndex === 6 || rowIndex === 22 || rowIndex === 38 || rowIndex === 54
-                          ? 'border-t-4'
+                          ? 'h-2 border-t-4 lg:h-2.5'
                           : ''
                       }`}
                     ></div>
