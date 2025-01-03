@@ -15,7 +15,7 @@ const CartButton = ({ toggleCart }) => {
       )}
       {/* Cart item count badge */}
       {cart.length > 0 && (
-        <span className="absolute -right-1 -top-1 rounded-full bg-violet-400 px-1.5 py-0.5 text-xs font-bold text-white dark:bg-foreground dark:text-background">
+        <span className="absolute -right-1 -top-1 rounded-full bg-rose-500 px-1.5 py-0.5 text-xs font-bold text-white dark:bg-foreground dark:text-background">
           {cart.length}
         </span>
       )}

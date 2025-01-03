@@ -39,6 +39,9 @@ const Timetable = ({ availability }) => {
 
   return timetable.length > 0 ? (
     <div className="w-full rounded-3xl bg-white p-7 shadow-md lg:w-1/2 dark:bg-background">
+      <h3 className="pb-6 text-center text-lg font-light tracking-tight text-black sm:text-2xl dark:text-white">
+        VIP zāles noslogojums
+      </h3>
       <div className="flex w-full items-center justify-center">
         <div className="flex w-full items-center justify-center">
           {/* Left Side (Time Labels) */}

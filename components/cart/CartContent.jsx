@@ -4,48 +4,43 @@ import { useCart } from './CartContext';
 import timeSlots from '../../utils/book/timeSlots';
 import CartItem from './CartItem';
 
-const CartContent = ({ toggleCart }) => {
-  const { cart, checkout, total } = useCart();
+const CartContent = () => {
+  const { cart, checkout, total, loading, cartError } = useCart();
 
   return (
-    <div className="absolute inset-0 flex items-start justify-end p-4 sm:p-8" onClick={toggleCart}>
-      <div
-        className="relative top-20 mt-2 w-full max-w-lg rounded-3xl bg-white px-4 shadow-md sm:top-24 dark:bg-background"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2 className="pb-2 pt-4 text-center text-lg font-bold text-background dark:text-white">
+    cart.length > 0 && (
+      <div className="relative h-full w-full rounded-3xl bg-white p-7 shadow-lg dark:bg-background">
+        <h2 className="pb-6 text-center text-lg font-light tracking-tight text-black sm:text-2xl dark:text-white">
           Rezervāciju grozs
         </h2>
-        {cart.length > 0 ? (
-          <div className="flex w-full flex-col items-center">
+        <div>
+          <div className="flex max-h-96 w-full flex-col items-center overflow-y-scroll">
             {cart.map((item) => (
               <div className="w-full" key={item.start_index}>
                 <CartItem item={item} />
               </div>
             ))}
-            <div className="w-full pb-2">
-              <button
-                className="w-full border-t py-4 font-medium text-background underline underline-offset-4 dark:text-white"
-                onClick={() => checkout()}
-              >
-                Apmaksāt: &euro;{(total() / 100).toFixed(2)}
-              </button>
+          </div>
+          {cartError.msg.length > 0 && (
+            <div className="flex flex-col gap-5 py-2 text-center text-sm">
+              <p>{cartError.msg}</p>
             </div>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center gap-2 py-10">
-            <p className="">Grozs ir tukšs</p>
-            <Link
-              href="/book"
-              className="font-medium text-background underline underline-offset-4 dark:text-white"
-              onClick={toggleCart}
+          )}
+          <div className="flex w-full justify-center pt-7">
+            <button
+              className="w-full max-w-sm rounded-md bg-background p-2 px-3 text-white shadow-lg hover:underline hover:underline-offset-4 sm:max-w-md dark:bg-foreground dark:text-background"
+              onClick={() => checkout()}
             >
-              Rezervēt
-            </Link>
+              {loading ? (
+                <span className="loading loading-dots loading-xs"></span>
+              ) : (
+                <>Apmaksāt: &euro;{(total() / 100).toFixed(2)}</>
+              )}
+            </button>
           </div>
-        )}
+        </div>
       </div>
-    </div>
+    )
   );
 };
 

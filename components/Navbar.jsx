@@ -18,25 +18,23 @@ const Navbar = () => {
       <div className="">
         <div className="flex h-16 items-center gap-6">
           {/* Logo */}
-          <div className="mr-auto flex-shrink-0">
+          <div className="mr-auto flex-shrink-0 pl-2">
             <Link href="/">
               <Image
-                src="/logo.png"
+                src="/sk_ozols.png"
                 alt="Logo"
-                width={220}
-                height={107}
-                className="h-12 w-auto sm:h-16"
+                width={400}
+                height={200}
+                className="h-8 w-auto sm:h-10"
                 priority
               />
             </Link>
           </div>
 
           {/* Links for larger screens */}
-          <div className="hidden space-x-8 text-xl font-normal text-white lg:flex dark:text-foreground">
+          <div className="hidden space-x-8 text-lg font-normal text-white lg:flex dark:text-foreground">
             <NavbarLinks />
           </div>
-
-          <Cart />
 
           {/* Hamburger Menu Button for smaller screens */}
           <div className="lg:hidden">

@@ -69,5 +69,6 @@ const timeSlots = {
   67: '23:15',
   68: '23:30',
   69: '23:45',
+  70: '00:00',
 };
 export default timeSlots;

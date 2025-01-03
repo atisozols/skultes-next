@@ -2,9 +2,9 @@ import { LuTrash2, LuCalendarPlus } from 'react-icons/lu';
 
 const Reservation = ({ appointment }) => {
   return (
-    <div className="flex w-full justify-between rounded-tl-3xl border-l border-t p-3 px-5">
+    <div className="flex w-full justify-between border-t p-3 px-5">
       <div className="flex flex-col items-start justify-center">
-        <span className="text-xl font-medium tracking-wider text-background dark:text-foreground">
+        <span className="text-xl font-medium tracking-wider text-black dark:text-foreground">
           {appointment.date}
         </span>
         <span className="font-light">

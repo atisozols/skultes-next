@@ -12,9 +12,9 @@ export default async function Page({ params }) {
   try {
     await dbConnect();
 
-    const session = await stripe.checkout.sessions.retrieve(`cs_live_${id}`);
+    const session = await stripe.checkout.sessions.retrieve(id);
     const appointments = await Appointment.find({
-      checkout: `cs_live_${id}`,
+      checkout: id,
       status: 'paid',
     });
 
