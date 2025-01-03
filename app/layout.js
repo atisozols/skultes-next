@@ -16,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} bg-zinc-200 font-light antialiased dark:bg-zinc-800`}>
+      <body className={`${poppins.className} bg-zinc-100 font-light antialiased dark:bg-zinc-800`}>
         <CartProvider>
           <div className="flex min-h-screen flex-col items-center">{children}</div>
         </CartProvider>

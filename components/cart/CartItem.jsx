@@ -11,7 +11,7 @@ const CartItem = ({ item }) => {
   return (
     <div className="flex w-full justify-between border-t p-3 px-5">
       <div className="flex flex-col items-start justify-center">
-        <span className="text-xl font-medium tracking-wider text-black dark:text-foreground">
+        <span className="text-xl font-normal tracking-wider text-black dark:text-foreground">
           {formatAppointmentDate(item.date)}
         </span>
         <span className="font-light">
@@ -20,7 +20,7 @@ const CartItem = ({ item }) => {
       </div>
       <div className="flex items-center">
         <div className="border-r pr-5">
-          <span className="text-xl text-black dark:text-foreground">
+          <span className="text-lg text-black dark:text-foreground">
             &euro;{(calculatePricing(item.start_index, item.end_index, item.date) / 100).toFixed(2)}
           </span>
         </div>

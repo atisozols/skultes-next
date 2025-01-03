@@ -15,9 +15,9 @@ const Navbar = () => {
 
   return (
     <div className="mt-4 w-full px-4">
-      <nav className="w-full rounded-full bg-background px-4 py-2 shadow-md dark:bg-background">
+      <nav className="w-full rounded-full bg-background px-4 py-2.5 shadow-md dark:bg-background">
         <div className="">
-          <div className="flex h-12 items-center gap-6">
+          <div className="flex items-center justify-center">
             {/* Logo */}
             <div className="mr-auto flex-shrink-0 pl-2">
               <Link href="/">
@@ -38,8 +38,13 @@ const Navbar = () => {
             </div>
 
             {/* Hamburger Menu Button for smaller screens */}
-            <div className="lg:hidden">
-              <button onClick={toggleMenu} type="button" className="h-full" aria-expanded="false">
+            <div className="flex items-center justify-center lg:hidden">
+              <button
+                onClick={toggleMenu}
+                type="button"
+                className="rounded-2xl p-1 transition-all hover:bg-white hover:bg-opacity-10"
+                aria-expanded="false"
+              >
                 <span className="sr-only">Open main menu</span>
                 <HiMenuAlt3 className="h-10 w-10 text-white" />
               </button>
@@ -52,10 +57,13 @@ const Navbar = () => {
             isOpen ? 'translate-x-0' : 'translate-x-full'
           } lg:hidden`}
         >
-          <button onClick={toggleMenu} className="absolute right-8 top-7">
+          <button
+            onClick={toggleMenu}
+            className="absolute right-8 top-7 rounded-2xl p-1 transition-all hover:bg-white hover:bg-opacity-10"
+          >
             <HiX className="h-10 w-10 text-white" />
           </button>
-          <div className="flex h-full flex-col items-center justify-center gap-12 bg-background text-3xl font-semibold tracking-wider text-white">
+          <div className="flex h-full flex-col items-center justify-center gap-4 bg-background text-xl font-light tracking-wider text-white">
             <NavbarLinks />
           </div>
         </div>

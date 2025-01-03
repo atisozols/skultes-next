@@ -181,7 +181,7 @@ const ReservationForm = ({ availability }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="mt-5 w-full max-w-sm rounded-md bg-background p-2 px-3 text-base text-white shadow-lg hover:underline hover:underline-offset-4 sm:max-w-md dark:bg-foreground dark:text-background"
+          className="mt-5 w-full max-w-sm rounded-md bg-background p-2 px-3 text-base text-white shadow-lg transition-all hover:opacity-90 sm:max-w-md dark:bg-foreground dark:text-background"
         >
           Pievienot grozam
         </button>
