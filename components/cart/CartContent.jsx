@@ -3,16 +3,16 @@ import Link from 'next/link';
 import { useCart } from './CartContext';
 import timeSlots from '../../utils/book/timeSlots';
 import CartItem from './CartItem';
+import Card from '../ui/Card';
+import CardTitle from '../ui/CardTitle';
 
 const CartContent = () => {
   const { cart, checkout, total, loading, cartError } = useCart();
 
   return (
     cart.length > 0 && (
-      <div className="relative h-full w-full rounded-3xl bg-white p-7 shadow-lg dark:bg-background">
-        <h2 className="pb-6 text-center text-lg font-light tracking-tight text-black sm:text-2xl dark:text-white">
-          Rezervāciju grozs
-        </h2>
+      <Card>
+        <CardTitle>Rezervāciju grozs</CardTitle>
         <div>
           <div className="flex max-h-96 w-full flex-col items-center overflow-y-scroll">
             {cart.map((item) => (
@@ -39,7 +39,7 @@ const CartContent = () => {
             </button>
           </div>
         </div>
-      </div>
+      </Card>
     )
   );
 };

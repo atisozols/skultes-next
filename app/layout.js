@@ -18,9 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${poppins.className} bg-zinc-200 font-light antialiased dark:bg-zinc-800`}>
         <CartProvider>
-          <div className="flex min-h-screen flex-col items-center gap-4 p-4 sm:gap-8 sm:p-8">
-            {children}
-          </div>
+          <div className="flex min-h-screen flex-col items-center">{children}</div>
         </CartProvider>
       </body>
     </html>

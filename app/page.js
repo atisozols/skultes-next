@@ -4,9 +4,9 @@ import Navbar from '@/components/Navbar';
 export default function Home() {
   return (
     <>
-      {/* <div className="bg-background absolute top-0 h-screen w-screen -z-10"></div> */}
-      <Navbar />
-      <main className="flex flex-col gap-8 justify-center w-full">
+      <div className="absolute top-0 h-screen w-screen bg-white"></div>
+      {/* <Navbar /> */}
+      <main className="z-10 flex w-full flex-col justify-center gap-8">
         <HeroSection />
       </main>
     </>

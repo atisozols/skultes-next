@@ -19,7 +19,7 @@ const Reservation = ({ appointment }) => {
           <LuTrash2 className="h-7 w-7" />
         </button>
         <a href={appointment.add_to_calendar} target="_blank" rel="noopener noreferrer">
-          <LuCalendarPlus className="h-7 w-7 text-background dark:text-foreground" />
+          <LuCalendarPlus className="h-7 w-7 text-black dark:text-foreground" />
         </a>
       </div>
     </div>

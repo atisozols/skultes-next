@@ -5,6 +5,8 @@ import timeSlots from '../../utils/book/timeSlots';
 import availableSlotsForEachDuration from '../../utils/book/availableSlotsForEachDuration';
 import getCurrentDateInRiga from '../../utils/book/getCurrentDateInRiga';
 import { useCart } from '../cart/CartContext';
+import CardTitle from '../ui/CardTitle';
+import Card from '../ui/Card';
 
 const ReservationForm = ({ availability }) => {
   const { cart, addToCart } = useCart();
@@ -77,14 +79,12 @@ const ReservationForm = ({ availability }) => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center gap-8 rounded-3xl bg-white p-7 shadow-lg dark:bg-background">
+    <Card>
       <form
         className="grid w-full grid-cols-1 justify-items-center gap-6 text-lg"
         onSubmit={handleSubmit}
       >
-        <h3 className="text-center text-lg font-light tracking-tight text-black sm:text-2xl dark:text-white">
-          Rezervēt laiku
-        </h3>
+        <CardTitle>Rezervēt laiku</CardTitle>
 
         {/* <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
           <label htmlFor="name">Vārds, uzvārds</label>
@@ -186,7 +186,7 @@ const ReservationForm = ({ availability }) => {
           Pievienot grozam
         </button>
       </form>
-    </div>
+    </Card>
   );
 };
 
