@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="mt-4 w-full px-4">
+    <div className="mt-4 w-full px-4 lg:mt-8 lg:px-8">
       <nav className="w-full rounded-full bg-background px-4 py-2.5 shadow-md dark:bg-background">
         <div className="">
           <div className="flex items-center justify-center">
@@ -33,7 +33,7 @@ const Navbar = () => {
             </div>
 
             {/* Links for larger screens */}
-            <div className="hidden space-x-8 pr-2 font-normal text-white lg:flex dark:text-foreground">
+            <div className="hidden space-x-8 py-2 pr-2 font-normal text-white lg:flex dark:text-foreground">
               <NavbarLinks />
             </div>
 
@@ -42,11 +42,11 @@ const Navbar = () => {
               <button
                 onClick={toggleMenu}
                 type="button"
-                className="rounded-2xl p-1 transition-all hover:bg-white hover:bg-opacity-10"
+                className="rounded-2xl p-2 transition-all hover:bg-black hover:bg-opacity-10 dark:hover:bg-white dark:hover:bg-opacity-5"
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
-                <HiMenuAlt3 className="h-10 w-10 text-white" />
+                <HiMenuAlt3 className="h-7 w-7 text-white" />
               </button>
             </div>
           </div>
@@ -59,9 +59,9 @@ const Navbar = () => {
         >
           <button
             onClick={toggleMenu}
-            className="absolute right-8 top-7 rounded-2xl p-1 transition-all hover:bg-white hover:bg-opacity-10"
+            className="absolute right-8 top-7 rounded-2xl p-2 transition-all hover:bg-black hover:bg-opacity-10 dark:hover:bg-white dark:hover:bg-opacity-5"
           >
-            <HiX className="h-10 w-10 text-white" />
+            <HiX className="h-7 w-7 text-white" />
           </button>
           <div className="flex h-full flex-col items-center justify-center gap-4 bg-background text-xl font-light tracking-wider text-white">
             <NavbarLinks />

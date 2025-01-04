@@ -1,32 +1,17 @@
-import { LuTrash2, LuCalendarPlus } from 'react-icons/lu';
+import ReservationActions from './ReservationActions';
 
 const Reservation = ({ appointment }) => {
   return (
-    <div className="flex w-full justify-between border-t p-3 px-5">
-      <div className="flex flex-col items-start justify-center">
-        <span className="text-xl font-normal tracking-wider text-black dark:text-foreground">
+    <div className="flex w-full items-center justify-between rounded-md bg-zinc-100 p-1 dark:bg-zinc-800">
+      <div className="flex items-center justify-center gap-2 pl-2">
+        <span className="text-base font-normal tracking-wider text-black dark:text-foreground">
           {appointment.date}
         </span>
-        <span className="font-light">
+        <span className="text-base font-extralight">
           {appointment.start} - {appointment.end}
         </span>
       </div>
-      <div className="flex items-center gap-2">
-        <button
-          disabled={!appointment.cancellable}
-          className={`rounded-2xl p-2 transition-all hover:bg-black hover:bg-opacity-10 ${!appointment.cancellable ? `text-zinc-400` : 'text-rose-700'}`}
-        >
-          <LuTrash2 className="h-7 w-7" />
-        </button>
-        <a
-          href={appointment.add_to_calendar}
-          className="rounded-2xl p-2 transition-all hover:bg-black hover:bg-opacity-10"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <LuCalendarPlus className="h-7 w-7 text-black dark:text-foreground" />
-        </a>
-      </div>
+      <ReservationActions appointment={appointment} />
     </div>
   );
 };

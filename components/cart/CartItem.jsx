@@ -9,24 +9,24 @@ const CartItem = ({ item }) => {
   const { removeFromCart } = useCart();
 
   return (
-    <div className="flex w-full justify-between border-t p-3 px-5">
-      <div className="flex flex-col items-start justify-center">
-        <span className="text-xl font-normal tracking-wider text-black dark:text-foreground">
+    <div className="flex w-full justify-between gap-4 rounded-lg bg-zinc-100 p-1 dark:bg-zinc-800">
+      <div className="flex w-full items-center justify-start gap-2 rounded-md px-2">
+        <span className="text-base font-normal tracking-wider text-black dark:text-foreground">
           {formatAppointmentDate(item.date)}
         </span>
-        <span className="font-light">
+        <span className="text-base font-extralight">
           {timeSlots[item.start_index]} - {timeSlots[item.end_index]}
         </span>
       </div>
-      <div className="flex items-center">
-        <div className="border-r pr-5">
-          <span className="text-lg text-black dark:text-foreground">
-            &euro;{(calculatePricing(item.start_index, item.end_index, item.date) / 100).toFixed(2)}
-          </span>
-        </div>
-        <div className="flex items-center pl-5">
+      <div className="flex items-center gap-2">
+        <span className="text-base text-black dark:text-foreground">
+          &euro;{(calculatePricing(item.start_index, item.end_index, item.date) / 100).toFixed(2)}
+        </span>
+        <div className="flex items-center">
           <button
-            className={'text-rose-800'}
+            className={
+              'rounded-lg p-2 text-rose-800 transition-all hover:bg-black hover:bg-opacity-10 dark:hover:bg-white dark:hover:bg-opacity-5'
+            }
             onClick={() => removeFromCart(item.date, item.start_index)}
           >
             <LuTrash2 className="h-6 w-6" />

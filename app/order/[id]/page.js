@@ -13,7 +13,7 @@ export default async function Page({ params }) {
     const session = await stripe.checkout.sessions.retrieve(id);
     const appointments = await Appointment.find({
       checkout: id,
-      status: 'paid',
+      $or: [{ status: 'paid' }, { status: { $regex: '^cancelled-' } }],
     });
 
     const appointmentData = formatAppointmentData(appointments);

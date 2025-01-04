@@ -4,12 +4,12 @@ const TimetableLegendSkeleton = () => {
   return (
     <div className="flex w-full justify-end gap-5">
       <div className="flex items-center gap-2">
-        <FaCircle className="h-4 w-4 text-zinc-200 dark:text-zinc-800" />
-        <div className="h-5 w-14 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800"></div>
+        <FaCircle className="h-4 w-4 text-zinc-100 dark:text-zinc-800" />
+        <div className="h-5 w-14 animate-pulse rounded bg-zinc-100 dark:bg-zinc-800"></div>
       </div>
       <div className="flex items-center gap-2">
         <FaCircle className="h-4 w-4 text-background dark:text-foreground" />
-        <div className="h-5 w-14 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800"></div>
+        <div className="h-5 w-14 animate-pulse rounded bg-zinc-100 dark:bg-zinc-800"></div>
       </div>
     </div>
   );

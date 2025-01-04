@@ -6,10 +6,10 @@ const TimetableSkeleton = () => {
       <div className="flex w-full items-center justify-center">
         {/* Left Side (Time Labels) */}
         <div className="mr-2 hidden h-full flex-col gap-10 pb-4 text-right text-foreground sm:flex lg:gap-20 lg:pb-2">
-          <div className="h-5 w-10 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800"></div>
-          <div className="h-5 w-10 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800"></div>
-          <div className="h-5 w-10 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800"></div>
-          <div className="h-5 w-10 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800"></div>
+          <div className="h-5 w-10 animate-pulse rounded bg-zinc-100 dark:bg-zinc-800"></div>
+          <div className="h-5 w-10 animate-pulse rounded bg-zinc-100 dark:bg-zinc-800"></div>
+          <div className="h-5 w-10 animate-pulse rounded bg-zinc-100 dark:bg-zinc-800"></div>
+          <div className="h-5 w-10 animate-pulse rounded bg-zinc-100 dark:bg-zinc-800"></div>
         </div>
         {/* Right Side (Dates and Timetable) */}
         <div className="flex w-full flex-col">
@@ -20,7 +20,7 @@ const TimetableSkeleton = () => {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="h-5 w-12 animate-pulse rounded bg-zinc-200 sm:w-14 dark:bg-zinc-800"
+                  className="h-5 w-12 animate-pulse rounded bg-zinc-100 sm:w-14 dark:bg-zinc-800"
                 ></div>
               ))}
           </div>
@@ -37,7 +37,7 @@ const TimetableSkeleton = () => {
                         key={cellIndex}
                         className={`h-1 w-full lg:h-1.5 ${
                           cellIndex === 6 ? '' : 'border-r border-r-white dark:border-r-background'
-                        } animate-pulse bg-zinc-200 dark:bg-zinc-800`}
+                        } animate-pulse bg-zinc-100 dark:bg-zinc-800`}
                       ></div>
                     ))}
                 </div>

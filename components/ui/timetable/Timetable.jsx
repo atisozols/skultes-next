@@ -35,7 +35,7 @@ const Timetable = ({ availability, timetable }) => {
                       cellIndex === 6 ? '' : 'border-r border-r-white dark:border-r-background'
                     } ${
                       cell === 0
-                        ? 'bg-zinc-200 dark:bg-zinc-800'
+                        ? 'bg-zinc-100 dark:bg-zinc-800'
                         : 'bg-background dark:bg-foreground'
                     } ${
                       (rowIndex + 2) % 4 === 0 ? 'border-t border-white dark:border-background' : ''

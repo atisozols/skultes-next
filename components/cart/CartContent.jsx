@@ -14,7 +14,7 @@ const CartContent = () => {
       <Card>
         <CardTitle>Rezervāciju grozs</CardTitle>
         <div>
-          <div className="flex max-h-96 w-full flex-col items-center overflow-y-scroll">
+          <div className="scrollbar-hide flex max-h-96 w-full flex-col items-center gap-2 overflow-y-scroll">
             {cart.map((item) => (
               <div className="w-full" key={item.start_index}>
                 <CartItem item={item} />
@@ -26,9 +26,9 @@ const CartContent = () => {
               <p>{cartError.msg}</p>
             </div>
           )}
-          <div className="flex w-full justify-center pt-7">
+          <div className="flex w-full justify-center pt-5">
             <button
-              className="w-full max-w-sm rounded-md bg-background p-2 px-3 text-white shadow-lg transition-all hover:opacity-90 sm:max-w-md dark:bg-foreground dark:text-background"
+              className="w-full max-w-sm rounded-md bg-emerald-500 p-2 px-3 text-white shadow-lg transition-all hover:opacity-90 sm:max-w-md dark:bg-foreground dark:text-background"
               onClick={() => checkout()}
             >
               {loading ? (

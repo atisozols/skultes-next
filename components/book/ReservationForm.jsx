@@ -81,7 +81,7 @@ const ReservationForm = ({ availability }) => {
   return (
     <Card>
       <form
-        className="grid w-full grid-cols-1 justify-items-center gap-6 text-lg"
+        className="grid w-full grid-cols-1 justify-items-center gap-5 text-lg"
         onSubmit={handleSubmit}
       >
         <CardTitle>Rezervēt laiku</CardTitle>
@@ -91,7 +91,7 @@ const ReservationForm = ({ availability }) => {
           <input
             type="text"
             name="name"
-            className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
+            className="rounded-md bg-zinc-100 p-1 px-3  dark:bg-zinc-800"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -102,7 +102,7 @@ const ReservationForm = ({ availability }) => {
           <input
             type="tel"
             name="phone"
-            className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
+            className="rounded-md bg-zinc-100 p-1 px-3  dark:bg-zinc-800"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
@@ -114,7 +114,7 @@ const ReservationForm = ({ availability }) => {
             type="date"
             name="date"
             min={getCurrentDateInRiga()}
-            className="w-full rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
+            className="w-full rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
             value={date}
             onChange={handleDateChange}
           />
@@ -127,7 +127,7 @@ const ReservationForm = ({ availability }) => {
             memoizedSlotsForDuration[duration]?.length > 0 ? (
               <select
                 name="time"
-                className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
+                className="rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
               >
@@ -140,7 +140,7 @@ const ReservationForm = ({ availability }) => {
             ) : (
               <select
                 name="time"
-                className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
+                className="rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
                 value="x"
                 disabled
               >
@@ -155,7 +155,7 @@ const ReservationForm = ({ availability }) => {
             {memoizedAvailableDurations.length > 0 ? (
               <select
                 name="duration"
-                className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
+                className="rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
                 value={duration}
                 onChange={handleDurationChange}
               >
@@ -168,7 +168,7 @@ const ReservationForm = ({ availability }) => {
             ) : (
               <select
                 name="duration"
-                className="rounded-md bg-zinc-200 p-1 px-3 shadow-md dark:bg-zinc-800"
+                className="rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
                 value="x"
                 disabled
               >
@@ -181,7 +181,7 @@ const ReservationForm = ({ availability }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="mt-5 w-full max-w-sm rounded-md bg-background p-2 px-3 text-base text-white shadow-lg transition-all hover:opacity-90 sm:max-w-md dark:bg-foreground dark:text-background"
+          className="mt-6 w-full max-w-sm rounded-md bg-zinc-100 p-2 px-3 text-base shadow-lg transition-all hover:opacity-90 sm:max-w-md dark:bg-zinc-800 dark:text-white"
         >
           Pievienot grozam
         </button>
