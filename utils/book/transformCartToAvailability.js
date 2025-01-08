@@ -8,7 +8,7 @@ const transformCartToAvailability = (cart) => {
   }
 
   cart.forEach((item) => {
-    const dateKey = new Date(item.date);
+    const dateKey = item.date;
     const range = {
       start: {
         index: item.start_index,

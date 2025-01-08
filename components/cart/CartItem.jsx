@@ -1,5 +1,5 @@
 'use client';
-import { LuTrash2, LuCalendarPlus } from 'react-icons/lu';
+import { LuX } from 'react-icons/lu';
 import timeSlots from '../../utils/book/timeSlots';
 import { formatAppointmentDate } from '@/utils/appointmentFormatter';
 import { useCart } from './CartContext';
@@ -29,7 +29,7 @@ const CartItem = ({ item }) => {
             }
             onClick={() => removeFromCart(item.date, item.start_index)}
           >
-            <LuTrash2 className="h-6 w-6" />
+            <LuX className="h-6 w-6" />
           </button>
         </div>
       </div>

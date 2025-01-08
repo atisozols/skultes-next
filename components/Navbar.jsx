@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import NavbarLinks from './NavbarLinks';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
-import Cart from './cart/Cart';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

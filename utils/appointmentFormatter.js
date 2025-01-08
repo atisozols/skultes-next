@@ -8,7 +8,7 @@ export const formatAppointmentData = (appointments) => {
     return {
       id: appointment.id,
       cancellable: isCancellable(appointment),
-      date: moment(appointment.date).format('DD.MM.YYYY'),
+      date: formatAppointmentDate(appointment.date),
       start: appointment.range.start.time,
       end: appointment.range.end.time,
       add_to_calendar: calendarUrl,

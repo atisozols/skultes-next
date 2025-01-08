@@ -28,7 +28,7 @@ const CartContent = () => {
           )}
           <div className="flex w-full justify-center pt-5">
             <button
-              className="w-full max-w-sm rounded-md bg-emerald-500 p-2 px-3 text-white shadow-lg transition-all hover:opacity-90 sm:max-w-md dark:bg-foreground dark:text-background"
+              className="w-full max-w-sm rounded-md bg-emerald-500 p-2 px-3 text-white shadow-lg transition-all hover:opacity-90 sm:max-w-md dark:bg-emerald-600"
               onClick={() => checkout()}
             >
               {loading ? (

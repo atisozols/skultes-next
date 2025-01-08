@@ -1,3 +1,4 @@
+import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs';
 import Link from 'next/link';
 
 const NavbarLinks = () => {
@@ -12,6 +13,14 @@ const NavbarLinks = () => {
       <Link href="/contact" className="hover:underline hover:underline-offset-4">
         Kontakti
       </Link>
+      <SignedIn>
+        <SignOutButton className="hover:underline hover:underline-offset-4">Iziet</SignOutButton>
+      </SignedIn>
+      <SignedOut>
+        <Link href="/log-in" className="hover:underline hover:underline-offset-4">
+          Ienākt
+        </Link>
+      </SignedOut>
     </>
   );
 };

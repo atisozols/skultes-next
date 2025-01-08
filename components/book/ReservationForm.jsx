@@ -7,11 +7,16 @@ import getCurrentDateInRiga from '../../utils/book/getCurrentDateInRiga';
 import { useCart } from '../cart/CartContext';
 import CardTitle from '../ui/CardTitle';
 import Card from '../ui/Card';
+import { SignedOut, useUser } from '@clerk/nextjs';
 
 const ReservationForm = ({ availability }) => {
+  const { isSignedIn, user, isLoaded } = useUser();
+
   const { cart, addToCart } = useCart();
-  const [name, setName] = useState('Atis Ozols');
-  const [phone, setPhone] = useState('27804609');
+  const [name, setName] = useState(isSignedIn ? user.fullName : '');
+  const [phone, setPhone] = useState(
+    isSignedIn && user.phoneNumbers[0] ? user.phoneNumbers[0].phoneNumber : '',
+  );
   const [date, setDate] = useState(getCurrentDateInRiga());
   const [duration, setDuration] = useState(3);
   const [time, setTime] = useState('');
@@ -25,6 +30,13 @@ const ReservationForm = ({ availability }) => {
       .filter((dur) => memoizedSlotsForDuration[dur].length > 0)
       .map(Number);
   }, [memoizedSlotsForDuration]);
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      setName(user.fullName || '');
+      setPhone(user.phoneNumbers[0]?.phoneNumber || '');
+    }
+  }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
     if (memoizedAvailableDurations.length === 0) {
@@ -86,27 +98,28 @@ const ReservationForm = ({ availability }) => {
       >
         <CardTitle>Rezervēt laiku</CardTitle>
 
-        {/* <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
-          <label htmlFor="name">Vārds, uzvārds</label>
-          <input
-            type="text"
-            name="name"
-            className="rounded-md bg-zinc-100 p-1 px-3  dark:bg-zinc-800"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        <div className="flex w-full max-w-sm flex-col justify-between sm:max-w-md">
-          <label htmlFor="phone">Telefona numurs</label>
-          <input
-            type="tel"
-            name="phone"
-            className="rounded-md bg-zinc-100 p-1 px-3  dark:bg-zinc-800"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div> */}
+        <SignedOut>
+          <div className="flex w-full max-w-md flex-col justify-between sm:max-w-lg">
+            <label htmlFor="name">Vārds, uzvārds</label>
+            <input
+              type="text"
+              name="name"
+              className="rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="flex w-full max-w-md flex-col justify-between sm:max-w-lg">
+            <label htmlFor="phone">Telefona numurs</label>
+            <input
+              type="tel"
+              name="phone"
+              className="rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+        </SignedOut>
 
         <div className="flex w-full max-w-md flex-col justify-between sm:max-w-lg">
           <label htmlFor="date">Datums</label>

@@ -3,27 +3,23 @@ import Appointment from '@/models/Appointment';
 import stripe from '@/utils/stripe';
 import { formatAppointmentData } from '@/utils/appointmentFormatter';
 import Reservations from '@/components/success/Reservations';
+import Card from '@/components/ui/Card';
+import CardTitle from '@/components/ui/CardTitle';
 
 export default async function Page({ params }) {
   const { id } = params;
 
-  try {
-    await dbConnect();
-
-    const session = await stripe.checkout.sessions.retrieve(id);
-    const appointments = await Appointment.find({
-      checkout: id,
-      $or: [{ status: 'paid' }, { status: { $regex: '^cancelled-' } }],
-    });
-
-    const appointmentData = formatAppointmentData(appointments);
-
-    return <Reservations session={session} appointments={appointmentData} />;
-  } catch (error) {
+  const res = await fetch(`${process.env.SERVER_URL}/api/checkout/${id}`, { cache: 'no-store' });
+  if (res.ok) {
+    const order = await res.json();
+    return <Reservations appointments={order.payment_data} />;
+  } else {
+    const err = await res.json();
     return (
-      <div className="flex flex-grow items-center justify-center break-all text-xs">
-        <p>Error: {error.message}</p>
-      </div>
+      <Card>
+        <CardTitle>Kļūda: </CardTitle>
+        <p className="overflow-x-scroll text-nowrap">{err.msg}</p>
+      </Card>
     );
   }
 }

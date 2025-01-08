@@ -4,9 +4,7 @@ import mergeCartIntoAvailability from './mergeCartIntoAvailability';
 
 const availableSlotsForEachDuration = (cart, availability, date, timeSlots) => {
   const mergedAvailability = mergeCartIntoAvailability(cart, availability);
-  const currentAvailability = mergedAvailability.find(
-    (item) => item.date.toISOString().split('T')[0] === date,
-  );
+  const currentAvailability = mergedAvailability.find((item) => item.date.split('T')[0] === date);
   let filteredSlots = { ...timeSlots };
 
   const today = getCurrentDateInRiga();

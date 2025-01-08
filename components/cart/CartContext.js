@@ -1,5 +1,6 @@
 'use client';
 import calculateTotalPricing from '@/utils/pricing/calculateTotalPrice';
+import { ClerkProvider } from '@clerk/nextjs';
 import React, { createContext, useContext, useState } from 'react';
 
 const CartContext = createContext();
@@ -7,7 +8,7 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  const [cartError, setCartError] = useState({ msg: '' });
+  const [cartError, setCartError] = useState({ msg: '', conflicts: [] });
 
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +25,7 @@ export const CartProvider = ({ children }) => {
   const checkout = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/checkout', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

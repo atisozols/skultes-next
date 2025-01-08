@@ -2,7 +2,7 @@ import CardTitle from '../ui/CardTitle';
 import Card from '../ui/Card';
 import ReservationList from './ReservationList';
 
-const Reservations = ({ session, appointments }) => {
+const Reservations = ({ appointments }) => {
   return (
     <Card>
       <CardTitle>Rezervētie laiki:</CardTitle>
@@ -11,8 +11,8 @@ const Reservations = ({ session, appointments }) => {
       ) : (
         <p className="text-center">Visi apmeklējumi šajā rezervācijā ir atcelti</p>
       )}
-      <p className="text-center text-xs">
-        Atceļot ne vēlāk kā 24h pirms rezervācijas, iegūsiet kuponu apmeklējuma vērtībā
+      <p className="mx-auto w-5/6 text-center text-xs">
+        Atcelt iespējams ne vēlāk kā 24h pirms rezervācijas, iegūstot kuponu apmeklējuma vērtībā
       </p>
     </Card>
   );
