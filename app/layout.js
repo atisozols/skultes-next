@@ -16,16 +16,14 @@ export const metadata = {
 
 export default function layout({ children }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${poppins.className} bg-zinc-100 font-light antialiased dark:bg-zinc-800`}
-        >
+    <html lang="en">
+      <body className={`${poppins.className} bg-zinc-100 font-light antialiased dark:bg-zinc-800`}>
+        <ClerkProvider>
           <CartProvider>
             <div className="flex min-h-screen flex-col items-center">{children}</div>
           </CartProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

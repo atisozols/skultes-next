@@ -1,8 +1,8 @@
-const { SignIn, ClerkProvider, SignedOut } = require('@clerk/nextjs');
+import { SignIn, ClerkProvider, SignedOut } from '@clerk/nextjs';
 
 const page = () => {
   return (
-    <div className="flex h-full flex-grow items-center justify-center">
+    <div className="flex h-full w-full flex-grow items-center justify-center">
       <SignedOut>
         <SignIn routing="path" path="/log-in" forceRedirectUrl="/" />
       </SignedOut>

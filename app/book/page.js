@@ -2,8 +2,6 @@ import ReservationForm from '@/components/book/ReservationForm';
 import TimetableLayout from '@/components/book/TimetableLayout';
 import CartContent from '@/components/cart/CartContent';
 
-// export const dynamic = 'force-dynamic';
-
 export default async function Home() {
   const res = await fetch(`${process.env.SERVER_URL}/api/availability`, {
     cache: 'no-store',
