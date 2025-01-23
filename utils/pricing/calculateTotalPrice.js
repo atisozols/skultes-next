@@ -1,12 +1,12 @@
 import calculatePricing from './calculatePricing';
 
-const calculateTotalPricing = (cart) => {
+const calculateTotalPricing = (cart, half = false) => {
   let total = 0;
 
   for (const item of cart) {
-    const { start_index, end_index, date } = item;
+    const { start_index, end_index } = item;
 
-    const itemPrice = calculatePricing(start_index, end_index, date);
+    const itemPrice = calculatePricing(start_index, end_index, half);
 
     if (itemPrice) {
       total += itemPrice;

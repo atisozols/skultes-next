@@ -4,8 +4,14 @@ import Link from 'next/link';
 const NavbarLinks = () => {
   return (
     <>
+      <Link href="/" className="hover:underline hover:underline-offset-4">
+        Sākums
+      </Link>
+      <Link href="/reservations" className="hover:underline hover:underline-offset-4">
+        Manas rezervācijas
+      </Link>
       <Link href="/book" className="hover:underline hover:underline-offset-4">
-        Pieteikties
+        VIP zāle
       </Link>
       <Link href="/about" className="hover:underline hover:underline-offset-4">
         Par mums

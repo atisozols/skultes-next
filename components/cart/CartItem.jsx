@@ -4,9 +4,11 @@ import timeSlots from '../../utils/book/timeSlots';
 import { formatAppointmentDate } from '@/utils/appointmentFormatter';
 import { useCart } from './CartContext';
 import calculatePricing from '@/utils/pricing/calculatePricing';
+import { useUser } from '@clerk/nextjs';
 
 const CartItem = ({ item }) => {
   const { removeFromCart } = useCart();
+  const { isSignedIn } = useUser();
 
   return (
     <div className="flex w-full justify-between gap-4 rounded-lg bg-zinc-100 p-1 dark:bg-zinc-800">
@@ -20,7 +22,8 @@ const CartItem = ({ item }) => {
       </div>
       <div className="flex items-center gap-2">
         <span className="text-base text-black dark:text-foreground">
-          &euro;{(calculatePricing(item.start_index, item.end_index, item.date) / 100).toFixed(2)}
+          &euro;
+          {(calculatePricing(item.start_index, item.end_index, isSignedIn) / 100).toFixed(2)}
         </span>
         <div className="flex items-center">
           <button

@@ -27,6 +27,7 @@ export const CartProvider = ({ children }) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/checkout`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -50,8 +51,8 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const total = () => {
-    return calculateTotalPricing(cart);
+  const total = (half = false) => {
+    return calculateTotalPricing(cart, half);
   };
 
   return (

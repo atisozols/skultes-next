@@ -5,9 +5,11 @@ import timeSlots from '../../utils/book/timeSlots';
 import CartItem from './CartItem';
 import Card from '../ui/Card';
 import CardTitle from '../ui/CardTitle';
+import { useUser } from '@clerk/nextjs';
 
 const CartContent = () => {
   const { cart, checkout, total, loading, cartError } = useCart();
+  const { isSignedIn } = useUser();
 
   return (
     cart.length > 0 && (
@@ -34,7 +36,7 @@ const CartContent = () => {
               {loading ? (
                 <span className="loading loading-dots loading-xs"></span>
               ) : (
-                <>Apmaksāt: &euro;{(total() / 100).toFixed(2)}</>
+                <>Apmaksāt: &euro;{(total(isSignedIn) / 100).toFixed(2)}</>
               )}
             </button>
           </div>
