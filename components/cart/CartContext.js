@@ -1,6 +1,5 @@
 'use client';
 import calculateTotalPricing from '@/utils/pricing/calculateTotalPrice';
-import { ClerkProvider } from '@clerk/nextjs';
 import React, { createContext, useContext, useState } from 'react';
 
 const CartContext = createContext();

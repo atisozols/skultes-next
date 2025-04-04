@@ -1,10 +1,6 @@
 'use client';
-import Link from 'next/link';
 import { useCart } from './CartContext';
-import timeSlots from '../../utils/book/timeSlots';
 import CartItem from './CartItem';
-import Card from '../ui/Card';
-import CardTitle from '../ui/CardTitle';
 import { useUser } from '@clerk/nextjs';
 
 const CartContent = () => {
@@ -12,37 +8,37 @@ const CartContent = () => {
   const { isSignedIn } = useUser();
 
   return (
-    cart.length > 0 && (
-      <Card>
-        <CardTitle>Rezervāciju grozs</CardTitle>
-        <div>
-          <div className="scrollbar-hide flex max-h-96 w-full flex-col items-center gap-2 overflow-y-scroll">
-            {cart.map((item) => (
-              <div className="w-full" key={item.start_index}>
-                <CartItem item={item} />
-              </div>
-            ))}
+    <div>
+      <div className="scrollbar-hide flex max-h-96 w-full flex-col items-center overflow-y-scroll">
+        {cart.map((item, index) => (
+          <div
+            key={index}
+            style={{ borderBottomWidth: `${index <= cart.length - 1 ? '0.5px' : '0'}` }}
+            className={`w-full border-alternate px-3.5 py-3 ${index <= cart.length - 1 ? 'border-b' : ''}`}
+          >
+            <CartItem item={item} />
           </div>
-          {cartError.msg.length > 0 && (
-            <div className="flex flex-col gap-5 py-2 text-center text-sm">
-              <p>{cartError.msg}</p>
+        ))}
+      </div>
+      {cartError.msg.length > 0 && (
+        <div className="flex flex-col gap-5 py-2 text-center text-sm">
+          <p>{cartError.msg}</p>
+        </div>
+      )}
+      <div className="flex w-full justify-center">
+        <button className="w-full cursor-pointer p-2 text-base" onClick={() => checkout()}>
+          {loading ? (
+            <div className="p-2">
+              <span className="loading loading-dots loading-xs"></span>
+            </div>
+          ) : (
+            <div className="w-full rounded-lg p-2 hover:bg-white hover:bg-opacity-5">
+              Apmaksāt: &euro;{(total(isSignedIn) / 100).toFixed(2)}
             </div>
           )}
-          <div className="flex w-full justify-center pt-5">
-            <button
-              className="w-full max-w-sm rounded-md bg-emerald-500 p-2 px-3 text-white shadow-lg transition-all hover:opacity-90 sm:max-w-md dark:bg-emerald-600"
-              onClick={() => checkout()}
-            >
-              {loading ? (
-                <span className="loading loading-dots loading-xs"></span>
-              ) : (
-                <>Apmaksāt: &euro;{(total(isSignedIn) / 100).toFixed(2)}</>
-              )}
-            </button>
-          </div>
-        </div>
-      </Card>
-    )
+        </button>
+      </div>
+    </div>
   );
 };
 

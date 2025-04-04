@@ -11,28 +11,32 @@ const CartItem = ({ item }) => {
   const { isSignedIn } = useUser();
 
   return (
-    <div className="flex w-full justify-between gap-4 rounded-lg bg-zinc-100 p-1 dark:bg-zinc-800">
-      <div className="flex w-full items-center justify-start gap-2 rounded-md px-2">
-        <span className="text-base font-normal tracking-wider text-black dark:text-foreground">
-          {formatAppointmentDate(item.date)}
+    <div className="flex w-full items-center justify-between">
+      <div className="flex flex-col items-start justify-center">
+        <span className="text-xs font-semibold uppercase text-alternate">
+          {new Intl.DateTimeFormat('lv-LV', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+          }).format(new Date(item.date))}
         </span>
-        <span className="text-base font-extralight">
+        <span className="">
           {timeSlots[item.start_index]} - {timeSlots[item.end_index]}
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-base text-black dark:text-foreground">
+        <span className="text-base font-medium">
           &euro;
           {(calculatePricing(item.start_index, item.end_index, isSignedIn) / 100).toFixed(2)}
         </span>
         <div className="flex items-center">
           <button
             className={
-              'rounded-lg p-2 text-rose-800 transition-all hover:bg-black hover:bg-opacity-10 dark:hover:bg-white dark:hover:bg-opacity-5'
+              'rounded-lg p-2 text-accent transition-all hover:bg-white hover:bg-opacity-5'
             }
             onClick={() => removeFromCart(item.date, item.start_index)}
           >
-            <LuX className="h-6 w-6" />
+            <LuX className="text-2xl" />
           </button>
         </div>
       </div>

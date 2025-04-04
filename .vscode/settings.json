@@ -1,4 +1,5 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode" // Ensures Prettier is used
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "tasks.runOn": "folderOpen"
 }

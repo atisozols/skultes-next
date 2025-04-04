@@ -3,17 +3,11 @@
 @tailwind utilities;
 
 :root {
-  /* --background: #6e3496; */
-  /* --background: #810a2c; */
-  --background: #323232;
-  --foreground: #0a0a0a;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #151515;
-    --foreground: #ededed;
-  }
+  --background: #000000;
+  --container: #1c1c1e;
+  --alternate: #808080;
+  --foreground: #ffffff;
+  --accent: #ff0006;
 }
 
 body {
@@ -24,6 +18,7 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -53,4 +48,88 @@ body {
       box-shadow: 0 0 0 30px #1c1c1d inset;
     }
   }
+}
+
+:root {
+  font-family: 'Inter', sans-serif;
+}
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: 'InterVariable', sans-serif;
+    font-optical-sizing: auto;
+  }
+}
+
+@font-face {
+  font-family: InterVariable;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/InterVariable.woff2') format('woff2');
+}
+@font-face {
+  font-family: InterVariable;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/InterVariable-Italic.woff2') format('woff2');
+}
+
+@font-feature-values InterVariable {
+  @character-variant {
+    cv01: 1;
+    cv02: 2;
+    cv03: 3;
+    cv04: 4;
+    cv05: 5;
+    cv06: 6;
+    cv07: 7;
+    cv08: 8;
+    cv09: 9;
+    cv10: 10;
+    cv11: 11;
+    cv12: 12;
+    cv13: 13;
+    alt-1: 1; /* Alternate one */
+    alt-3: 9; /* Flat-top three */
+    open-4: 2; /* Open four */
+    open-6: 3; /* Open six */
+    open-9: 4; /* Open nine */
+    lc-l-with-tail: 5; /* Lower-case L with tail */
+    simplified-u: 6; /* Simplified u */
+    alt-double-s: 7; /* Alternate German double s */
+    uc-i-with-serif: 8; /* Upper-case i with serif */
+    uc-g-with-spur: 10; /* Capital G with spur */
+    single-story-a: 11; /* Single-story a */
+    compact-lc-f: 12; /* Compact f */
+    compact-lc-t: 13; /* Compact t */
+  }
+  @styleset {
+    ss01: 1;
+    ss02: 2;
+    ss03: 3;
+    ss04: 4;
+    ss05: 5;
+    ss06: 6;
+    ss07: 7;
+    ss08: 8;
+    open-digits: 1; /* Open digits */
+    disambiguation: 2; /* Disambiguation (with zero) */
+    disambiguation-except-zero: 4; /* Disambiguation (no zero) */
+    round-quotes-and-commas: 3; /* Round quotes &amp; commas */
+    square-punctuation: 7; /* Square punctuation */
+    square-quotes: 8; /* Square quotes */
+    circled-characters: 5; /* Circled characters */
+    squared-characters: 6; /* Squared characters */
+  }
+}
+
+body {
+  font-family: 'InterVariable', sans-serif;
+}
+
+/* Clerk components */
+.cl-internal-1j7ahlv {
+  width: 2.5rem;
+  height: 2.5rem;
 }

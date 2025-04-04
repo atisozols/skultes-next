@@ -1,32 +1,20 @@
 'use client';
-import { useState, useEffect } from 'react';
-import CartButton from './CartButton';
+import Container from '../ui/Container';
+import Section from '../ui/Section';
 import CartContent from './CartContent';
+import { useCart } from './CartContext';
 
 const Cart = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleCart = () => {
-    setIsOpen(!isOpen);
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
+  const { cart } = useCart();
 
   return (
-    <div className="">
-      <CartButton toggleCart={toggleCart} />
-      {isOpen && <CartContent toggleCart={toggleCart} />}
-    </div>
+    cart.length > 0 && (
+      <Section title={'Rezervāciju grozs'}>
+        <Container>
+          <CartContent />
+        </Container>
+      </Section>
+    )
   );
 };
 

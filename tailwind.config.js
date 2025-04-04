@@ -12,6 +12,9 @@ module.exports = {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        alternate: 'var(--alternate)',
+        accent: 'var(--accent)',
+        container: 'var(--container)',
       },
     },
   },
