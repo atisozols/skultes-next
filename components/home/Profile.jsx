@@ -1,6 +1,6 @@
-import { UserButton } from '@clerk/nextjs';
 import Section from '../ui/Section';
 import { currentUser } from '@clerk/nextjs/server';
+import UserButtonWrapper from './UserButtonWrapper';
 
 const Profile = async () => {
   const user = await currentUser();
@@ -15,7 +15,7 @@ const Profile = async () => {
       <Section>
         <div className="flex items-end justify-between">
           <div className="flex flex-col gap-1">
-            <span className="text-alternate text-xs font-semibold uppercase">
+            <span className="text-xs font-semibold uppercase text-alternate">
               {new Date().toLocaleDateString('lv-LV', {
                 weekday: 'long',
                 day: 'numeric',
@@ -31,7 +31,7 @@ const Profile = async () => {
               !
             </h2>
           </div>
-          <UserButton />
+          <UserButtonWrapper />
         </div>
       </Section>
     );

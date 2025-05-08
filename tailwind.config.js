@@ -15,6 +15,7 @@ module.exports = {
         alternate: 'var(--alternate)',
         accent: 'var(--accent)',
         container: 'var(--container)',
+        border: 'var(--border)',
       },
     },
   },

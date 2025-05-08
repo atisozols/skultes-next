@@ -3,28 +3,31 @@ import LastVisit from '@/components/home/LastVisit';
 import MakeReservation from '@/components/home/MakeReservation';
 import MyReservations from '@/components/home/MyReservations';
 import Profile from '@/components/home/Profile';
+import Membership from '@/components/membership/Membership';
 import dynamic from 'next/dynamic';
 const Nav = dynamic(() => import('@/components/ui/Nav'), { ssr: false });
 import { SignedOut, SignedIn } from '@clerk/nextjs';
-
 import React from 'react';
+import Landing from '@/components/home/Landing';
+import Main from '@/components/layout/Main';
 
 const page = () => {
   return (
     <>
       <SignedOut>
-        <main className="flex w-full flex-col justify-center gap-8"></main>
+        <Landing />
       </SignedOut>
 
       <SignedIn>
-        <main className="relative flex w-full max-w-2xl flex-1 flex-col justify-center pb-20 md:py-10">
+        <Main className="justify-start">
           <Profile />
           <LastVisit />
+          <Membership />
           <MyReservations />
           <MakeReservation />
           <Cart />
           <Nav />
-        </main>
+        </Main>
       </SignedIn>
     </>
   );

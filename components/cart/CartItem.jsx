@@ -2,7 +2,7 @@
 import { LuX } from 'react-icons/lu';
 import timeSlots from '../../utils/book/timeSlots';
 import { formatAppointmentDate } from '@/utils/appointmentFormatter';
-import { useCart } from './CartContext';
+import { useCart } from '../../context/CartContext';
 import calculatePricing from '@/utils/pricing/calculatePricing';
 import { useUser } from '@clerk/nextjs';
 

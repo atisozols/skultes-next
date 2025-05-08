@@ -16,24 +16,27 @@ const MyReservations = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
+
   if (res.ok) {
-    const order = await res.json();
-    return (
+    const data = await res.json();
+    return data.appointments.length > 0 ? (
       <Section title={'Manas rezervācijas'}>
         <Container>
-          <ReservationList appointments={order.payment_data} />
+          <ReservationList appointments={data.appointments} />
         </Container>
         <p className="w-full text-center text-xs text-alternate">
-          Atcelt iespējams ne vēlāk kā 24 stundas pirms rezevācijas sākuma, tādējādi iegūstot kuponu
+          Atcelt iespējams ne vēlāk kā 12 stundas pirms rezevācijas sākuma, tādējādi iegūstot kuponu
           apmeklējuma vērtībā
         </p>
       </Section>
+    ) : (
+      <></>
     );
   } else {
-    const err = await res.json();
+    const data = await res.json();
     return (
       <Section title={'Neizdevās ielādēt rezervācijas'}>
-        <p className="overflow-x-scroll text-nowrap">{err.msg}</p>
+        <p className="overflow-x-scroll text-nowrap">{data.msg}</p>
       </Section>
     );
   }

@@ -1,5 +1,5 @@
 'use client';
-import { useCart } from './CartContext';
+import { useCart } from '../../context/CartContext';
 import CartItem from './CartItem';
 import { useUser } from '@clerk/nextjs';
 
@@ -8,7 +8,7 @@ const CartContent = () => {
   const { isSignedIn } = useUser();
 
   return (
-    <div>
+    <div id="cart">
       <div className="scrollbar-hide flex max-h-96 w-full flex-col items-center overflow-y-scroll">
         {cart.map((item, index) => (
           <div
@@ -32,7 +32,7 @@ const CartContent = () => {
               <span className="loading loading-dots loading-xs"></span>
             </div>
           ) : (
-            <div className="w-full rounded-lg p-2 hover:bg-white hover:bg-opacity-5">
+            <div className="w-full rounded-lg p-2 text-sm underline hover:bg-white hover:bg-opacity-5">
               Apmaksāt: &euro;{(total(isSignedIn) / 100).toFixed(2)}
             </div>
           )}

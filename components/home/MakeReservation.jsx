@@ -10,7 +10,7 @@ const MakeReservation = async () => {
   const availability = await res.json();
 
   return (
-    <Section title={'Rezervēt VIP zāli'}>
+    <Section title={'Rezervēt mazo zāli'}>
       <Container>
         <TimetableLayout availability={availability} />
         <ReservationForm availability={availability} />

@@ -1,3 +1,5 @@
+'use client';
+
 import { IoFlameSharp } from 'react-icons/io5';
 import Container from '../ui/Container';
 import Section from '../ui/Section';

@@ -4,28 +4,11 @@ import { findClosestSlot } from '../../utils/book/findClosestSlot';
 import timeSlots from '../../utils/book/timeSlots';
 import availableSlotsForEachDuration from '../../utils/book/availableSlotsForEachDuration';
 import getCurrentDateInRiga from '../../utils/book/getCurrentDateInRiga';
-import { useCart } from '../cart/CartContext';
-import { SignedOut, useUser } from '@clerk/nextjs';
-
-const FormElement = ({ children }) => {
-  return (
-    <div
-      style={{ borderBottomWidth: '0.5px' }}
-      className="flex w-full items-center justify-between border-b-alternate px-4 py-1.5"
-    >
-      {children}
-    </div>
-  );
-};
+import { useCart } from '../../context/CartContext';
+import FormElement from '../ui/FormElement';
 
 const ReservationForm = ({ availability }) => {
-  const { isSignedIn, user, isLoaded } = useUser();
-
   const { cart, addToCart } = useCart();
-  const [name, setName] = useState(isSignedIn ? user.fullName : '');
-  const [phone, setPhone] = useState(
-    isSignedIn && user.phoneNumbers[0] ? user.phoneNumbers[0].phoneNumber : '',
-  );
   const [date, setDate] = useState(getCurrentDateInRiga());
   const [duration, setDuration] = useState(3);
   const [time, setTime] = useState('');
@@ -39,13 +22,6 @@ const ReservationForm = ({ availability }) => {
       .filter((dur) => memoizedSlotsForDuration[dur].length > 0)
       .map(Number);
   }, [memoizedSlotsForDuration]);
-
-  useEffect(() => {
-    if (isLoaded && isSignedIn && user) {
-      setName(user.fullName || '');
-      setPhone(user.phoneNumbers[0]?.phoneNumber || '');
-    }
-  }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
     if (memoizedAvailableDurations.length === 0) {
@@ -83,14 +59,8 @@ const ReservationForm = ({ availability }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !phone || !time || !duration) {
-      return;
-    }
-
     const timeIndex = parseInt(Object.keys(timeSlots).find((key) => timeSlots[key] === time));
     const appointment = {
-      name,
-      phone,
       date,
       start_index: timeIndex,
       end_index: timeIndex + duration,
@@ -101,29 +71,6 @@ const ReservationForm = ({ availability }) => {
 
   return (
     <form className="grid w-full grid-cols-1 justify-items-center" onSubmit={handleSubmit}>
-      <SignedOut>
-        <div className="flex w-full max-w-md flex-col justify-between sm:max-w-lg">
-          <label htmlFor="name">Vārds, uzvārds</label>
-          <input
-            type="text"
-            name="name"
-            className="rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div className="flex w-full max-w-md flex-col justify-between sm:max-w-lg">
-          <label htmlFor="phone">Telefona numurs</label>
-          <input
-            type="tel"
-            name="phone"
-            className="rounded-md bg-zinc-100 p-1 px-3 dark:bg-zinc-800"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
-      </SignedOut>
-
       <FormElement>
         <label htmlFor="date">Datums</label>
         <input
@@ -199,7 +146,7 @@ const ReservationForm = ({ availability }) => {
 
       {/* Submit Button */}
       <button type="submit" className="w-full p-2 text-base">
-        <div className="w-full rounded-lg p-2 active:bg-white active:bg-opacity-5">
+        <div className="w-full rounded-lg p-2 text-sm underline active:bg-white active:bg-opacity-5">
           Pievienot grozam
         </div>
       </button>

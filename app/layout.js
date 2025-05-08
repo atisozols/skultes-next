@@ -1,10 +1,11 @@
 import './globals.css';
-import { CartProvider } from '@/components/cart/CartContext';
+import { CartProvider } from '@/context/CartContext';
 import { ClerkProvider } from '@clerk/nextjs';
+import UserDataProvider from '@/context/providers/UserDataProvider';
 
 export const metadata = {
-  title: 'Ozols',
-  description: 'Viss sākas šeit!',
+  title: 'Ozols | Sporta klubs',
+  description: 'Jauns un moderns sporta klubs Tukumā.',
 };
 
 export default function layout({ children }) {
@@ -12,9 +13,13 @@ export default function layout({ children }) {
     <html lang="en">
       <body className={`bg-background`}>
         <ClerkProvider>
-          <CartProvider>
-            <div className="mx-auto flex min-h-screen flex-col items-center">{children}</div>
-          </CartProvider>
+          <UserDataProvider>
+            <CartProvider>
+              <div className="mx-auto flex min-h-screen w-full flex-col items-center">
+                {children}
+              </div>
+            </CartProvider>
+          </UserDataProvider>
         </ClerkProvider>
       </body>
     </html>

@@ -2,7 +2,7 @@
 import Container from '../ui/Container';
 import Section from '../ui/Section';
 import CartContent from './CartContent';
-import { useCart } from './CartContext';
+import { useCart } from '../../context/CartContext';
 
 const Cart = () => {
   const { cart } = useCart();

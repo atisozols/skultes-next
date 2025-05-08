@@ -51,7 +51,7 @@ const TimetableLayout = ({ availability }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full cursor-pointer appearance-none items-center justify-between rounded-lg bg-transparent p-2 text-right transition-all active:bg-white active:bg-opacity-5"
       >
-        <span>Apskatīt VIP zāles noslogojumu</span>
+        <span>Apskatīt zāles noslogojumu</span>
         <MdArrowForwardIos className={`transition-all duration-300 ${isOpen && 'rotate-90'}`} />
       </button>
       <AnimatePresence>
