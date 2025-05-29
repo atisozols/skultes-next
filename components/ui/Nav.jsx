@@ -1,9 +1,6 @@
 'use client';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { FaPlus } from 'react-icons/fa';
-import { HiMiniSquares2X2, HiMiniQrCode, HiPlus } from 'react-icons/hi2';
-import { Md1kPlus } from 'react-icons/md';
+import { HiMiniSquares2X2, HiMiniQrCode } from 'react-icons/hi2';
 import QRCodes from './QRCodes';
 
 const Nav = () => {

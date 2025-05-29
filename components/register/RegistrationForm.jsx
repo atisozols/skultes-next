@@ -2,12 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Button } from '../ui/Button';
 import countryCodes from '@/utils/countryCodes';
 
 const RegistrationForm = () => {
-  const router = useRouter();
   const defaultCountryCode =
     countryCodes.find((c) => c.code === 'LV')?.dial_code || countryCodes[0].dial_code;
   const [formData, setFormData] = useState({
@@ -16,6 +14,7 @@ const RegistrationForm = () => {
     email: '',
     phone: '',
     agreement: false,
+    mailing: false,
     countryCode: defaultCountryCode,
   });
   const [loading, setLoading] = useState(false);
@@ -46,6 +45,7 @@ const RegistrationForm = () => {
           surname: formData.surname,
           email: formData.email,
           phone: `${formData.countryCode}${formData.phone}`,
+          mailing: formData.mailing,
         }),
       });
       if (!res.ok) {
@@ -61,7 +61,7 @@ const RegistrationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto grid max-w-md gap-4">
+    <form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col gap-4">
       <div className="flex w-full flex-col">
         <label htmlFor="name" className="mb-1 text-left font-medium">
           Vārds
@@ -137,29 +137,44 @@ const RegistrationForm = () => {
           />
         </div>
       </div>
-      <div className="flex w-full items-center">
-        <input
-          id="agreement"
-          name="agreement"
-          type="checkbox"
-          checked={formData.agreement}
-          onChange={handleChange}
-          required
-          className="mr-2 h-4 w-4"
-        />
-        <label htmlFor="agreement" className="text-sm">
-          Es piekrītu{' '}
-          <Link className="text-accent underline" href="/pp">
-            privātuma politikai
-          </Link>{' '}
-          un{' '}
-          <Link className="text-accent underline" href="/tc">
-            lietošanas noteikumiem
-          </Link>
-        </label>
+      <div className="my-4 flex w-full flex-col gap-4">
+        <div className="flex w-full items-center">
+          <input
+            id="agreement"
+            name="agreement"
+            type="checkbox"
+            checked={formData.agreement}
+            onChange={handleChange}
+            required
+            className="focus:ring-accent/50 mr-2 h-4 w-4 appearance-none rounded border border-gray-300 bg-container checked:border-accent checked:bg-accent focus:outline-none focus:ring-2"
+          />
+          <label htmlFor="agreement" className="text-sm">
+            Es piekrītu{' '}
+            <Link className="text-accent underline" href="/pp">
+              privātuma politikai
+            </Link>{' '}
+            un{' '}
+            <Link className="text-accent underline" href="/tc">
+              lietošanas noteikumiem
+            </Link>
+          </label>
+        </div>
+        <div className="flex w-full items-center">
+          <input
+            id="mailing"
+            name="mailing"
+            type="checkbox"
+            checked={formData.mailing}
+            onChange={handleChange}
+            className="focus:ring-accent/50 mr-2 h-4 w-4 appearance-none rounded border border-gray-300 bg-container checked:border-accent checked:bg-accent focus:outline-none focus:ring-2"
+          />
+          <label htmlFor="mailing" className="text-sm">
+            Es piekrītu saņemt jaunumus un piedāvājumus e-pastā
+          </label>
+        </div>
       </div>
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
         Apmaksāt - €9.95
       </Button>
     </form>

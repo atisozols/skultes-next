@@ -1,83 +1,94 @@
 'use client';
 import FormElement from '../ui/FormElement';
-import { FaCircle, FaPlus } from 'react-icons/fa';
-import { useUser } from '@/context/UserContext';
-import { useEffect, useState, useCallback } from 'react';
+import { FaCircle } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaPlus } from 'react-icons/fa6';
+import { useUser } from '@/hooks/queries/useUser';
 
-const MembershipStatus = () => {
-  const { userData } = useUser();
+const MembershipStatus = ({ isOpen, setIsOpen }) => {
+  const { data: userData, isLoading } = useUser();
   const [timeRemaining, setTimeRemaining] = useState(null);
   const [countdown, setCountdown] = useState('');
   const [showAktivs, setShowAktivs] = useState(false);
   const [showCountdown, setShowCountdown] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
 
+  // Handle countdown timer
   useEffect(() => {
-    if (!userData || !userData.bestBefore) return;
+    if (!userData?.bestBefore) return;
 
     const calculateTimeRemaining = () => {
       const now = new Date();
       const bestBefore = new Date(userData.bestBefore);
-      const diff = bestBefore - now;
-
-      // Return milliseconds remaining
-      return Math.max(0, diff);
+      return Math.max(0, bestBefore - now);
     };
 
-    const formatCountdown = (ms) => {
-      if (ms <= 0) return 'Beidzies';
-
-      const hours = Math.floor(ms / (1000 * 60 * 60));
-      const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-
-      // Format as HH:MM:SS
-      const formattedHours = String(hours).padStart(2, '0');
-      const formattedMinutes = String(minutes).padStart(2, '0');
-      const formattedSeconds = String(seconds).padStart(2, '0');
-
-      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-    };
-
-    // Initial calculation
-    const remaining = calculateTimeRemaining();
-    setTimeRemaining(remaining);
-    setCountdown(formatCountdown(remaining));
-
-    // Update every second for more precise countdown
-    const interval = setInterval(() => {
+    const updateCountdown = () => {
       const remaining = calculateTimeRemaining();
       setTimeRemaining(remaining);
-      setCountdown(formatCountdown(remaining));
-    }, 1000); // Update every second
 
+      // Format countdown
+      if (remaining <= 0) {
+        setCountdown('Beidzies');
+        return;
+      }
+
+      const hours = Math.floor(remaining / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+      setCountdown(
+        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
+      );
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
-  }, [userData]);
+  }, [userData?.bestBefore]);
 
-  if (!userData) {
+  // Handle timeouts for showing status messages
+  useEffect(() => {
+    // Clear any existing timeout
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    if (showAktivs || showCountdown) {
+      const id = setTimeout(() => {
+        setShowAktivs(false);
+        setShowCountdown(false);
+      }, 5000);
+      setTimeoutId(id);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [showAktivs, showCountdown]);
+
+  if (isLoading || !userData) {
     return (
-      <FormElement className="py-4">
-        <div className="flex items-center gap-1 rounded-full bg-zinc-600 px-2 py-1 text-xs">
+      <FormElement className="border-none py-4">
+        <div className="flex items-center gap-1 rounded-full bg-zinc-600 py-1 pl-3 pr-4">
           <FaCircle className="text-zinc-400" />
-          Ielādē...
+          Ielādē
         </div>
       </FormElement>
     );
   }
 
-  const handleStatusClick = useCallback(() => {
-    if (userData.isMember && timeRemaining > 0) {
-      if (timeRemaining <= 12 * 60 * 60 * 1000) {
-        // For amber status (less than 12 hours) - show 'Aktīvs'
-        setShowAktivs(true);
-        setTimeout(() => setShowAktivs(false), 5000);
-      } else {
-        // For emerald status (more than 12 hours) - show countdown
-        setShowCountdown(true);
-        setTimeout(() => setShowCountdown(false), 5000);
-      }
+  const handleStatusClick = () => {
+    if (!userData.isMember || !timeRemaining || showAktivs || showCountdown) return;
+
+    if (timeRemaining <= 12 * 60 * 60 * 1000) {
+      setShowAktivs(true);
+    } else {
+      setShowCountdown(true);
     }
-  }, [userData, timeRemaining]);
+  };
 
   // Determine status color and text
   let statusColor = 'text-zinc-400';
@@ -88,8 +99,8 @@ const MembershipStatus = () => {
   if (userData.isMember && timeRemaining !== null) {
     if (timeRemaining > 12 * 60 * 60 * 1000) {
       // More than 12 hours - emerald
-      statusColor = 'text-green-400';
-      bgColor = 'bg-green-900';
+      statusColor = 'text-green-300';
+      bgColor = 'bg-green-400 text-background';
       statusText = showCountdown
         ? `Līdz ${new Date(userData.bestBefore).toLocaleDateString('lv-LV', {
             day: '2-digit',
@@ -115,19 +126,19 @@ const MembershipStatus = () => {
           onClick={handleStatusClick}
           layout
           style={{
+            height: '28px',
             width:
               statusText === 'Abonements aktīvs'
-                ? '190px'
+                ? '170px'
                 : statusText === 'Abonements beidzies'
-                  ? '200px'
+                  ? '170px'
                   : statusColor === 'text-amber-400'
-                    ? '200px'
-                    : '180px', // Fixed widths for the two states
+                    ? '170px'
+                    : '150px', // Fixed widths for the two states
             transition: 'width 0.3s ease-in-out',
           }}
           transition={{ duration: 0.3, type: 'spring', stiffness: 500, damping: 30 }}
         >
-          <FaCircle className={statusColor} />
           <div className="relative w-full overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.span
@@ -143,7 +154,11 @@ const MembershipStatus = () => {
             </AnimatePresence>
           </div>
         </motion.div>
-        <FaPlus className="text-xl" />
+        <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer p-1">
+          <motion.div animate={{ rotate: isOpen ? -135 : 0 }} transition={{ duration: 0.25 }}>
+            <FaPlus className="text-xl" />
+          </motion.div>
+        </div>
       </FormElement>
     </>
   );

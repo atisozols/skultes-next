@@ -15,8 +15,16 @@ const page = () => {
         />
       </Link>
 
-      <div className="flex h-2/3 w-full flex-col items-center justify-center">
+      <div className="flex h-2/3 w-full flex-col items-center justify-center gap-4">
         <SignIn routing="path" path="/log-in" forceRedirectUrl="/" />
+        <div className="flex w-full items-center justify-center text-sm font-light text-accent">
+          <p>
+            Neesi reģistrējies?{' '}
+            <Link href="/register" className="underline">
+              Reģistrēties
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

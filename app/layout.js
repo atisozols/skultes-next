@@ -1,7 +1,11 @@
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { ClerkProvider } from '@clerk/nextjs';
-import UserDataProvider from '@/context/providers/UserDataProvider';
+import dynamic from 'next/dynamic';
+
+const TanstackQueryProvider = dynamic(() => import('@/context/providers/TanstackQueryProvider'), {
+  ssr: false,
+});
 
 export const metadata = {
   title: 'Ozols | Sporta klubs',
@@ -13,13 +17,13 @@ export default function layout({ children }) {
     <html lang="en">
       <body className={`bg-background`}>
         <ClerkProvider>
-          <UserDataProvider>
-            <CartProvider>
+          <CartProvider>
+            <TanstackQueryProvider>
               <div className="mx-auto flex min-h-screen w-full flex-col items-center">
                 {children}
               </div>
-            </CartProvider>
-          </UserDataProvider>
+            </TanstackQueryProvider>
+          </CartProvider>
         </ClerkProvider>
       </body>
     </html>

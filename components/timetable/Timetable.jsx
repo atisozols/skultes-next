@@ -1,21 +1,64 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import dateText from '@/utils/book/dateText';
 
 const Timetable = ({ availability, timetable }) => {
-  const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, time: '', rowIndex: null });
+  const [showTimeIndicators, setShowTimeIndicators] = useState(false);
+  const timetableRef = useRef(null);
+  const [timeMarkers, setTimeMarkers] = useState([]);
+  const [timetableRect, setTimetableRect] = useState(null);
+
+  // Calculate positions of time markers when component mounts or timetable changes
+  useEffect(() => {
+    if (!timetableRef.current) return;
+
+    const rect = timetableRef.current.getBoundingClientRect();
+    setTimetableRect(rect);
+
+    const markers = [];
+    const rowHeight = rect.height / timetable.length;
+
+    // Find all major time markers (8:00, 12:00, 16:00, 20:00, 24:00)
+    for (let i = 0; i < timetable.length; i++) {
+      if (isMajorTimeMarker(i)) {
+        const time = computeTime(i);
+        // Position at the top of the row, with a small offset to align with the border
+        const top = i * rowHeight - 11;
+        markers.push({ time, top });
+      }
+    }
+
+    setTimeMarkers(markers);
+  }, [timetable]);
+
+  const handleTimetableClick = () => {
+    setShowTimeIndicators((prev) => !prev);
+  };
 
   const computeTime = (rowIndex) => {
-    const totalMinutes = 6 * 60 + 30 + rowIndex * 15;
-    const hours = Math.floor(totalMinutes / 60);
+    const totalMinutes = 6 * 60 + rowIndex * 15;
+    const hours = Math.floor(totalMinutes / 60) % 24; // Ensure we handle 24h overflow
     const minutes = totalMinutes % 60;
-    return `${hours}:${minutes.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  };
+
+  // Check if current row is a major time marker (8:00, 12:00, 16:00, 20:00, 24:00)
+  const isMajorTimeMarker = (rowIndex) => {
+    const totalMinutes = 6 * 60 + rowIndex * 15;
+    const hours = Math.floor(totalMinutes / 60) % 24;
+    const minutes = totalMinutes % 60;
+    return [8, 12, 16, 20, 24].includes(hours) && minutes === 0;
+  };
+
+  // Format time for display (24h format)
+  const formatDisplayTime = (time) => {
+    return time.startsWith('0') ? time.substring(1) : time;
   };
 
   return (
-    <div className="flex w-full items-center justify-center pt-4">
+    <div className="flex w-full flex-col items-center justify-center pt-4">
       <div className="flex w-full items-center justify-center">
         {/* Right Side (Dates and Timetable) */}
-        <div className="flex w-full flex-col">
+        <div className="relative flex w-full flex-col">
           {/* Dates Row */}
           <div className="mb-2 flex justify-around">
             {availability.slice(0, 7).map((object, objectIndex) => (
@@ -28,26 +71,40 @@ const Timetable = ({ availability, timetable }) => {
             ))}
           </div>
           {/* Timetable */}
-          <div className="w-full">
+          <div className="relative w-full" ref={timetableRef}>
+            {/* Time Indicators Overlay */}
+            {showTimeIndicators && timetableRect && (
+              <div className="absolute inset-0 z-10" onClick={handleTimetableClick}>
+                {timeMarkers.map((marker, index) => (
+                  <div
+                    key={index}
+                    className="absolute left-0 right-0 flex items-center justify-center text-sm font-medium text-background"
+                    style={{ top: `${marker.top}px` }}
+                  >
+                    <span className="whitespace-nowrap rounded-full bg-foreground px-2 py-1 text-xs text-background">
+                      {formatDisplayTime(marker.time)}
+                    </span>
+                    <div className="h-[2px] w-full bg-foreground"></div>
+                  </div>
+                ))}
+              </div>
+            )}
             {timetable.map((row, rowIndex) => (
-              <div
-                className="flex w-full"
-                key={rowIndex}
-                onMouseMove={(e) =>
-                  setTooltip({
-                    visible: true,
-                    x: e.clientX,
-                    y: e.clientY,
-                    time: computeTime(rowIndex),
-                    rowIndex: rowIndex,
-                  })
-                }
-                onMouseLeave={() => setTooltip((prev) => ({ ...prev, visible: false }))}
-              >
+              <div className={`flex w-full`} key={rowIndex} onClick={handleTimetableClick}>
                 {row.map((cell, cellIndex) => (
                   <div
                     key={cellIndex}
-                    className={`h-1 w-full lg:h-1.5 ${cellIndex === 6 ? '' : cell !== 0 ? 'border-r border-r-foreground' : 'border-r border-r-alternate'} ${cell === 0 ? 'bg-transparent' : 'bg-foreground'} ${(rowIndex + 2) % 4 === 0 ? `border-t ${tooltip.visible && tooltip.rowIndex === rowIndex ? 'border-t-white' : cell !== 0 ? 'border-t-foreground' : 'border-t-alternate'}` : ''} ${rowIndex === 6 || rowIndex === 22 || rowIndex === 38 || rowIndex === 54 ? `h-2 border-t-2 lg:h-2.5 ${tooltip.visible && tooltip.rowIndex === rowIndex ? 'border-t-white' : cell !== 0 ? 'border-t-foreground' : 'border-t-alternate'}` : ''}`}
+                    className={`h-1 w-full lg:h-1.5 ${
+                      cellIndex === 6
+                        ? ''
+                        : cell !== 0
+                          ? 'border-r border-r-foreground'
+                          : 'border-r border-r-alternate'
+                    } ${cell === 0 ? 'bg-transparent' : 'bg-foreground'} ${
+                      rowIndex % 4 === 0
+                        ? `border-t ${cell !== 0 ? 'border-t-foreground' : 'border-t-alternate'}`
+                        : ''
+                    } ${isMajorTimeMarker(rowIndex) ? 'border-t-[2px] border-t-alternate' : ''}`}
                   ></div>
                 ))}
               </div>
@@ -55,24 +112,6 @@ const Timetable = ({ availability, timetable }) => {
           </div>
         </div>
       </div>
-      {tooltip.visible && (
-        <div
-          style={{
-            position: 'fixed',
-            top: tooltip.y - 10,
-            left: tooltip.x - 50,
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-            color: '#fff',
-            padding: '4px 8px',
-            borderRadius: '8px',
-            pointerEvents: 'none',
-            fontSize: '12px',
-            zIndex: 1000,
-          }}
-        >
-          {tooltip.time}
-        </div>
-      )}
     </div>
   );
 };

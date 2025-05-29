@@ -364,6 +364,7 @@ const MobileNav = () => {
 
 const TopNav = () => {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -371,13 +372,18 @@ const TopNav = () => {
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
-
     handleResize();
+    setHasMounted(true);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  if (!hasMounted) {
+    // Optionally, render a skeleton or nothing while mounting
+    return null;
+  }
 
   return isDesktop ? <DesktopNav /> : <MobileNav />;
 };

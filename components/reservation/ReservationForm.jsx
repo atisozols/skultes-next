@@ -6,6 +6,7 @@ import availableSlotsForEachDuration from '../../utils/book/availableSlotsForEac
 import getCurrentDateInRiga from '../../utils/book/getCurrentDateInRiga';
 import { useCart } from '../../context/CartContext';
 import FormElement from '../ui/FormElement';
+import { Button } from '../ui/Button';
 
 const ReservationForm = ({ availability }) => {
   const { cart, addToCart } = useCart();
@@ -14,7 +15,7 @@ const ReservationForm = ({ availability }) => {
   const [time, setTime] = useState('');
 
   const memoizedSlotsForDuration = useMemo(() => {
-    return availableSlotsForEachDuration(cart, availability, date, timeSlots);
+    return availableSlotsForEachDuration(cart, availability, date);
   }, [cart, availability, date]);
 
   const memoizedAvailableDurations = useMemo(() => {
@@ -71,7 +72,7 @@ const ReservationForm = ({ availability }) => {
 
   return (
     <form className="grid w-full grid-cols-1 justify-items-center" onSubmit={handleSubmit}>
-      <FormElement>
+      <FormElement className="border-none py-0">
         <label htmlFor="date">Datums</label>
         <input
           type="date"
@@ -89,7 +90,7 @@ const ReservationForm = ({ availability }) => {
         />
       </FormElement>
 
-      <FormElement>
+      <FormElement className="border-none py-0">
         <label htmlFor="time">Laiks</label>
         {memoizedAvailableDurations.includes(duration) &&
         memoizedSlotsForDuration[duration]?.length > 0 ? (
@@ -117,7 +118,7 @@ const ReservationForm = ({ availability }) => {
         )}
       </FormElement>
 
-      <FormElement>
+      <FormElement className="border-none py-0">
         <label htmlFor="duration">Ilgums</label>
         {memoizedAvailableDurations.length > 0 ? (
           <select
@@ -145,11 +146,16 @@ const ReservationForm = ({ availability }) => {
       </FormElement>
 
       {/* Submit Button */}
-      <button type="submit" className="w-full p-2 text-base">
-        <div className="w-full rounded-lg p-2 text-sm underline active:bg-white active:bg-opacity-5">
+      <div className="flex w-full items-center justify-center px-3.5 py-3.5">
+        <Button
+          size="sm"
+          variant="outline"
+          className="w-full font-medium uppercase"
+          onClick={handleSubmit}
+        >
           Pievienot grozam
-        </div>
-      </button>
+        </Button>
+      </div>
     </form>
   );
 };

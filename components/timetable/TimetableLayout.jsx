@@ -19,7 +19,7 @@ const TimetableLayout = ({ availability }) => {
 
     const generateTimetable = () => {
       const rows = [];
-      for (let i = 0; i < 70; i++) {
+      for (let i = 0; i < 74; i++) {
         const row = [];
         for (let j = 0; j < 7; j++) {
           const value = isUnavailable(j, i) ? 1 : 0;
@@ -43,10 +43,7 @@ const TimetableLayout = ({ availability }) => {
   }, [isOpen, timetable]);
 
   return (
-    <div
-      style={{ borderBottomWidth: '0.5px' }}
-      className="flex flex-col border-b border-b-alternate p-2"
-    >
+    <div className="flex flex-col px-2 pb-0 pt-2">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full cursor-pointer appearance-none items-center justify-between rounded-lg bg-transparent p-2 text-right transition-all active:bg-white active:bg-opacity-5"

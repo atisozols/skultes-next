@@ -7,12 +7,12 @@ import { TbHanger } from 'react-icons/tb';
 const QR_OPTIONS = [
   {
     label: 'Ģērbtuves',
-    icon: <TbHanger className="text-3xl" />,
+    icon: <TbHanger className="text-xl" />,
     code: 'GERBTUVES-QR-002', // You can change to dynamic if needed
   },
   {
     label: 'Lielā zāle',
-    icon: <FaDumbbell className="text-3xl" />,
+    icon: <FaDumbbell className="text-xl" />,
     code: 'LIELEZALE-QR-001', // You can change to dynamic if needed
   },
 ];
@@ -45,18 +45,18 @@ const QRCodes = () => {
         </div>
       </div>
       {/* Option Switcher */}
-      <div className="relative flex w-[300px] select-none items-center justify-between rounded-full bg-container px-12 py-2">
+      <div className="relative flex w-[200px] select-none items-center justify-between rounded-full bg-container px-8 py-1">
         {/* Animated highlight */}
         <div
-          className="absolute left-2 top-2 h-[44px] w-[120px] rounded-full bg-accent transition-transform duration-300"
+          className="absolute left-2.5 top-2 h-[30px] w-[80px] rounded-full bg-accent transition-transform duration-300"
           style={{
-            transform: `translateX(${selected === 0 ? '0' : '164'}px)`,
+            transform: `translateX(${selected === 0 ? '0' : '100'}px)`,
           }}
         />
         {QR_OPTIONS.map((opt, idx) => (
           <button
             key={opt.label}
-            className={`relative z-10 flex w-[38px] flex-col items-center justify-center gap-1 py-2 font-semibold transition-colors duration-200 ${selected === idx ? 'text-white' : 'text-foreground/80'}`}
+            className={`relative z-10 flex w-[30px] flex-col items-center justify-center gap-1 py-[9px] text-sm font-semibold transition-colors duration-200 ${selected === idx ? 'text-white' : 'text-foreground/80'}`}
             onClick={() => setSelected(idx)}
           >
             {opt.icon}

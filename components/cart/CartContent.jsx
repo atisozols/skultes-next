@@ -1,5 +1,6 @@
 'use client';
 import { useCart } from '../../context/CartContext';
+import { Button } from '../ui/Button';
 import CartItem from './CartItem';
 import { useUser } from '@clerk/nextjs';
 
@@ -13,8 +14,8 @@ const CartContent = () => {
         {cart.map((item, index) => (
           <div
             key={index}
-            style={{ borderBottomWidth: `${index <= cart.length - 1 ? '0.5px' : '0'}` }}
-            className={`w-full border-alternate px-3.5 py-3 ${index <= cart.length - 1 ? 'border-b' : ''}`}
+            style={{ borderBottomWidth: `${index < cart.length - 1 ? '0.5px' : '0'}` }}
+            className={`w-full border-alternate px-3.5 py-3 ${index < cart.length - 1 ? 'border-b' : ''}`}
           >
             <CartItem item={item} />
           </div>
@@ -25,18 +26,17 @@ const CartContent = () => {
           <p>{cartError.msg}</p>
         </div>
       )}
-      <div className="flex w-full justify-center">
-        <button className="w-full cursor-pointer p-2 text-base" onClick={() => checkout()}>
-          {loading ? (
-            <div className="p-2">
-              <span className="loading loading-dots loading-xs"></span>
-            </div>
-          ) : (
-            <div className="w-full rounded-lg p-2 text-sm underline hover:bg-white hover:bg-opacity-5">
-              Apmaksāt: &euro;{(total(isSignedIn) / 100).toFixed(2)}
-            </div>
-          )}
-        </button>
+      <div className="flex w-full justify-center px-3.5 pb-3.5">
+        <Button
+          size="sm"
+          loading={loading}
+          onClick={() => checkout()}
+          className="w-full font-medium uppercase"
+          disabled={loading}
+          withArrow
+        >
+          Apmaksāt: &euro;{(total(isSignedIn) / 100).toFixed(2)}
+        </Button>
       </div>
     </div>
   );

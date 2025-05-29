@@ -1,74 +1,38 @@
-const timeSlots = {
-  0: '06:30',
-  1: '06:45',
-  2: '07:00',
-  3: '07:15',
-  4: '07:30',
-  5: '07:45',
-  6: '08:00',
-  7: '08:15',
-  8: '08:30',
-  9: '08:45',
-  10: '09:00',
-  11: '09:15',
-  12: '09:30',
-  13: '09:45',
-  14: '10:00',
-  15: '10:15',
-  16: '10:30',
-  17: '10:45',
-  18: '11:00',
-  19: '11:15',
-  20: '11:30',
-  21: '11:45',
-  22: '12:00',
-  23: '12:15',
-  24: '12:30',
-  25: '12:45',
-  26: '13:00',
-  27: '13:15',
-  28: '13:30',
-  29: '13:45',
-  30: '14:00',
-  31: '14:15',
-  32: '14:30',
-  33: '14:45',
-  34: '15:00',
-  35: '15:15',
-  36: '15:30',
-  37: '15:45',
-  38: '16:00',
-  39: '16:15',
-  40: '16:30',
-  41: '16:45',
-  42: '17:00',
-  43: '17:15',
-  44: '17:30',
-  45: '17:45',
-  46: '18:00',
-  47: '18:15',
-  48: '18:30',
-  49: '18:45',
-  50: '19:00',
-  51: '19:15',
-  52: '19:30',
-  53: '19:45',
-  54: '20:00',
-  55: '20:15',
-  56: '20:30',
-  57: '20:45',
-  58: '21:00',
-  59: '21:15',
-  60: '21:30',
-  61: '21:45',
-  62: '22:00',
-  63: '22:15',
-  64: '22:30',
-  65: '22:45',
-  66: '23:00',
-  67: '23:15',
-  68: '23:30',
-  69: '23:45',
-  70: '00:00',
+const timeSlotConfig = {
+  startTime: '06:00', // Start time of the day
+  endTime: '24:30', // End time of the day
+  interval: 15, // Interval between slots in minutes
 };
-export default timeSlots;
+
+/**
+ * Generate time slots based on configuration
+ * @returns {Object} Time slots object with index as key and time as value
+ */
+function generateTimeSlots() {
+  const timeSlots = {};
+  let index = 0;
+
+  // Convert start and end times to minutes since midnight
+  const [startHour, startMinute] = timeSlotConfig.startTime.split(':').map(Number);
+  const [endHour, endMinute] = timeSlotConfig.endTime.split(':').map(Number);
+
+  let currentMinutes = startHour * 60 + startMinute;
+  const endMinutes = endHour * 60 + endMinute;
+
+  // Handle midnight crossing
+  while (currentMinutes <= endMinutes || (endMinutes === 0 && currentMinutes < 24 * 60)) {
+    // Format time as HH:mm
+    const hours = Math.floor(currentMinutes / 60) % 24;
+    const minutes = currentMinutes % 60;
+    timeSlots[index] =
+      `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+
+    currentMinutes += timeSlotConfig.interval;
+    index++;
+  }
+
+  return timeSlots;
+}
+
+// Generate and export the time slots
+export default generateTimeSlots();

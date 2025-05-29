@@ -1,10 +1,9 @@
 'use client';
 import Section from '../ui/Section';
 import Container from '../ui/Container';
-import MembershipStatus from './MembershipStatus';
+import LastVisit from '../sections/LastVisit';
 import ExtendMembership from './ExtendMembership';
 import { useRef } from 'react';
-import { IoFlameSharp } from 'react-icons/io5';
 
 const Membership = () => {
   const containerRef = useRef(null);
@@ -12,8 +11,8 @@ const Membership = () => {
   return (
     <Section title="">
       <Container>
+        <LastVisit />
         <div className="" ref={containerRef}>
-          <MembershipStatus />
           <ExtendMembership containerRef={containerRef} />
         </div>
       </Container>

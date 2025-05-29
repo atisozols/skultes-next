@@ -11,10 +11,12 @@ export default function Carousel({
   perView = 1.4,
   spacing = 10,
   origin = 'center',
+  loop = true,
+  mode = 'free-snap',
 }) {
   const [sliderRef] = useKeenSlider({
-    loop: true,
-    mode: 'free-snap',
+    loop,
+    mode,
     slides: { perView, spacing, origin },
   });
 

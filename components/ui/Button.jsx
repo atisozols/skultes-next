@@ -1,10 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import { cva } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
+import Loader from '@/components/ui/Loader';
 
 // Define button variants using class-variance-authority
 const buttonVariants = cva(
@@ -17,6 +19,7 @@ const buttonVariants = cva(
         outline: 'border border-accent text-accent hover:bg-accent/10',
         ghost: 'text-accent hover:bg-accent/10',
         link: 'text-accent underline-offset-4 hover:underline',
+        success: 'bg-green-400 text-background',
       },
       size: {
         default: 'px-4 py-2.5',
@@ -41,7 +44,9 @@ const Button = forwardRef(
       size,
       asChild = false,
       href,
-      withArrow = false,
+      withArrow = false, // Kept for backward compatibility
+      icon = null, // New prop for custom icons
+      loading = false,
       onClick,
       children,
       ...props
@@ -55,12 +60,36 @@ const Button = forwardRef(
       ...props,
     };
 
-    // Content including optional arrow
+    // Content including optional icon or loader
     const content = (
-      <>
-        {children}
-        {withArrow && <FiArrowRight className="text-xl" />}
-      </>
+      <div className="inline-flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={children ? `content-${typeof children === 'string' ? children : 'node'}` : 'empty'}
+            layout
+            className="inline-flex items-center justify-center gap-2"
+            initial={false}
+            transition={{
+              type: 'spring',
+              stiffness: 500,
+              damping: 30,
+              mass: 0.5,
+            }}
+          >
+            {children}
+            {(icon || withArrow) &&
+              (loading ? (
+                <motion.span key="loader" className="inline-flex flex-shrink-0" layout>
+                  <Loader />
+                </motion.span>
+              ) : (
+                <motion.span key="icon" className="inline-flex flex-shrink-0" layout>
+                  {icon || <FiArrowRight className="text-xl" />}
+                </motion.span>
+              ))}
+          </motion.span>
+        </AnimatePresence>
+      </div>
     );
 
     // Return a Link if href is provided, otherwise a button

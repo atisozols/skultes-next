@@ -6,6 +6,8 @@ import { TbCoinEuro } from 'react-icons/tb';
 import { TiStarOutline } from 'react-icons/ti';
 import { motion, AnimatePresence } from 'framer-motion';
 import Container from '../ui/Container';
+import MembershipStatus from './MembershipStatus';
+import { Button } from '../ui/Button';
 
 const MEMBERSHIP_OPTIONS = [
   {
@@ -117,7 +119,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
 
   return (
     <>
-      {/* Collapsible content */}
+      <MembershipStatus isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="relative">
         <AnimatePresence>
           {isOpen && (
@@ -179,24 +181,21 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
         </AnimatePresence>
 
         {/* Button that serves as both toggle and payment button */}
-        <button
-          ref={buttonRef}
-          onClick={handleButtonClick}
-          disabled={isLoading}
-          className={`w-full text-base ${isOpen ? 'px-3.5 pb-3.5' : 'border-t-[0.5px] border-alternate p-2'}`}
-        >
-          <div
-            className={`w-full rounded-lg p-2 transition-all ${isOpen ? 'bg-white/10 text-foreground' : 'text-sm underline'} active:bg-opacity-90`}
-          >
-            {isLoading ? (
-              <span className="loading loading-dots loading-xs"></span>
-            ) : isOpen ? (
-              `Apmaksāt: ${MEMBERSHIP_OPTIONS.find((opt) => opt.id === selectedOption)?.price || ''}`
-            ) : (
-              'Papildināt abonementu'
-            )}
+        {isOpen && (
+          <div className="flex w-full items-center justify-center px-3.5 pb-3.5">
+            <Button
+              size="sm"
+              variant="default"
+              className="w-full font-medium uppercase"
+              onClick={handleButtonClick}
+              disabled={isLoading}
+              loading={isLoading}
+              withArrow
+            >
+              Apmaksāt
+            </Button>
           </div>
-        </button>
+        )}
       </div>
     </>
   );

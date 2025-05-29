@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
-
+import { useCancelAppointmentMutation } from '@/hooks/queries/useAppointments';
 import { LuTrash2, LuCopy, LuCopyCheck, LuCalendarPlus, LuCheck, LuX } from 'react-icons/lu';
+import Loader from '@/components/ui/Loader';
 
 const ReservationActions = ({ appointment }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,7 +10,8 @@ const ReservationActions = ({ appointment }) => {
     appointment.status?.startsWith('cancelled-') ? appointment.status.slice(10) : '',
   );
   const [copied, setCopied] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const { mutate: cancelAppointment, isPending } = useCancelAppointmentMutation();
 
   const handleCopy = async () => {
     try {
@@ -21,32 +23,24 @@ const ReservationActions = ({ appointment }) => {
     }
   };
 
-  const deleteReservation = async () => {
-    setLoading(true);
+  const handleCancel = () => {
+    if (isPending) return;
 
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/appointments/delete`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: appointment.id }),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        console.error('Failed to delete reservation:', errorData);
-      } else {
-        const data = await res.json();
-        if (data.coupon) {
-          setCoupon(data.coupon);
+    cancelAppointment(appointment.id, {
+      onSuccess: (response) => {
+        if (response?.coupon) {
+          setCoupon(response.coupon);
         }
-      }
-    } catch (error) {
-      console.error('Network error when deleting reservation:', error);
-    } finally {
-      setLoading(false);
-    }
+        setIsOpen(false);
+      },
+      onError: (error) => {
+        console.error('Failed to cancel appointment:', error);
+        // You might want to show an error toast/message to the user here
+      },
+      onSettled: () => {
+        // Any cleanup after success or error
+      },
+    });
   };
 
   return coupon ? (
@@ -54,12 +48,8 @@ const ReservationActions = ({ appointment }) => {
       className="flex gap-2 rounded-lg p-2 transition-all hover:bg-white hover:bg-opacity-5"
       onClick={handleCopy}
     >
-      {copied ? (
-        <LuCopyCheck className="h-6 w-6 text-emerald-500" />
-      ) : (
-        <LuCopy className="h-6 w-6" />
-      )}
-      <span className={`font-medium ${copied && 'text-emerald-500'}`}>{coupon}</span>
+      {copied ? <LuCopyCheck className="h-6 w-6 text-green-400" /> : <LuCopy className="h-6 w-6" />}
+      <span className={`font-medium ${copied && 'text-green-400'}`}>{coupon}</span>
     </button>
   ) : (
     <div className="relative overflow-x-hidden">
@@ -90,20 +80,16 @@ const ReservationActions = ({ appointment }) => {
       >
         <div className="flex items-center justify-between gap-2 bg-container">
           <button
-            disabled={loading}
-            className={`flex items-center justify-center rounded-lg p-2 transition-all ${!loading && 'hover:bg-white hover:bg-opacity-5'}`}
-            onClick={deleteReservation}
+            disabled={isPending}
+            className={`flex items-center justify-center rounded-lg p-2 transition-all ${!isPending && 'hover:bg-white hover:bg-opacity-5'}`}
+            onClick={handleCancel}
           >
-            {loading ? (
-              <span className="loading loading-xs ml-1"></span>
-            ) : (
-              <LuCheck className="text-2xl" />
-            )}
+            {isPending ? <Loader /> : <LuCheck className="text-2xl" />}
           </button>
           <button
-            disabled={loading}
+            disabled={isPending}
             onClick={() => setIsOpen(false)}
-            className={`rounded-lg p-2 text-accent transition-all ${!loading && 'hover:bg-white hover:bg-opacity-5'}`}
+            className={`rounded-lg p-2 text-accent transition-all ${!isPending && 'hover:bg-white hover:bg-opacity-5'}`}
           >
             <LuX className="text-2xl" />
           </button>
