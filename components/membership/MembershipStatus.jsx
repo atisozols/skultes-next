@@ -67,12 +67,13 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
         clearTimeout(timeoutId);
       }
     };
-  }, [showAktivs, showCountdown, timeoutId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showAktivs, showCountdown]);
 
   if (isLoading || !userData) {
     return (
       <FormElement className="border-none py-4">
-        <div className="flex items-center gap-1 rounded-full bg-zinc-600 py-1 pl-3 pr-4">
+        <div className="flex items-center gap-1 rounded-lg bg-zinc-600 py-1 pl-3 pr-4">
           <FaCircle className="text-zinc-400" />
           Ielādē
         </div>
@@ -100,7 +101,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
     if (timeRemaining > 12 * 60 * 60 * 1000) {
       // More than 12 hours - emerald
       statusColor = 'text-green-300';
-      bgColor = 'bg-green-400 text-background';
+      bgColor = 'bg-[#008336]';
       statusText = showCountdown
         ? `Līdz ${new Date(userData.bestBefore).toLocaleDateString('lv-LV', {
             day: '2-digit',
@@ -122,7 +123,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
     <>
       <FormElement className="border-none py-4">
         <motion.div
-          className={`flex items-center gap-1 rounded-full ${bgColor} cursor-pointer overflow-hidden px-2 py-1`}
+          className={`flex items-center gap-1 rounded-lg ${bgColor} cursor-pointer overflow-hidden px-2 py-1`}
           onClick={handleStatusClick}
           layout
           style={{

@@ -6,17 +6,18 @@ import { TbHanger } from 'react-icons/tb';
 import { useEntryQRCodes } from '@/hooks/queries/useEntryQRCodes';
 import { useUser } from '@/hooks/queries/useUser';
 import Loader from './Loader';
+import { Button } from './Button';
 
 // QR code options - codes will be populated dynamically from the API
 const getQROptions = (qrCodes) => [
   {
     label: 'Ģērbtuves',
-    icon: <TbHanger className="text-xl" />,
+    icon: <TbHanger className="text-lg" />,
     code: qrCodes?.dressingRoom || '',
   },
   {
     label: 'Lielā zāle',
-    icon: <FaDumbbell className="text-xl" />,
+    icon: <FaDumbbell className="text-lg" />,
     code: qrCodes?.gym || '',
   },
 ];
@@ -24,25 +25,27 @@ const getQROptions = (qrCodes) => [
 const QRCodes = () => {
   const [selected, setSelected] = useState(0);
   const [overlayVisible, setOverlayVisible] = useState(false);
-  
+  const [showOptions, setShowOptions] = useState(false);
+
   // Fetch QR codes from the API
   const { data: qrCodes, isLoading, isError, error } = useEntryQRCodes();
-  
+
   // Fetch user data to check if user is a member
   const { data: userData } = useUser();
-  
-  // Check if user is a member
-  const isMember = userData?.customer?.isMember || false;
-  
+
   // Get QR options with actual codes from the API
   const QR_OPTIONS = getQROptions(qrCodes);
-  
+
   // Reset selected tab if user is not a member
   useEffect(() => {
-    if (!isMember && selected !== 0) {
+    if (!userData?.isMember && selected !== 0) {
       setSelected(0);
     }
-  }, [isMember, selected]);
+  }, [userData, selected]);
+
+  useEffect(() => {
+    setShowOptions(userData?.isMember && qrCodes?.gym);
+  }, [userData, qrCodes]);
 
   useEffect(() => {
     setOverlayVisible(false);
@@ -57,14 +60,20 @@ const QRCodes = () => {
         <div className="flex flex-col items-center gap-4">
           <Image
             src="/logo_red.png"
-            alt="Skultes Logo"
+            alt="Ozols Sports Club Logo"
             width={300}
             height={82}
             className="mb-12 max-w-[200px]"
             priority
           />
-          <Loader size="text-4xl" />
-          <p className="mt-4 text-sm text-gray-500">Ielādē QR kodu...</p>
+          <div
+            className="rounded-2xl bg-white p-4 shadow-xl"
+            style={{ width: '300px', height: '300px' }}
+          >
+            <div className="flex h-full w-full items-center justify-center">
+              <Loader size="text-6xl text-background" />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -77,7 +86,7 @@ const QRCodes = () => {
         <div className="flex flex-col items-center gap-4">
           <Image
             src="/logo_red.png"
-            alt="Skultes Logo"
+            alt="Ozols Sports Club Logo"
             width={300}
             height={82}
             className="mb-12 max-w-[200px]"
@@ -92,11 +101,11 @@ const QRCodes = () => {
 
   // Render QR code
   return (
-    <div className="fixed inset-0 bottom-[78px] z-10 flex flex-col items-center justify-center gap-12 bg-background transition-opacity duration-150">
+    <div className="fixed inset-0 bottom-[78px] z-10 flex flex-col items-center justify-center gap-6 bg-background transition-opacity duration-150">
       <div className="flex flex-col items-center gap-4">
         <Image
           src="/logo_red.png"
-          alt="Skultes Logo"
+          alt="Ozols Sports Club Logo"
           width={300}
           height={82}
           className="mb-12 max-w-[200px]"
@@ -106,7 +115,10 @@ const QRCodes = () => {
           className={`rounded-2xl bg-white p-4 shadow-xl transition-opacity duration-150 ${overlayVisible ? 'opacity-100' : 'opacity-0'}`}
         >
           {QR_OPTIONS[selected] && QR_OPTIONS[selected].code ? (
-            <QRCode value={QR_OPTIONS[selected].code} className="max-h-[300px] max-w-[300px]" />
+            <QRCode
+              value={QR_OPTIONS[selected].code}
+              className="h-full max-h-[300px] w-full max-w-[300px]"
+            />
           ) : (
             <p className="p-8 text-sm text-gray-500">QR kods nav pieejams</p>
           )}
@@ -114,24 +126,26 @@ const QRCodes = () => {
       </div>
 
       {/* Option Switcher - Only display if user is a member and has access to gym */}
-      {isMember && qrCodes?.gym && (
-        <div className="relative flex w-[200px] select-none items-center justify-between rounded-full bg-container px-8 py-1">
-          {/* Animated highlight */}
+      {showOptions && (
+        <div className="relative flex select-none items-center justify-center gap-6 rounded-full">
+          {/* Animated highlight
           <div
-            className="absolute left-2.5 top-2 h-[30px] w-[80px] rounded-full bg-accent transition-transform duration-300"
+            className="absolute left-2.5 top-2 h-[30px] w-[80px] rounded-lg border border-accent transition-transform duration-300"
             style={{
               transform: `translateX(${selected === 0 ? '0' : '100'}px)`,
             }}
-          />
+          /> */}
           {QR_OPTIONS.map((opt, idx) => (
-            <button
+            <Button
+              size="sm"
+              variant={selected === idx ? 'default' : 'outline'}
               key={idx}
-              className={`relative z-10 flex w-[30px] flex-col items-center justify-center gap-1 py-[9px] text-sm font-semibold transition-colors duration-200 ${selected === idx ? 'text-white' : 'text-foreground/80'}`}
               onClick={() => setSelected(idx)}
               disabled={idx === 1 && !qrCodes?.gym}
             >
-              {opt.icon}
-            </button>
+              <span>{opt.icon}</span>
+              <span>{opt.label}</span>
+            </Button>
           ))}
         </div>
       )}

@@ -175,7 +175,7 @@ const RegistrationForm = () => {
       </div>
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
       <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
-        Apmaksāt - €9.95
+        Apmaksāt - €7.49
       </Button>
     </form>
   );

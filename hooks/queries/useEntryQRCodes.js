@@ -27,15 +27,15 @@ const fetchEntryQRCodes = async (token) => {
       throw error;
     }
 
-    const data = await response.json();
-    
+    const { data } = await response.json();
+
     if (!data || !data.dressingRoom) {
       throw new Error('Invalid QR code data received');
     }
 
     return {
       dressingRoom: data.dressingRoom,
-      gym: data.gym // This could be null for non-members
+      gym: data.gym, // This could be null for non-members
     };
   } catch (error) {
     console.error('Error fetching entry QR codes:', error);
