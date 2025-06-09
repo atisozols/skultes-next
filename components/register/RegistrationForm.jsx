@@ -128,7 +128,6 @@ const RegistrationForm = () => {
           <input
             id="phone"
             name="phone"
-            autoComplete="tel"
             type="tel"
             value={formData.phone}
             onChange={handleChange}
