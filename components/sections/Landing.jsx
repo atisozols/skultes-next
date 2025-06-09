@@ -111,6 +111,7 @@ const Landing = () => {
           <ul>
             {features.map((feature, index) => (
               <li
+                key={index}
                 className={`${index < features.length - 1 && 'border-b'} flex items-center justify-center gap-3 border-transparent p-3 font-light`}
                 style={{
                   borderImage:
