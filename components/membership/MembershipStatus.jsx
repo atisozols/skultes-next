@@ -67,7 +67,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
         clearTimeout(timeoutId);
       }
     };
-  }, [showAktivs, showCountdown]);
+  }, [showAktivs, showCountdown, timeoutId]);
 
   if (isLoading || !userData) {
     return (

@@ -45,7 +45,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
     if (isOpen && contentRef.current) {
       setMeasuredHeight(contentRef.current.scrollHeight);
     }
-  }, [isOpen]);
+  }, [isOpen, parentContainerRef]);
 
   // Add click outside listener to close the collapse
   useEffect(() => {
@@ -68,7 +68,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, parentContainerRef]);
 
   const handleOptionClick = (optionId) => {
     setSelectedOption(optionId);

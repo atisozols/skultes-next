@@ -70,8 +70,14 @@ const Landing = () => {
           <p className="font-light">Radīts Tukuma sportistiem, domāts rezultātiem.</p>
         </div>
         <Carousel width="100%">
-          {images.map((image) => (
-            <Image src={image.src} alt={image.alt} width={image.width} height={image.height} />
+          {images.map((image, index) => (
+            <Image
+              key={index}
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+            />
           ))}
         </Carousel>
         <div className="flex flex-col items-center justify-center px-5 text-center font-extralight">
@@ -90,8 +96,9 @@ const Landing = () => {
           </p>
         </div>
         <Carousel width="100%">
-          {images.map((image) => (
+          {images.map((image, index) => (
             <Image
+              key={index}
               src={image.src}
               alt={image.alt}
               width={image.width}
@@ -130,8 +137,8 @@ const Landing = () => {
           <p className="font-light">Izkusties kopā, iedvesmojies un sasniedz jaunu līmeni</p>
         </div>
         <Carousel width="100%" origin="auto">
-          {images.map((image) => (
-            <div className="flex flex-col items-start gap-2.5 px-5">
+          {images.map((image, index) => (
+            <div className="flex flex-col items-start gap-2.5 px-5" key={index}>
               <Image
                 src={image.src}
                 alt={image.alt}
