@@ -35,6 +35,7 @@ const MEMBERSHIP_OPTIONS = [
 ];
 
 const ExtendMembership = ({ containerRef: parentContainerRef }) => {
+  const { getToken } = useAuth();
   const [selectedOption, setSelectedOption] = useState('month');
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -86,11 +87,13 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
   };
 
   const handlePayment = async () => {
-    if (!selectedOption || !isOpen) return;
+    if (!selectedOption) {
+      console.error('Please select a membership option');
+      return;
+    }
 
     try {
       setIsLoading(true);
-      const { getToken } = useAuth();
       const token = await getToken();
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/membership`, {
         method: 'POST',

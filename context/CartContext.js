@@ -6,6 +6,7 @@ import { useAuth } from '@clerk/nextjs';
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { getToken } = useAuth();
   const [cart, setCart] = useState([]);
 
   const [cartError, setCartError] = useState({ msg: '', conflicts: [] });
@@ -37,7 +38,6 @@ export const CartProvider = ({ children }) => {
   };
 
   const checkout = async () => {
-    const { getToken } = useAuth();
     setLoading(true);
     try {
       const token = await getToken();
