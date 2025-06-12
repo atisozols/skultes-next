@@ -137,7 +137,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div ref={contentRef} className="px-3.5 pb-3.5 pt-1">
+              <div ref={contentRef} className="px-3.5">
                 <div className="flex flex-col gap-3.5">
                   {MEMBERSHIP_OPTIONS.map((option) => (
                     <Container
@@ -188,7 +188,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
 
         {/* Button that serves as both toggle and payment button */}
         {isOpen && (
-          <div className="flex w-full items-center justify-center px-3.5 pb-3.5">
+          <div className="flex w-full items-center justify-center px-3.5 py-4">
             <Button
               size="sm"
               variant="default"

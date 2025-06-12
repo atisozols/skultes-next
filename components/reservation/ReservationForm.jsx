@@ -84,7 +84,7 @@ const ReservationForm = ({ availability }) => {
             position: 'relative',
           }}
           min={getCurrentDateInRiga()}
-          className="w-full max-w-[135px] cursor-pointer appearance-none rounded-lg bg-transparent p-2 text-right active:bg-white active:bg-opacity-5"
+          className="w-full max-w-[135px] cursor-pointer appearance-none rounded-lg bg-white bg-opacity-5 p-2 text-right"
           value={date}
           onChange={handleDateChange}
         />
@@ -96,7 +96,7 @@ const ReservationForm = ({ availability }) => {
         memoizedSlotsForDuration[duration]?.length > 0 ? (
           <select
             name="time"
-            className="w-full max-w-[135px] cursor-pointer appearance-none rounded-lg bg-transparent p-2 text-right active:bg-white active:bg-opacity-5"
+            className="w-full max-w-[135px] cursor-pointer appearance-none rounded-lg bg-white bg-opacity-5 p-2 text-right"
             value={time}
             onChange={(e) => setTime(e.target.value)}
           >
@@ -109,7 +109,7 @@ const ReservationForm = ({ availability }) => {
         ) : (
           <select
             name="time"
-            className="w-full max-w-[135px] cursor-not-allowed appearance-none rounded-lg bg-transparent p-2 text-right active:bg-white active:bg-opacity-5"
+            className="w-full max-w-[135px] cursor-not-allowed appearance-none rounded-lg bg-white bg-opacity-5 p-2 text-right"
             value="x"
             disabled
           >
@@ -123,7 +123,7 @@ const ReservationForm = ({ availability }) => {
         {memoizedAvailableDurations.length > 0 ? (
           <select
             name="duration"
-            className="w-full max-w-[135px] cursor-pointer appearance-none rounded-lg bg-transparent p-2 text-right active:bg-white active:bg-opacity-5"
+            className="w-full max-w-[135px] cursor-pointer appearance-none rounded-lg bg-white bg-opacity-5 p-2 text-right"
             value={duration}
             onChange={handleDurationChange}
           >
@@ -136,7 +136,7 @@ const ReservationForm = ({ availability }) => {
         ) : (
           <select
             name="duration"
-            className="w-full max-w-[135px] cursor-not-allowed appearance-none rounded-lg bg-transparent p-2 text-right active:bg-white active:bg-opacity-5"
+            className="w-full max-w-[135px] cursor-not-allowed appearance-none rounded-lg bg-white bg-opacity-5 p-2 text-right"
             value="x"
             disabled
           >
@@ -152,6 +152,7 @@ const ReservationForm = ({ availability }) => {
           variant="outline"
           className="w-full font-medium uppercase"
           onClick={handleSubmit}
+          disabled={memoizedAvailableDurations.length === 0}
         >
           Pievienot grozam
         </Button>

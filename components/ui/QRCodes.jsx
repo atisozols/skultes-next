@@ -68,12 +68,13 @@ const QRCodes = () => {
           />
           <div
             className="rounded-2xl bg-white p-4 shadow-xl"
-            style={{ width: '300px', height: '300px' }}
+            style={{ width: '288px', height: '288px' }}
           >
             <div className="flex h-full w-full items-center justify-center">
               <Loader size="text-6xl text-background" />
             </div>
           </div>
+          <div className="h-[50px]"></div>
         </div>
       </div>
     );
@@ -117,7 +118,7 @@ const QRCodes = () => {
           {QR_OPTIONS[selected] && QR_OPTIONS[selected].code ? (
             <QRCode
               value={QR_OPTIONS[selected].code}
-              className="h-full max-h-[300px] w-full max-w-[300px]"
+              className="h-full max-h-[288px] w-full max-w-[288px]"
             />
           ) : (
             <p className="p-8 text-sm text-gray-500">QR kods nav pieejams</p>
@@ -126,29 +127,24 @@ const QRCodes = () => {
       </div>
 
       {/* Option Switcher - Only display if user is a member and has access to gym */}
-      {showOptions && (
-        <div className="relative flex select-none items-center justify-center gap-6 rounded-full">
-          {/* Animated highlight
-          <div
-            className="absolute left-2.5 top-2 h-[30px] w-[80px] rounded-lg border border-accent transition-transform duration-300"
-            style={{
-              transform: `translateX(${selected === 0 ? '0' : '100'}px)`,
-            }}
-          /> */}
-          {QR_OPTIONS.map((opt, idx) => (
-            <Button
-              size="sm"
-              variant={selected === idx ? 'default' : 'outline'}
-              key={idx}
-              onClick={() => setSelected(idx)}
-              disabled={idx === 1 && !qrCodes?.gym}
-            >
-              <span>{opt.icon}</span>
-              <span>{opt.label}</span>
-            </Button>
-          ))}
-        </div>
-      )}
+
+      <div className="relative flex select-none items-center justify-center gap-6 rounded-full">
+        {QR_OPTIONS.map(
+          (opt, idx) =>
+            opt.code && (
+              <Button
+                size="sm"
+                variant={selected === idx ? 'default' : 'outline'}
+                key={idx}
+                onClick={() => setSelected(idx)}
+                disabled={idx === 1 && !qrCodes?.gym}
+              >
+                <span>{opt.icon}</span>
+                <span>{opt.label}</span>
+              </Button>
+            ),
+        )}
+      </div>
     </div>
   );
 };

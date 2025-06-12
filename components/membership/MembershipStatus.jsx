@@ -114,7 +114,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
       // Less than 12 hours - amber with countdown
       statusColor = 'text-amber-400';
       bgColor = 'bg-amber-600';
-      statusText = showAktivs ? `Vēl ${countdown}` : 'Abonements aktīvs';
+      statusText = showAktivs ? `${countdown}` : 'Abonements aktīvs';
       isActive = true;
     }
   }
@@ -132,10 +132,10 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
               statusText === 'Abonements aktīvs'
                 ? '170px'
                 : statusText === 'Abonements beidzies'
-                  ? '170px'
+                  ? '180px'
                   : statusColor === 'text-amber-400'
-                    ? '170px'
-                    : '150px', // Fixed widths for the two states
+                    ? '90px'
+                    : '150px',
             transition: 'width 0.3s ease-in-out',
           }}
           transition={{ duration: 0.3, type: 'spring', stiffness: 500, damping: 30 }}

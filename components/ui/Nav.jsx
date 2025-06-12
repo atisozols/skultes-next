@@ -29,7 +29,7 @@ const Nav = () => {
   return (
     <>
       {selectedSection === 'qr' && <QRCodes />}
-      <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[600px] -translate-x-1/2 transform rounded-2xl bg-background p-3 shadow-lg sm:bottom-4 sm:max-w-[350px] md:bottom-10">
+      <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[600px] -translate-x-1/2 transform rounded-2xl bg-background p-3 pb-8 shadow-lg sm:bottom-4 sm:max-w-[350px] md:bottom-10">
         <ul className="flex justify-around">
           <li
             className="flex flex-col items-center gap-2"
