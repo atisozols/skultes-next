@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Container from '../ui/Container';
 import MembershipStatus from './MembershipStatus';
 import { Button } from '../ui/Button';
+import { useAuth } from '@clerk/nextjs';
 
 const MEMBERSHIP_OPTIONS = [
   {
@@ -89,11 +90,13 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
 
     try {
       setIsLoading(true);
+      const { getToken } = useAuth();
+      const token = await getToken();
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/membership`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ period: selectedOption }),
       });

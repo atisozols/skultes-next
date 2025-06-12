@@ -1,6 +1,7 @@
 'use client';
 import calculateTotalPricing from '@/utils/pricing/calculateTotalPrice';
 import React, { createContext, useContext, useState, useRef } from 'react';
+import { useAuth } from '@clerk/nextjs';
 
 const CartContext = createContext();
 
@@ -36,13 +37,15 @@ export const CartProvider = ({ children }) => {
   };
 
   const checkout = async () => {
+    const { getToken } = useAuth();
     setLoading(true);
     try {
+      const token = await getToken();
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/checkout`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(cart),
       });
