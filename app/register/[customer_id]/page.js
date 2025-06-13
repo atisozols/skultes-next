@@ -13,7 +13,7 @@ const Page = async ({ params }) => {
   const { customer_id } = await params;
 
   return (
-    <Main className="items-center">
+    <Main className="items-center justify-center">
       <Container className="flex flex-col items-center justify-center gap-12 py-12 text-center">
         <Link href="/">
           <Image
@@ -25,20 +25,13 @@ const Page = async ({ params }) => {
             priority
           />
         </Link>
-        <div className="max-w-md space-y-6">
+        <div className="max-w-md space-y-6 p-5">
           <h1 className="text-3xl font-bold">Reģistrācija veiksmīga!</h1>
           <div className="space-y-4">
-            <p className="text-lg">Paldies, ka reģistrējāties ar Ozols Sports Club.</p>
+            <p className="text-lg">Laipni lūdzam sporta klubā "Ozols"!</p>
             <p>
-              Jūsu reģistrācija ir veiksmīga. Mēs esat nosūtījuši jums e-pastu ar informāciju par
-              pievienošanos sistēmā.
-            </p>
-            <p>
-              Lūdzu, pārbaudiet jūsu e-pasta saņemtāju un sekiet e-pastā esošo saiti, lai
-              pievienotos sistēmā.
-            </p>
-            <p className="text-sm text-gray-500">
-              Ja jūsu e-pasts nav jūsu saņemtāju, lūdzu, pārbaudiet spam vai neskaidrošu mapi.
+              Tavs konts ir veiksmīgi izveidots. Lai pieslēgtos savam kontam, meklē informāciju
+              e-pastā!
             </p>
           </div>
           <div className="mt-8 rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
