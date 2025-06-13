@@ -28,7 +28,7 @@ const Page = async ({ params }) => {
         <div className="max-w-md space-y-6 p-5">
           <h1 className="text-3xl font-bold">Reģistrācija veiksmīga!</h1>
           <div className="space-y-4">
-            <p className="text-lg">Laipni lūdzam sporta klubā "Ozols"!</p>
+            <p className="text-lg">Laipni lūdzam sporta klubā &quot;Ozols&quot;!</p>
             <p>
               Tavs konts ir veiksmīgi izveidots. Lai pieslēgtos savam kontam, meklē informāciju
               e-pastā!
