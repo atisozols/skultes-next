@@ -114,7 +114,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
 
       const data = await response.json();
 
-      window.open(data.url, '_blank');
+      window.location.href = data.url;
     } catch (error) {
       console.error('Error creating checkout:', error);
       alert('Kļūda, mēģiniet vēlreiz!');
