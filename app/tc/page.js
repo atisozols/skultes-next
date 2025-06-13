@@ -1,21 +1,6 @@
 import Main from '../../components/layout/Main';
 import Link from 'next/link';
 
-<li>
-  <h2 className="mb-3 text-xl font-medium text-accent">Privātuma politika</h2>
-  <ol className="list-decimal space-y-3 pl-5">
-    <li>
-      Sporta klubs nedrīkst atklāt jebkādu informāciju par Klientu, apmeklējumiem, rezervācijām un
-      nosacījumiem trešajām pusēm.
-    </li>
-    <li>
-      Sporta klubs apstrādā savu Klientu personas datus saskaņā ar Vispārīgās datu aizsardzības
-      regulas prasībām un citiem piemērojamiem tiesību aktiem un saskaņā ar Privātuma politikas
-      nosacījumiem.
-    </li>
-  </ol>
-</li>;
-
 const Page = () => {
   return (
     <Main>
