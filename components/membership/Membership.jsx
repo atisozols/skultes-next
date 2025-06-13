@@ -11,7 +11,7 @@ const Membership = () => {
   return (
     <Section title="">
       <Container>
-        <LastVisit />
+        {/* <LastVisit /> */}
         <div className="" ref={containerRef}>
           <ExtendMembership containerRef={containerRef} />
         </div>
