@@ -20,7 +20,8 @@ const Page = () => {
         </Link>
       </div>
 
-      <Section title="Reģistrācija" className="items-center">
+      <Section className="items-center">
+        <h2 className="bakbak text-2xl font-semibold md:text-3xl">Reģistrācija</h2>
         <RegistrationForm />
       </Section>
     </Main>

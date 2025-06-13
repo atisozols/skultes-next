@@ -75,6 +75,13 @@ body {
   font-display: swap;
   src: url('/fonts/InterVariable-Italic.woff2') format('woff2');
 }
+@font-face {
+  font-family: BakbakOne;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/BakbakOne-Regular.ttf') format('truetype');
+}
 
 @font-feature-values InterVariable {
   @character-variant {
@@ -127,6 +134,10 @@ body {
 
 body {
   font-family: 'InterVariable', sans-serif;
+}
+
+.bakbak {
+  font-family: 'BakBakOne', sans-serif;
 }
 
 /* Clerk components */

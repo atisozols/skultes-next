@@ -23,7 +23,7 @@ export default function Carousel({
   return (
     <div ref={sliderRef} className="keen-slider" style={{ width, height }}>
       {React.Children.map(children, (child, idx) => (
-        <div key={idx} className="keen-slider__slide relative overflow-hidden rounded-2xl">
+        <div key={idx} className="keen-slider__slide relative overflow-hidden rounded-lg">
           {child}
         </div>
       ))}

@@ -4,17 +4,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
-import { FiUser } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './Button';
+import { MdPerson } from 'react-icons/md';
 
 // Menu sections for navigation
 const MENU_SECTIONS = [
-  { id: 'about', label: 'Par mums' },
-  { id: 'services', label: 'Pakalpojumi' },
+  { id: 'main', label: 'Lielā zāle' },
+  { id: 'private', label: 'Privātā zāle' },
+  { id: 'digital', label: 'Digitāla platforma' },
   { id: 'pricing', label: 'Cenas' },
-  { id: 'contact', label: 'Kontakti' },
-  { id: 'membership', label: 'Pro plāns' },
 ];
 
 const BLUR_AMOUNT = 16;
@@ -148,8 +147,9 @@ const DesktopNav = () => {
                 </button>
               ))}
             </div>
-            <Button href="/log-in" className="uppercase">
-              Pievienoties
+            <Button href="/log-in" className="font-medium uppercase">
+              Ienākt
+              <MdPerson className="ml-0.5 text-xl" />
             </Button>
           </div>
         </div>
@@ -291,7 +291,7 @@ const MobileNav = () => {
       >
         <nav ref={navRef} className="z-50 flex items-center justify-between px-5 py-4">
           <Link href="/log-in">
-            <FiUser className="text-3xl text-accent" />
+            <MdPerson className="text-3xl text-accent" />
           </Link>
           <div className="invisible h-10 w-10"></div>
           <button

@@ -9,7 +9,7 @@ const GroupSessions = () => {
 
   if (isLoading) return null;
   if (error) return null;
-  if (!data || data.sessions.length === 0) return null;
+  if (!data || !data.sessions || data.sessions.length === 0) return null;
   return (
     <Section title="Grupu nodarbības">
       <AvailableSessions sessions={data.sessions} />
