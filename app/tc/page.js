@@ -21,7 +21,7 @@ const Page = () => {
               <h2 className="mb-3 text-xl font-medium text-accent">Ievads</h2>
               <ol className="list-decimal space-y-3 pl-5">
                 <li>
-                  Izmantojot "Ozols" - ozols.club un sporta kluba - pakalpojumus, Klients piekrīt
+                  Izmantojot &quot;Ozols&quot; - ozols.club un sporta kluba - pakalpojumus, Klients piekrīt
                   lietošanas noteikumiem, naudas atgriešanas noteikumiem un privātuma politikai
                 </li>
               </ol>
