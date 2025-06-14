@@ -36,7 +36,7 @@ export const metadata = {
 
   openGraph: {
     title: 'Ozols | Sporta klubs',
-    description: 'Jauns sporta klubs Tukumā pavisam drīz!',
+    description: 'Jauns sporta klubs Tukumā!',
     url: 'https://ozols.club',
     siteName: 'Ozols | Sporta klubs',
     images: [

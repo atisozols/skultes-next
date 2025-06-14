@@ -56,14 +56,14 @@ const MEMBERSHIP_OPTIONS = [
     id: 'day',
     label: '24 stundas',
     price: '€10.00',
-    description: 'Ideāli, lai izmēģinātu lielo zāli',
+    description: 'Ideāli, lai izmēģinātu lielo zāli vienu vai divas reizes',
     icon: false,
   },
   {
     id: 'month',
     label: 'Mēnesis',
     price: '€59.00',
-    description: 'Mēneša abonements',
+    description: 'Mēneša abonements neierobežotam apmeklējumam',
     icon: true,
   },
 ];
