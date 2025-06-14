@@ -34,6 +34,10 @@ const RegistrationForm = () => {
       setError('Nepieciešams apstiprināt piekrišanu privātuma politikai un lietošanas noteikumiem');
       return;
     }
+    if (!formData.phone || formData.phone.length < 9) {
+      setError('Nepieciešams pareizs telefona numurs');
+      return;
+    }
     setLoading(true);
     setError('');
     try {
