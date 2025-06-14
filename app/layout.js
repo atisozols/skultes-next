@@ -42,8 +42,8 @@ export const metadata = {
     images: [
       {
         url: '/social-share.png',
-        width: 1994,
-        height: 889,
+        width: 2295,
+        height: 1531,
       },
     ],
     locale: 'lv_LV',
