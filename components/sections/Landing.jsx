@@ -5,13 +5,13 @@ import { Button } from '../ui/Button';
 import Carousel from '../ui/Carousel';
 import Container from '../ui/Container';
 import { LuCalendarCheck, LuLock, LuShieldCheck, LuSmile, LuSun } from 'react-icons/lu';
-import { MdInsertEmoticon, MdOutlineAutoAwesome } from 'react-icons/md';
-import { FaCheck } from 'react-icons/fa';
+import { MdOutlineAutoAwesome } from 'react-icons/md';
 import { TbCoinEuro } from 'react-icons/tb';
 import { TiStarOutline } from 'react-icons/ti';
 import useResponsiveValue from '../../hooks/useResponsiveValue';
-import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaTiktok, FaPhone } from 'react-icons/fa';
 import Link from 'next/link';
+import { HiOutlineMail } from 'react-icons/hi';
 
 const HeroSection = () => {
   return (
@@ -412,15 +412,15 @@ const Landing = () => {
       </section>
 
       <footer className="flex flex-col items-center justify-center gap-16 pb-8 pt-16">
-        <div className="mx-auto flex w-full max-w-2xl flex-col items-center justify-between gap-10 text-alternate md:flex-row">
-          <div>
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-evenly gap-10 text-alternate md:flex-row">
+          <div className="flex w-1/3 items-center justify-center">
             <Link href="/log-in">
               <Button size="sm" variant="outline" className="px-12 font-medium uppercase">
                 Ienākt
               </Button>
             </Link>
           </div>
-          <div className="flex flex-col items-center justify-center gap-3">
+          <div className="flex w-1/3 flex-col items-center justify-center gap-3">
             <Link href="/tc" className="hover:underline">
               Noteikumi
             </Link>
@@ -428,7 +428,7 @@ const Landing = () => {
               Privātuma politika
             </Link>
           </div>
-          <div className="flex flex-col items-center justify-center gap-3 text-alternate">
+          <div className="flex w-1/3 flex-col items-center justify-center gap-3 text-alternate">
             <div className="flex items-center justify-center gap-6 text-2xl text-accent">
               <Link href={'https://www.instagram.com/ozols_club'}>
                 <FaInstagram />
@@ -439,6 +439,12 @@ const Landing = () => {
               <Link href={'https://www.tiktok.com/@ozols_club'}>
                 <FaTiktok />
               </Link>
+              <a href="mailto:atis@ozols.club">
+                <HiOutlineMail />
+              </a>
+              <a href="tel:+37126089445">
+                <FaPhone className="text-xl" />
+              </a>
             </div>
           </div>
         </div>
