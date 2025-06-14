@@ -22,8 +22,8 @@ export const formatAppointmentDate = (date) => {
 
 const generateGoogleCalendarUrl = (appointment) => {
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-    'Skultes Gym apmeklējums',
-  )}&location=${encodeURIComponent('Skultes, Tumes pagasts')}&dates=${encodeURIComponent(
+    'Privātās zāles apmeklējums',
+  )}&location=${encodeURIComponent('Sporta klubs "Ozols", Brīvības laukums 4, Tukums, LV-3101')}&dates=${encodeURIComponent(
     appointment.date.toISOString().slice(0, 10).replaceAll('-', ''),
   )}T${encodeURIComponent(appointment.range.start.time.replace(':', ''))}00/${encodeURIComponent(
     appointment.date.toISOString().slice(0, 10).replaceAll('-', ''),
