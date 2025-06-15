@@ -1,9 +1,8 @@
 import Cart from '@/components/cart/Cart';
-import LastVisit from '@/components/sections/LastVisit';
 import MakeReservation from '@/components/sections/MakeReservation';
 import MyReservations from '@/components/sections/MyReservations';
 import Profile from '@/components/sections/Profile';
-import Membership from '@/components/membership/Membership';
+import Membership from '@/components/sections/Membership';
 import dynamic from 'next/dynamic';
 const Nav = dynamic(() => import('@/components/ui/Nav'), { ssr: false });
 import { SignedOut, SignedIn } from '@clerk/nextjs';

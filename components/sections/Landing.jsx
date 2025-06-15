@@ -79,13 +79,6 @@ const PRIVATE_OPTIONS = [
 ];
 
 const Landing = () => {
-  const images = [
-    { src: '/carousel/1.png', alt: 'Slide 1', width: 1536, height: 1024 },
-    { src: '/carousel/2.png', alt: 'Slide 2', width: 1536, height: 1024 },
-    { src: '/carousel/3.png', alt: 'Slide 3', width: 1536, height: 1024 },
-    { src: '/carousel/4.png', alt: 'Slide 4', width: 1536, height: 1024 },
-  ];
-
   const publicGymImages = [
     {
       src: '/carousel/public-gym/liela-landscape-2.jpg',

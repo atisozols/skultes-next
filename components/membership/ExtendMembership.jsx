@@ -9,20 +9,21 @@ import Container from '../ui/Container';
 import MembershipStatus from './MembershipStatus';
 import { Button } from '../ui/Button';
 import { useAuth } from '@clerk/nextjs';
+import { useUser } from '@/hooks/queries';
 
 const MEMBERSHIP_OPTIONS = [
   {
     id: 'day',
     label: '24 stundas',
     price: '€10.00',
-    description: 'Ideāli, lai izmēģinātu lielo zāli',
+    description: 'Ideāli, lai izmēģinātu lielo zāli vienu vai divas reizes',
     icon: false,
   },
   {
     id: 'month',
     label: 'Mēnesis',
     price: '€59.00',
-    description: 'Mēneša abonements',
+    description: 'Mēneša abonements neierobežotam apmeklējumam',
     icon: true,
   },
   {
@@ -35,12 +36,21 @@ const MEMBERSHIP_OPTIONS = [
 ];
 
 const ExtendMembership = ({ containerRef: parentContainerRef }) => {
+  const { data: userData } = useUser();
   const { getToken } = useAuth();
   const [selectedOption, setSelectedOption] = useState('month');
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (userData) {
+      if (!userData.isMember) {
+        setIsOpen(true);
+      }
+    }
+  }, [userData]);
+
   const contentRef = useRef(null);
-  const buttonRef = useRef(null);
   const [measuredHeight, setMeasuredHeight] = useState(0);
 
   useEffect(() => {

@@ -22,7 +22,7 @@ const MyReservations = () => {
   }
 
   return (
-    <Section title="Manas rezervācijas">
+    <Section title="Privātās zāles rezervācijas">
       <Container>
         <ReservationList appointments={data.appointments} />
       </Container>

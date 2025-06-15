@@ -1,15 +1,15 @@
 'use client';
 import Section from '../ui/Section';
 import Container from '../ui/Container';
-import LastVisit from '../sections/LastVisit';
-import ExtendMembership from './ExtendMembership';
+import ExtendMembership from '../membership/ExtendMembership';
 import { useRef } from 'react';
+import { FaStar } from 'react-icons/fa';
 
 const Membership = () => {
   const containerRef = useRef(null);
 
   return (
-    <Section title="">
+    <Section title={<span className="flex items-center text-2xl">Lielā zāle</span>}>
       <Container>
         {/* <LastVisit /> */}
         <div className="" ref={containerRef}>

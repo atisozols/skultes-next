@@ -11,7 +11,7 @@ import Loader from '@/components/ui/Loader';
 // Define button variants using class-variance-authority
 const buttonVariants = cva(
   // Base styles for all buttons
-  'inline-flex items-center justify-center gap-2 rounded-lg transition-colors',
+  'inline-flex items-center justify-center gap-2 rounded-lg transition-all',
   {
     variants: {
       variant: {

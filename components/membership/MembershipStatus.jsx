@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaPlus } from 'react-icons/fa6';
 import { useUser } from '@/hooks/queries/useUser';
+import { Button } from '../ui/Button';
 
 const MembershipStatus = ({ isOpen, setIsOpen }) => {
   const { data: userData, isLoading } = useUser();
@@ -14,7 +15,6 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
   const [showCountdown, setShowCountdown] = useState(false);
   const [timeoutId, setTimeoutId] = useState(null);
 
-  // Handle countdown timer
   useEffect(() => {
     if (!userData?.bestBefore) return;
 
@@ -127,12 +127,12 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
           onClick={handleStatusClick}
           layout
           style={{
-            height: '28px',
+            height: '30px',
             width:
               statusText === 'Abonements aktīvs'
                 ? '170px'
                 : statusText === 'Abonements beidzies'
-                  ? '180px'
+                  ? '178px'
                   : statusColor === 'text-amber-400'
                     ? '90px'
                     : '150px',
@@ -155,11 +155,17 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
             </AnimatePresence>
           </div>
         </motion.div>
-        <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer p-1">
+        <Button
+          onClick={() => setIsOpen(!isOpen)}
+          variant="outline"
+          size="xs"
+          className="overflow-hidden border-alternate px-2 py-1 font-medium uppercase text-foreground"
+        >
+          <span className="text-sm">{isOpen ? 'Aizvērt' : 'Papildināt'}</span>
           <motion.div animate={{ rotate: isOpen ? -135 : 0 }} transition={{ duration: 0.25 }}>
-            <FaPlus className="text-xl" />
+            <FaPlus className="text-sm" />
           </motion.div>
-        </div>
+        </Button>
       </FormElement>
     </>
   );

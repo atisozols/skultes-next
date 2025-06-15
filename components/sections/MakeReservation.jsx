@@ -5,13 +5,14 @@ import TimetableLayout from '@/components/timetable/TimetableLayout';
 import Container from '../ui/Container';
 import Section from '../ui/Section';
 import { useAvailabilityQuery } from '@/hooks/queries/useAvailability';
+import { FaLock } from 'react-icons/fa';
 
 const MakeReservation = () => {
   const { data: availability, isLoading, error } = useAvailabilityQuery();
 
   if (isLoading) {
     return (
-      <Section title={'Rezervēt privāto zāli'}>
+      <Section title={<span className="flex items-center text-2xl">Privātā zāle</span>}>
         <Container className="flex h-[268px] animate-pulse items-center justify-center">
           <span className=""></span>
         </Container>
@@ -21,7 +22,7 @@ const MakeReservation = () => {
 
   if (error) {
     return (
-      <Section title={'Rezervēt privāto zāli'}>
+      <Section title={<span className="flex items-center text-2xl">Privātā zāle</span>}>
         <Container className="flex h-[268px] items-center justify-center text-center text-red-500">
           Radās kļūda, ielādējot rezevācijas datus
         </Container>
@@ -30,7 +31,7 @@ const MakeReservation = () => {
   }
 
   return (
-    <Section title={'Rezervēt privāto zāli'}>
+    <Section title={<span className="flex items-center text-2xl">Privātā zāle</span>}>
       <Container>
         {availability && (
           <>
