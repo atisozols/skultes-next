@@ -19,7 +19,9 @@ export default function ContactPage() {
           <div className="flex flex-col space-y-8">
             <div className="space-y-6">
               <div>
-                <h2 className="text-foreground/60 mb-2 font-thin uppercase">Sazinies ar mums</h2>
+                <h2 className="mb-2 text-sm font-medium uppercase text-alternate">
+                  Sazinies ar mums
+                </h2>
                 <a
                   href="mailto:atis@ozols.club"
                   className="flex items-center gap-2 text-2xl font-light text-foreground"
@@ -29,7 +31,9 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h2 className="text-foreground/60 mb-2 font-thin uppercase">Trenējies pie mums</h2>
+                <h2 className="mb-2 text-sm font-medium uppercase text-alternate">
+                  Trenējies pie mums
+                </h2>
                 <div className="flex flex-col text-2xl font-light text-foreground">
                   <span>Brīvības laukums 4, Tukums</span>
                   <span className="text-sm">ieeja no Harmonijas ielas pagalma pusē</span>
@@ -37,11 +41,9 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <div className="flex flex-col text-lg font-light text-foreground">
-                  <span>
-                    <span className="font-thin">P-Sv</span>{' '}
-                    <span className="font-base">5:00 - 23:00</span>
-                  </span>
+                <h2 className="mb-2 text-sm font-medium uppercase text-alternate">P - SV</h2>
+                <div className="flex flex-col text-2xl font-light text-foreground">
+                  <span>5:00 - 23:00</span>
                 </div>
               </div>
             </div>
