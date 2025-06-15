@@ -5,7 +5,7 @@ import { Button } from '../ui/Button';
 import Carousel from '../ui/Carousel';
 import Container from '../ui/Container';
 import { LuCalendarCheck, LuLock, LuShieldCheck, LuSmile, LuSun } from 'react-icons/lu';
-import { MdOutlineAutoAwesome } from 'react-icons/md';
+import { MdOutlineAutoAwesome, MdPerson } from 'react-icons/md';
 import { TbCoinEuro } from 'react-icons/tb';
 import { TiStarOutline } from 'react-icons/ti';
 import useResponsiveValue from '../../hooks/useResponsiveValue';
@@ -337,7 +337,7 @@ const Landing = () => {
           </h2>
         </div>
 
-        <div className="flex w-full flex-col items-start justify-center">
+        <div className="flex w-full max-w-5xl flex-col items-start justify-center md:flex-row md:gap-6">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4">
             <span className="relative top-5 bg-background p-2 font-light uppercase text-accent md:text-xl">
               Lielā zāle
@@ -397,6 +397,19 @@ const Landing = () => {
             </div>
           </div>
         </div>
+        <p className="mx-auto mt-6 max-w-md px-4 text-center font-extralight text-white">
+          Lielās zāles abonements ar 40% atlaidi pieejams{' '}
+          <span className="font-medium">
+            skolēniem, studentiem līdz 25 gadu vecumam un pensionāriem
+          </span>
+        </p>
+        <p className="mx-auto mt-4 max-w-md px-4 text-center text-sm font-extralight text-white">
+          Reģistrējies un{' '}
+          <Link href="/contact" className="underline">
+            sazinies ar mums
+          </Link>
+          , lai saņemtu šo piedāvājumu!
+        </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-2">
           <Button href="/register" size="lg" className="font-medium uppercase" withArrow>
             Reģistrēties
@@ -414,6 +427,7 @@ const Landing = () => {
             </Link>
           </div>
           <div className="flex w-1/3 flex-col items-center justify-center gap-3">
+            <Link href="/contact">Kontakti</Link>
             <Link href="/tc" className="hover:underline">
               Noteikumi
             </Link>
@@ -432,12 +446,6 @@ const Landing = () => {
               <Link href={'https://www.tiktok.com/@ozols_club'}>
                 <FaTiktok />
               </Link>
-              <a href="mailto:atis@ozols.club">
-                <HiOutlineMail />
-              </a>
-              <a href="tel:+37126089445">
-                <FaPhone className="text-xl" />
-              </a>
             </div>
           </div>
         </div>

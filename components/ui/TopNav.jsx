@@ -148,8 +148,8 @@ const DesktopNav = () => {
               ))}
             </div>
             <Button href="/log-in" className="font-medium uppercase">
+              <MdPerson className="mr-0.5 text-xl" />
               Ienākt
-              <MdPerson className="ml-0.5 text-xl" />
             </Button>
           </div>
         </div>
@@ -368,7 +368,7 @@ const TopNav = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1124);
+      setIsDesktop(window.innerWidth >= 1024);
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
