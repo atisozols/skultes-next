@@ -1,12 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import TopNav from '@/components/ui/TopNav';
-import { FaPhone, FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
-import { HiOutlineMail } from 'react-icons/hi';
+import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 
 export const metadata = {
-  title: 'Kontakti | Skultes Sporta Centrs',
-  description: 'Sazinieties ar mums par jautājumiem vai sadarbības iespējām',
+  title: 'Kontakti | Ozols',
+  description: 'Sazinies ar mums!',
 };
 
 export default function ContactPage() {
@@ -63,7 +62,6 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Right Column - Image */}
           <div className="relative h-[400px] w-full overflow-hidden rounded-lg md:h-[500px]">
             <Image
               src="/carousel/public-gym/liela-landscape-1.jpg"

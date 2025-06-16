@@ -127,7 +127,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
           onClick={handleStatusClick}
           layout
           style={{
-            height: '30px',
+            height: '36px',
             width:
               statusText === 'Abonements aktīvs'
                 ? '170px'
@@ -158,8 +158,8 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
         <Button
           onClick={() => setIsOpen(!isOpen)}
           variant="outline"
-          size="xs"
-          className="overflow-hidden border-alternate px-2 py-1 font-medium uppercase text-foreground"
+          size="sm"
+          className={`h-[36px] overflow-hidden border-[0.5px] border-alternate px-2 py-1 font-medium uppercase ${isOpen ? 'text-alternate' : 'text-foreground'}`}
         >
           <span className="text-sm">{isOpen ? 'Aizvērt' : 'Papildināt'}</span>
           <motion.div animate={{ rotate: isOpen ? -135 : 0 }} transition={{ duration: 0.25 }}>

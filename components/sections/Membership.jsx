@@ -3,7 +3,7 @@ import Section from '../ui/Section';
 import Container from '../ui/Container';
 import ExtendMembership from '../membership/ExtendMembership';
 import { useRef } from 'react';
-import { FaStar } from 'react-icons/fa';
+import Link from 'next/link';
 
 const Membership = () => {
   const containerRef = useRef(null);
@@ -16,6 +16,16 @@ const Membership = () => {
           <ExtendMembership containerRef={containerRef} />
         </div>
       </Container>
+      <p className="text-center text-xs text-alternate">
+        <span className="font-medium">
+          Skolēniem, studentiem līdz 25 gadu vecumam un pensionāriem
+        </span>{' '}
+        pieejama 40% atlaide.{' '}
+        <Link href="/contact" className="underline">
+          Sazinies ar mums
+        </Link>
+        , lai saņemtu šo piedāvājumu!
+      </p>
     </Section>
   );
 };

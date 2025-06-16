@@ -16,6 +16,7 @@ module.exports = {
         accent: 'var(--accent)',
         container: 'var(--container)',
         border: 'var(--border)',
+        ozols: 'var(--ozols)',
       },
     },
   },

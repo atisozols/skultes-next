@@ -20,7 +20,7 @@ export const formatAppointmentDate = (date) => {
   return moment(date).format('DD.MM.YYYY');
 };
 
-const generateGoogleCalendarUrl = (appointment) => {
+export const generateGoogleCalendarUrl = (appointment) => {
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
     'Privātās zāles apmeklējums',
   )}&location=${encodeURIComponent('Sporta klubs "Ozols", Brīvības laukums 4, Tukums, LV-3101')}&dates=${encodeURIComponent(

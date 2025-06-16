@@ -200,7 +200,6 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
         {isOpen && (
           <div className="flex w-full items-center justify-center px-3.5 py-4">
             <Button
-              size="sm"
               variant="default"
               className="w-full font-medium uppercase"
               onClick={handleButtonClick}

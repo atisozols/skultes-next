@@ -148,8 +148,7 @@ const ReservationForm = ({ availability }) => {
       {/* Submit Button */}
       <div className="flex w-full items-center justify-center px-3.5 py-3.5">
         <Button
-          size="sm"
-          variant="outline"
+          variant="default"
           className="w-full font-medium uppercase"
           onClick={handleSubmit}
           disabled={memoizedAvailableDurations.length === 0}

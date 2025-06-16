@@ -8,7 +8,8 @@
   --border: #212121;
   --alternate: #808080;
   --foreground: #ffffff;
-  --accent: #ff0006;
+  --accent: #ff2429;
+  --ozols: #ff0006;
 }
 
 body {
@@ -28,6 +29,43 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .fade-blur-bottom {
+    @apply pointer-events-none;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background-color: rgba(0, 0, 0, 0.5); /* darken area */
+    /* Keep opaque until 75% then fade */
+    /* More gradual fade: stay opaque to 40%, then slowly transition */
+    mask-image: linear-gradient(
+      to top,
+      black 0%,
+      black 40%,
+      rgba(0, 0, 0, 0.8) 60%,
+      rgba(0, 0, 0, 0.3) 85%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to top,
+      black 0%,
+      black 40%,
+      rgba(0, 0, 0, 0.8) 60%,
+      rgba(0, 0, 0, 0.3) 85%,
+      transparent 100%
+    );
+  }
+
+  .full-blur-background {
+    @apply relative overflow-hidden;
+  }
+
+  .full-blur-background::before {
+    @apply absolute inset-0 -z-10;
+    content: '';
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background-color: rgba(0, 0, 0, 0.7);
   }
 }
 

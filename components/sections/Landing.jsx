@@ -3,15 +3,15 @@ import Image from 'next/image';
 import TopNav from '../ui/TopNav';
 import { Button } from '../ui/Button';
 import Carousel from '../ui/Carousel';
+import Coach from '../sessions/Coach';
 import Container from '../ui/Container';
-import { LuCalendarCheck, LuLock, LuShieldCheck, LuSmile, LuSun } from 'react-icons/lu';
-import { MdOutlineAutoAwesome, MdPerson } from 'react-icons/md';
+import { LuCalendarCheck, LuLock, LuSmile, LuSun } from 'react-icons/lu';
+import { MdOutlineAutoAwesome } from 'react-icons/md';
 import { TbCoinEuro } from 'react-icons/tb';
 import { TiStarOutline } from 'react-icons/ti';
 import useResponsiveValue from '../../hooks/useResponsiveValue';
-import { FaInstagram, FaFacebook, FaTiktok, FaPhone } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 import Link from 'next/link';
-import { HiOutlineMail } from 'react-icons/hi';
 
 const HeroSection = () => {
   return (
@@ -40,7 +40,7 @@ const HeroSection = () => {
               </p>
             </div>
             <div className="mt-6 flex items-center justify-center">
-              <Button href="/register" size="xl" className="font-medium uppercase" withArrow>
+              <Button href="/register" size="lg" className="font-medium uppercase" withArrow>
                 Reģistrēties
               </Button>
             </div>
@@ -329,6 +329,39 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* <section id="coaches" className="pt-16">
+        <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
+          <h2 className="bakbak text-3xl font-semibold md:text-5xl">
+            Tev pielāgots ceļš uz rezultātu
+          </h2>
+          <p className="max-w-2xl font-extralight md:text-xl">
+            Satiec mūsu trenerus un atrod sev piemērotāko ceļu uz mērķiem
+          </p>
+        </div>
+        <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-8 px-4 sm:grid-cols-2">
+          <Coach
+            name="Iveta Jansone"
+            title="Apļa un personalizētie spēka treniņi"
+            image="iveta.jpg"
+            quote="Es ticu, ka treniņam jāiedod pārliecība. Man svarīgi, lai Tu jūties stipra, nevis tikai izskatīes labi."
+            specialties={['Personalizēti spēka treniņi', 'Apļa treniņi', 'Privāti treniņi']}
+          />
+          <Coach
+            name="Jānis Ozols"
+            title="Vispārīgā fiziskā sagatavotība"
+            image="janis.jpg"
+            quote="Katrs cilvēks ir unikāls, tāpēc arī treniņu programmai jābūt individuāli pielāgotai. Mans mērķis ir palīdzēt sasniegt rezultātus drošā un ilgtspējīgā veidā."
+            specialties={[
+              'Fitness un bodibildings',
+              'Spēka treniņi',
+              'Svara samazināšana',
+              'Treniņi ar savu ķermeņa svaru',
+              'Treniņi iesācējiem',
+            ]}
+          />
+        </div>
+      </section> */}
+
       <section id="pricing" className="flex flex-col items-center justify-center pt-16">
         <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
           <p className="bakbak text-2xl md:text-3xl">Cenas</p>
@@ -397,7 +430,7 @@ const Landing = () => {
             </div>
           </div>
         </div>
-        <p className="mx-auto mt-6 max-w-md px-4 text-center font-extralight text-white">
+        <p className="mx-auto mt-6 max-w-lg px-4 text-center font-extralight text-white md:max-w-xl">
           Lielās zāles abonements ar 40% atlaidi pieejams{' '}
           <span className="font-medium">
             skolēniem, studentiem līdz 25 gadu vecumam un pensionāriem
