@@ -46,18 +46,23 @@ const Coach = ({ name, title, image, quote, specialties, phone }) => {
         </div>
       ) : (
         // Open State
-        <div className="relative aspect-[3/4] rounded-xl overflow-hidden p-6">
+        <div className="relative aspect-[3/4] overflow-hidden rounded-xl p-6">
           {/* Background image that will be blurred */}
-          <Image src={`/coaches/${image}`} alt={name} fill className="object-cover -z-20 opacity-50" />
+          <Image
+            src={`/coaches/${image}`}
+            alt={name}
+            fill
+            className="-z-20 object-cover opacity-50"
+          />
           {/* Blurred overlay */}
-          <div className="absolute inset-0 -z-10 backdrop-blur-xl bg-black/70"></div>
+          <div className="absolute inset-0 -z-10 bg-black/70 backdrop-blur-xl"></div>
           <div className="space-y-6">
             <div>
               <div className="mb-2 flex items-center gap-2 text-white/60">
                 <MdOutlineChat />
                 <span>PAR MANI</span>
               </div>
-              <p className="text-white">"{quote}"</p>
+              <p className="text-white">&quot;{quote}&quot;</p>
             </div>
 
             <div>
