@@ -29,7 +29,7 @@ const HeroSection = () => {
       <div className="absolute left-0 right-0 top-0 h-[20%] bg-gradient-to-b from-black to-transparent"></div>
       <div className="absolute bottom-0 left-0 right-0 h-[15%] bg-gradient-to-t from-black to-transparent"></div>
       <div className="absolute inset-0 flex flex-col items-center justify-end bg-black bg-opacity-50">
-        <div className="min-h-[45%] px-4 py-12 text-center md:min-h-[55%]">
+        <div className="min-h-[55%] px-4 py-12 text-center">
           <div className="flex flex-col items-center justify-start">
             <div className="mb-6 md:space-y-6">
               <h1 className="bakbak xs:text-5xl mb-4 text-4xl text-white sm:text-6xl md:text-7xl">
