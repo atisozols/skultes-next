@@ -329,7 +329,7 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* <section id="coaches" className="pt-16">
+      <section id="coaches" className="pt-16">
         <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
           <h2 className="bakbak text-3xl font-semibold md:text-5xl">
             Tev pielāgots ceļš uz rezultātu
@@ -340,17 +340,21 @@ const Landing = () => {
         </div>
         <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-8 px-4 sm:grid-cols-2">
           <Coach
+            phone="+37126089445"
+            size="default"
             name="Iveta Jansone"
             title="Apļa un personalizētie spēka treniņi"
             image="iveta.jpg"
-            quote="Es ticu, ka treniņam jāiedod pārliecība. Man svarīgi, lai Tu jūties stipra, nevis tikai izskatīes labi."
+            quote="Mana galvenā misija ir radīt vidi, kurā ikviens justos piederīgs, neatkarīgi no vecuma, dzimuma vai citiem faktoriem, tādējādi veicinot fizisko un mentālo veselību sabiedrībā"
             specialties={['Personalizēti spēka treniņi', 'Apļa treniņi', 'Privāti treniņi']}
           />
           <Coach
+            phone="+37129241681"
+            size="default"
             name="Jānis Ozols"
             title="Vispārīgā fiziskā sagatavotība"
             image="janis.jpg"
-            quote="Katrs cilvēks ir unikāls, tāpēc arī treniņu programmai jābūt individuāli pielāgotai. Mans mērķis ir palīdzēt sasniegt rezultātus drošā un ilgtspējīgā veidā."
+            quote="Tiecos enerģiski un motivējoši palīdzēt sasniegt Jūsu mērķus, vienlaikus veicinot ilgstošu mīlestību pret aktīvu dzīvesveidu"
             specialties={[
               'Fitness un bodibildings',
               'Spēka treniņi',
@@ -360,7 +364,7 @@ const Landing = () => {
             ]}
           />
         </div>
-      </section> */}
+      </section>
 
       <section id="pricing" className="flex flex-col items-center justify-center pt-16">
         <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">

@@ -100,8 +100,8 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
   if (userData.isMember && timeRemaining !== null) {
     if (timeRemaining > 12 * 60 * 60 * 1000) {
       // More than 12 hours - emerald
-      statusColor = 'text-green-300';
-      bgColor = 'bg-[#008336]';
+      statusColor = 'text-success';
+      bgColor = 'bg-success';
       statusText = showCountdown
         ? `Līdz ${new Date(userData.bestBefore).toLocaleDateString('lv-LV', {
             day: '2-digit',
@@ -112,8 +112,8 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
       isActive = true;
     } else if (timeRemaining > 0) {
       // Less than 12 hours - amber with countdown
-      statusColor = 'text-amber-400';
-      bgColor = 'bg-amber-600';
+      statusColor = 'text-warning';
+      bgColor = 'bg-warning';
       statusText = showAktivs ? `${countdown}` : 'Abonements aktīvs';
       isActive = true;
     }
@@ -123,7 +123,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
     <>
       <FormElement className="border-none py-4">
         <motion.div
-          className={`flex items-center gap-1 rounded-lg ${bgColor} cursor-pointer overflow-hidden px-2 py-1`}
+          className={`flex items-center gap-1 rounded-full text-background ${bgColor} cursor-pointer overflow-hidden px-2 py-1`}
           onClick={handleStatusClick}
           layout
           style={{
@@ -133,7 +133,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
                 ? '170px'
                 : statusText === 'Abonements beidzies'
                   ? '178px'
-                  : statusColor === 'text-amber-400'
+                  : statusColor === 'text-warning'
                     ? '90px'
                     : '150px',
             transition: 'width 0.3s ease-in-out',
@@ -159,7 +159,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(!isOpen)}
           variant="outline"
           size="sm"
-          className={`h-[36px] overflow-hidden border-[0.5px] border-alternate px-2 py-1 font-medium uppercase ${isOpen ? 'text-alternate' : 'text-foreground'}`}
+          className={`h-[36px] overflow-hidden rounded-full border-[0.5px] border-alternate px-2 py-1 font-medium uppercase ${isOpen ? 'text-alternate' : 'text-foreground'}`}
         >
           <span className="text-sm">{isOpen ? 'Aizvērt' : 'Papildināt'}</span>
           <motion.div animate={{ rotate: isOpen ? -135 : 0 }} transition={{ duration: 0.25 }}>

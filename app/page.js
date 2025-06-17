@@ -11,6 +11,8 @@ import Landing from '@/components/sections/Landing';
 import Main from '@/components/layout/Main';
 import GroupSessions from '@/components/sections/GroupSessions';
 import MySessions from '@/components/sections/MySessions';
+import Coaches from '@/components/sections/Coaches';
+import Contact from '@/components/sections/Contact';
 
 const page = () => {
   return (
@@ -28,6 +30,8 @@ const page = () => {
           <GroupSessions />
           <MakeReservation />
           <Cart />
+          <Coaches />
+          <Contact />
           <Nav />
         </Main>
       </SignedIn>
