@@ -49,14 +49,15 @@ const Coach = ({ name, title, image, quote, specialties, phone, size = 'default'
               <div
                 className={`flex ${['xs', 'sm'].includes(size) ? 'flex-col' : 'items-center justify-between'} gap-2`}
               >
-                <Button
-                  variant="outline"
-                  onClick={handlePhoneCall}
-                  className={`font-medium uppercase ${['xs', 'sm'].includes(size) ? 'w-full' : ''}`}
-                >
-                  <HiPhoneArrowUpRight className="mr-1 text-xl" />
-                  Sazināties
-                </Button>
+                <a href={`tel:${phone}`}>
+                  <Button
+                    variant="outline"
+                    className={`font-medium uppercase ${['xs', 'sm'].includes(size) ? 'w-full' : ''}`}
+                  >
+                    <HiPhoneArrowUpRight className="mr-1 text-xl" />
+                    Sazināties
+                  </Button>
+                </a>
                 <Button
                   variant="default"
                   onClick={toggleOpen}
@@ -121,13 +122,13 @@ const Coach = ({ name, title, image, quote, specialties, phone, size = 'default'
           </div>
 
           <div className="flex w-full flex-col items-center justify-center gap-2">
-            <Button
-              onClick={handlePhoneCall}
-              className={`font-medium uppercase ${['default', 'large'].includes(size) ? 'w-4/5' : 'w-full'}`}
-            >
-              PIETEIKT TRENIŅU <FaArrowRight className="ml-2" />
-            </Button>
-
+            <a href={`tel:${phone}`}>
+              <Button
+                className={`font-medium uppercase ${['default', 'large'].includes(size) ? 'w-4/5' : 'w-full'}`}
+              >
+                PIETEIKT TRENIŅU <FaArrowRight className="ml-2" />
+              </Button>
+            </a>
             <Button onClick={toggleOpen} variant="ghost" className="font-medium uppercase">
               <BendArrow className="mr-1 -rotate-90 text-xl" /> Atpakaļ
             </Button>
