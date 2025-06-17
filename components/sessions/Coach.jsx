@@ -25,6 +25,12 @@ const Coach = ({ name, title, image, quote, specialties, phone, size = 'default'
     setIsOpen(!isOpen);
   };
 
+  // Handle phone call with direct window.location to ensure it works on all clicks
+  const handlePhoneCall = (e) => {
+    e.preventDefault();
+    window.location.href = `tel:${phone}`;
+  };
+
   // Closed state with bottom blur fade
   if (!isOpen) {
     return (
@@ -45,7 +51,7 @@ const Coach = ({ name, title, image, quote, specialties, phone, size = 'default'
               >
                 <Button
                   variant="outline"
-                  href={`tel:${phone}`}
+                  onClick={handlePhoneCall}
                   className={`font-medium uppercase ${['xs', 'sm'].includes(size) ? 'w-full' : ''}`}
                 >
                   <HiPhoneArrowUpRight className="mr-1 text-xl" />
@@ -116,7 +122,7 @@ const Coach = ({ name, title, image, quote, specialties, phone, size = 'default'
 
           <div className="flex w-full flex-col items-center justify-center gap-2">
             <Button
-              href={`tel:${phone}`}
+              onClick={handlePhoneCall}
               className={`font-medium uppercase ${['default', 'large'].includes(size) ? 'w-4/5' : 'w-full'}`}
             >
               PIETEIKT TRENIŅU <FaArrowRight className="ml-2" />

@@ -17,7 +17,7 @@ const MENU_SECTIONS = [
 ];
 
 const BLUR_AMOUNT = 16;
-const BG_OPACITY = 0.25;
+const BG_OPACITY = 0.92;
 
 const DesktopNav = () => {
   const router = useRouter();
