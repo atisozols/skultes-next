@@ -19,7 +19,7 @@ const buttonVariants = cva(
         outline: 'border border-accent text-accent hover:bg-accent/10',
         ghost: 'text-accent hover:bg-accent/10',
         link: 'text-accent underline-offset-4 hover:underline',
-        success: 'bg-green-400 text-background',
+        success: 'bg-success text-background',
       },
       size: {
         default: 'px-4 py-2.5',

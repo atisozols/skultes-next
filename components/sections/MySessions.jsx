@@ -14,7 +14,9 @@ const MySessions = () => {
 
   useEffect(() => {
     if (data?.sessions && userId) {
-      const userSessions = data.sessions.filter((session) => session.isRegistered);
+      const userSessions = data.sessions.filter(
+        (session) => !session.inQueue && session.isRegistered,
+      );
       setRegisteredSessions(userSessions);
     }
   }, [data?.sessions, userId]);

@@ -49,7 +49,7 @@ const Coach = ({ name, title, image, quote, specialties, phone, size = 'default'
               <div
                 className={`flex ${['xs', 'sm'].includes(size) ? 'flex-col' : 'items-center justify-between'} gap-2`}
               >
-                <a href={`tel:${phone}`}>
+                <a href={`tel:${phone}`} className="w-full">
                   <Button
                     variant="outline"
                     className={`font-medium uppercase ${['xs', 'sm'].includes(size) ? 'w-full' : ''}`}
@@ -122,7 +122,7 @@ const Coach = ({ name, title, image, quote, specialties, phone, size = 'default'
           </div>
 
           <div className="flex w-full flex-col items-center justify-center gap-2">
-            <a href={`tel:${phone}`}>
+            <a href={`tel:${phone}`} className="w-full">
               <Button
                 className={`font-medium uppercase ${['default', 'large'].includes(size) ? 'w-4/5' : 'w-full'}`}
               >
