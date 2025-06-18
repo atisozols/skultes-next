@@ -63,7 +63,7 @@ const Coach = ({ name, title, image, quote, specialties, phone, size = 'default'
                   onClick={toggleOpen}
                   className={`font-medium uppercase ${['xs', 'sm'].includes(size) ? 'w-full' : ''}`}
                 >
-                  Vairāk info
+                  Vairāk
                   <BendArrow className="ml-1 text-xl" />
                 </Button>
               </div>
