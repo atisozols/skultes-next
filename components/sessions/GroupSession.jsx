@@ -78,7 +78,7 @@ const GroupSession = ({ session }) => {
         </div>
 
         {/* Content overlay */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 flex w-full flex-col items-start gap-4 p-4">
+        <div className="absolute bottom-0 left-0 right-0 z-40 flex w-full flex-col items-start gap-4 p-4">
           <div className="flex w-full flex-col items-start gap-2">
             <h5 className="text-xl font-semibold">{session.title}</h5>
             <div className="flex items-center gap-1 text-sm">
