@@ -105,6 +105,12 @@ const GroupSession = ({ session }) => {
             </div>
           </div>
           <div className="flex w-full items-center justify-between gap-2">
+            <Button variant="outline" className="gap-1 font-medium uppercase" disabled>
+              <MdPerson className="text-xl" />
+              <span className="text-sm">
+                {session.currentParticipants} / {session.maxParticipants}
+              </span>
+            </Button>
             {session.inQueue ? (
               <Button
                 variant="default"
@@ -130,12 +136,6 @@ const GroupSession = ({ session }) => {
                 {session.isRegistered ? 'Gatavs' : 'Reģistrēties'}
               </Button>
             )}
-            <Button variant="outline" className="gap-1 font-medium uppercase" disabled>
-              <MdPerson className="text-xl" />
-              <span className="text-sm">
-                {session.currentParticipants} / {session.maxParticipants}
-              </span>
-            </Button>
           </div>
         </div>
       </div>
