@@ -9,19 +9,19 @@ const PublicGymStatus = () => {
   const { gymOccupancyStatus } = statistics || {};
 
   const getOccupancyInfo = () => {
-    if (gymOccupancyStatus < 10) {
+    if (gymOccupancyStatus < 5) {
       return {
         title: 'Zems noslogojums',
         message: 'Zālē šobrīd ir daudz vietas treniņam!',
         icon: <FaCircleCheck className="text-success" />,
       };
-    } else if (gymOccupancyStatus < 20) {
+    } else if (gymOccupancyStatus < 12) {
       return {
         title: 'Vidējs noslogojums',
         message: 'Zālē ir rosība, bet vietas vēl ir gana',
         icon: <FaCircleInfo className="text-success" />,
       };
-    } else if (gymOccupancyStatus < 25) {
+    } else if (gymOccupancyStatus < 20) {
       return {
         title: 'Augsts noslogojums',
         message: 'Zāle ir tuvu pilnai kapacitātei',
