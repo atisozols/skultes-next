@@ -72,13 +72,13 @@ const GroupSession = ({ session }) => {
           fill
           className="object-cover opacity-45"
         />
-        {/* Blurry overlay with mask to fade it out */}
+        {/* Blurry overlay with mask to fade it out - explicitly separate from content */}
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[220px]">
           <div className="fade-blur-bottom absolute inset-0"></div>
         </div>
 
-        {/* Content overlay */}
-        <div className="absolute bottom-0 left-0 right-0 z-40 flex w-full flex-col items-start gap-4 p-4">
+        {/* Content overlay - with explicit pointer-events-auto to ensure clicks are captured */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-auto flex w-full flex-col items-start gap-4 p-4">
           <div className="flex w-full flex-col items-start gap-2">
             <h5 className="text-xl font-semibold">{session.title}</h5>
             <div className="flex items-center gap-1 text-sm">
