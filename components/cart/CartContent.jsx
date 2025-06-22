@@ -28,12 +28,11 @@ const CartContent = () => {
       )}
       <div className="flex w-full justify-center px-3.5 pb-3.5">
         <Button
-          size="sm"
+          size="default"
           loading={loading}
           onClick={() => checkout()}
           className="w-full font-medium uppercase"
           disabled={loading}
-          withArrow
         >
           Apmaksāt: &euro;{(total(isSignedIn) / 100).toFixed(2)}
         </Button>

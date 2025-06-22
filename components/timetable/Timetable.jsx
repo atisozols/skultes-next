@@ -35,18 +35,18 @@ const Timetable = ({ availability, timetable }) => {
   };
 
   const computeTime = (rowIndex) => {
-    const totalMinutes = 6 * 60 + rowIndex * 15;
+    const totalMinutes = 5 * 60 + rowIndex * 15;
     const hours = Math.floor(totalMinutes / 60) % 24; // Ensure we handle 24h overflow
     const minutes = totalMinutes % 60;
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
   };
 
-  // Check if current row is a major time marker (8:00, 12:00, 16:00, 20:00, 24:00)
+  // Check if current row is a major time marker (8:00, 12:00, 16:00, 20:00)
   const isMajorTimeMarker = (rowIndex) => {
-    const totalMinutes = 6 * 60 + rowIndex * 15;
+    const totalMinutes = 5 * 60 + rowIndex * 15;
     const hours = Math.floor(totalMinutes / 60) % 24;
     const minutes = totalMinutes % 60;
-    return [8, 12, 16, 20, 24].includes(hours) && minutes === 0;
+    return [8, 12, 16, 20].includes(hours) && minutes === 0;
   };
 
   // Format time for display (24h format)
@@ -81,10 +81,10 @@ const Timetable = ({ availability, timetable }) => {
                     className="absolute left-0 right-0 flex items-center justify-center text-sm font-medium text-background"
                     style={{ top: `${marker.top}px` }}
                   >
-                    <span className="whitespace-nowrap rounded-full bg-foreground px-2 py-1 text-xs text-background">
+                    <span className="whitespace-nowrap rounded-full bg-accent px-2 py-1 text-xs text-background">
                       {formatDisplayTime(marker.time)}
                     </span>
-                    <div className="h-[2px] w-full bg-foreground"></div>
+                    <div className="h-[2px] w-full bg-accent"></div>
                   </div>
                 ))}
               </div>

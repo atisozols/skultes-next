@@ -34,29 +34,44 @@ body {
     text-wrap: balance;
   }
 
+  /* Fade blur bottom with iOS compatibility */
   .fade-blur-bottom {
     @apply pointer-events-none;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    background-color: rgba(0, 0, 0, 0.5); /* darken area */
-    /* Keep opaque until 75% then fade */
-    /* More gradual fade: stay opaque to 40%, then slowly transition */
-    mask-image: linear-gradient(
+    /* Use background gradient as a fallback for devices without backdrop-filter support */
+    background-image: linear-gradient(
       to top,
-      black 0%,
-      black 40%,
-      rgba(0, 0, 0, 0.8) 60%,
-      rgba(0, 0, 0, 0.3) 85%,
-      transparent 100%
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.7) 40%,
+      rgba(0, 0, 0, 0.3) 70%,
+      rgba(0, 0, 0, 0) 100%
     );
-    -webkit-mask-image: linear-gradient(
-      to top,
-      black 0%,
-      black 40%,
-      rgba(0, 0, 0, 0.8) 60%,
-      rgba(0, 0, 0, 0.3) 85%,
-      transparent 100%
-    );
+    /* Apply backdrop filters for browsers that support them */
+    @supports ((-webkit-backdrop-filter: blur(16px)) or (backdrop-filter: blur(16px))) {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background-color: rgba(0, 0, 0, 0.5); /* darken area */
+      /* Gradient mask for fade effect */
+      mask-image: linear-gradient(
+        to top,
+        black 0%,
+        black 40%,
+        rgba(0, 0, 0, 0.8) 60%,
+        rgba(0, 0, 0, 0.3) 85%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to top,
+        black 0%,
+        black 40%,
+        rgba(0, 0, 0, 0.8) 60%,
+        rgba(0, 0, 0, 0.3) 85%,
+        transparent 100%
+      );
+    }
+    
+    /* iOS specific fixes */
+    transform: translateZ(0); /* Force hardware acceleration */
+    will-change: transform; /* Hint browser for optimization */
   }
 
   .full-blur-background {

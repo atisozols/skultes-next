@@ -1,6 +1,6 @@
 const timeSlotConfig = {
-  startTime: '06:00', // Start time of the day
-  endTime: '24:30', // End time of the day
+  startTime: '05:00', // Start time of the day
+  endTime: '23:00', // End time of the day
   interval: 15, // Interval between slots in minutes
 };
 
@@ -19,8 +19,8 @@ function generateTimeSlots() {
   let currentMinutes = startHour * 60 + startMinute;
   const endMinutes = endHour * 60 + endMinute;
 
-  // Handle midnight crossing
-  while (currentMinutes <= endMinutes || (endMinutes === 0 && currentMinutes < 24 * 60)) {
+  // Generate time slots until we reach the end time
+  while (currentMinutes <= endMinutes) {
     // Format time as HH:mm
     const hours = Math.floor(currentMinutes / 60) % 24;
     const minutes = currentMinutes % 60;
@@ -30,7 +30,6 @@ function generateTimeSlots() {
     currentMinutes += timeSlotConfig.interval;
     index++;
   }
-
   return timeSlots;
 }
 

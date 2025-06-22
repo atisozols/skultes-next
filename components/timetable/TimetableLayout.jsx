@@ -4,6 +4,7 @@ import Timetable from './Timetable';
 import TimetableLegend from './TimetableLegend';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdArrowForwardIos } from 'react-icons/md';
+import { Button } from '../ui/Button';
 
 const TimetableLayout = ({ availability }) => {
   const [timetable, setTimetable] = useState([]);
@@ -19,7 +20,7 @@ const TimetableLayout = ({ availability }) => {
 
     const generateTimetable = () => {
       const rows = [];
-      for (let i = 0; i < 74; i++) {
+      for (let i = 0; i < 72; i++) {
         const row = [];
         for (let j = 0; j < 7; j++) {
           const value = isUnavailable(j, i) ? 1 : 0;
@@ -43,14 +44,15 @@ const TimetableLayout = ({ availability }) => {
   }, [isOpen, timetable]);
 
   return (
-    <div className="flex flex-col px-2 pb-0 pt-2">
-      <button
+    <div className="flex flex-col px-3.5 py-3.5">
+      <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full cursor-pointer appearance-none items-center justify-between rounded-lg bg-transparent p-2 text-right transition-all active:bg-white active:bg-opacity-5"
+        size="sm"
+        variant="outline"
+        className={`font-medium uppercase ${isOpen ? 'border-alternate text-alternate' : ''}`}
       >
-        <span>Apskatīt zāles noslogojumu</span>
-        <MdArrowForwardIos className={`transition-all duration-300 ${isOpen && 'rotate-90'}`} />
-      </button>
+        Zāles noslogojums
+      </Button>
       <AnimatePresence>
         {isOpen && (
           <motion.div

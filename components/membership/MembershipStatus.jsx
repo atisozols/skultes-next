@@ -1,6 +1,5 @@
 'use client';
 import FormElement from '../ui/FormElement';
-import { FaCircle } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaPlus } from 'react-icons/fa6';
@@ -73,8 +72,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
   if (isLoading || !userData) {
     return (
       <FormElement className="border-none py-4">
-        <div className="flex items-center gap-1 rounded-lg bg-zinc-600 py-1 pl-3 pr-4">
-          <FaCircle className="text-zinc-400" />
+        <div className="flex h-[36px] items-center gap-1 rounded-full bg-zinc-600 px-6 py-1 text-background">
           Ielādē
         </div>
       </FormElement>

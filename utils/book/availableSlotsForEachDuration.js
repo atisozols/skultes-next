@@ -20,14 +20,9 @@ const availableSlotsForEachDuration = (cart, availability, date) => {
     Object.keys(filteredSlots).forEach((slotIndex) => {
       const [hours, minutes] = filteredSlots[slotIndex].split(':').map(Number);
 
-      // Handle slots after midnight (hours 0-5) as part of the same working day
-      // For these slots, we consider them as hours 24-29 for comparison purposes
-      const adjustedHours = hours < 6 ? hours + 24 : hours;
-      const adjustedCurrentHours = currentHours < 6 ? currentHours + 24 : currentHours;
-
       if (
-        adjustedHours < adjustedCurrentHours ||
-        (adjustedHours === adjustedCurrentHours && minutes <= currentMinutes)
+        hours < currentHours ||
+        (hours === currentHours && minutes <= currentMinutes)
       ) {
         delete filteredSlots[slotIndex];
       }

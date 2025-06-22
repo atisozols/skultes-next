@@ -5,8 +5,13 @@ import { useUser } from '@/hooks/queries/useUser';
 import { FaCircleExclamation, FaCircleInfo, FaCircleCheck } from 'react-icons/fa6';
 
 const PublicGymStatus = () => {
-  const { data: { statistics } = { statistics: { gymOccupancyStatus: 0 } } } = useUser() || {};
+  const { data: { statistics, isMember } = { statistics: { gymOccupancyStatus: 0 } } } =
+    useUser() || {};
   const { gymOccupancyStatus } = statistics || {};
+
+  if (!isMember) {
+    return null;
+  }
 
   const getOccupancyInfo = () => {
     if (gymOccupancyStatus < 5) {
