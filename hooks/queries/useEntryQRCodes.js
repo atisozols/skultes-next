@@ -60,7 +60,7 @@ export function useEntryQRCodes() {
       return failureCount < 3;
     },
     retryDelay: 1000, // Wait 1 second between retries
-    staleTime: 2 * 60 * 1000, // 2 minutes (QR code refresh interval)
+    staleTime: 10 * 1000, // 10 seconds (QR code refresh interval)
     gcTime: 5 * 60 * 1000, // 5 minutes
   });
 }
