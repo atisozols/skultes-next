@@ -119,7 +119,8 @@ const ReservationActions = ({ appointment }) => {
         }`}
       >
         <div className="flex h-full items-center bg-container pl-4 pr-3">
-          <span className="px-0.5 text-3xl font-light">{appointment.entryCode}</span>
+          {/* <span className="px-0.5 text-3xl font-light">{appointment.entryCode}</span> */}
+          <span className="px-0.5 text-3xl font-light">1111</span>
         </div>
       </div>
 
