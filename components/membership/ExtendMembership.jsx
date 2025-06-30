@@ -15,21 +15,21 @@ const MEMBERSHIP_OPTIONS = [
   {
     id: 'day',
     label: '24 stundas',
-    price: '€10.00',
+    price: 10.0,
     description: 'Ideāli, lai izmēģinātu lielo zāli vienu vai divas reizes',
     icon: false,
   },
   {
     id: 'month',
     label: 'Mēnesis',
-    price: '€59.00',
+    price: 59.0,
     description: 'Mēneša abonements neierobežotam apmeklējumam',
     icon: true,
   },
   {
     id: 'year',
     label: 'Gads',
-    price: '€590.00',
+    price: 590.0,
     description: 'Gada abonements par labāko cenu',
     icon: true,
   },
@@ -133,6 +133,13 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
     }
   };
 
+  const applyDiscount = (price) => {
+    if (userData.discount) {
+      return price - price * (userData.discount / 100);
+    }
+    return price;
+  };
+
   return (
     <>
       <MembershipStatus isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -173,7 +180,9 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
                         </div>
                       </div>
                       <div className="text-sm font-medium text-white">{option.label}</div>
-                      <div className="mb-1 font-light text-white">{option.price}</div>
+                      <div className="mb-1 font-light text-white">
+                        €{applyDiscount(option.price).toFixed(2)}
+                      </div>
                       <div className="flex items-center text-xs">
                         {option.icon ? (
                           <>
