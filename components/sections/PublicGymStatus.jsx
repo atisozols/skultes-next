@@ -20,7 +20,7 @@ const PublicGymStatus = () => {
         message: 'Zālē šobrīd ir daudz vietas treniņam!',
         icon: <FaCircleCheck className="text-success" />,
       };
-    } else if (gymOccupancyStatus < 12) {
+    } else if (gymOccupancyStatus < 15) {
       return {
         title: 'Vidējs noslogojums',
         message: 'Zālē ir rosība, bet vietas vēl ir gana',
