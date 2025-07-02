@@ -74,6 +74,12 @@ const Page = () => {
                   dēļ.
                 </li>
                 <li>
+                  Klients piekrīt, ka sporta kluba telpās tiek veikta videonovērošana.
+                </li>
+                <li>
+                  Klientam var liegt pieeju sporta kluba pakalpojumiem, ja tiek konstatēta dalīšanās ar trešo pusi ar reģistrēto kontu vai pieejas kartēm.
+                </li>
+                <li>
                   Ja Klients ir pārkāpis sporta kluba Noteikumus, sporta klubam ir tiesības atteikt
                   savu saistību izpildi, tostarp atteikt Klienta iekļūšanu sporta klubā vai sniegt
                   pakalpojumus Klientam bez iepriekšēja brīdinājuma Klienta parāda gadījumā, līdz

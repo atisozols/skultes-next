@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { TbCoinEuro } from 'react-icons/tb';
 import { TiStarOutline } from 'react-icons/ti';
+import { format, addDays, addMonths, addYears } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import Container from '../ui/Container';
 import MembershipStatus from './MembershipStatus';
@@ -18,6 +19,7 @@ const MEMBERSHIP_OPTIONS = [
     price: 10.0,
     description: 'Ideāli, lai izmēģinātu lielo zāli vienu vai divas reizes',
     icon: false,
+    time: '1 day',
   },
   {
     id: 'month',
@@ -25,6 +27,7 @@ const MEMBERSHIP_OPTIONS = [
     price: 59.0,
     description: 'Mēneša abonements neierobežotam apmeklējumam',
     icon: true,
+    time: '1 month',
   },
   {
     id: 'year',
@@ -32,6 +35,7 @@ const MEMBERSHIP_OPTIONS = [
     price: 590.0,
     description: 'Gada abonements par labāko cenu',
     icon: true,
+    time: '1 year',
   },
 ];
 
@@ -140,6 +144,32 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
     return price;
   };
 
+  const calculateFutureDate = (timeValue) => {
+    if (!userData?.bestBefore) return null;
+
+    const currentBestBefore = new Date(userData.bestBefore);
+    const [amount, unit] = timeValue.split(' ');
+
+    switch (unit) {
+      case 'day':
+      case 'days':
+        return addDays(currentBestBefore, parseInt(amount, 10));
+      case 'month':
+      case 'months':
+        return addMonths(currentBestBefore, parseInt(amount, 10));
+      case 'year':
+      case 'years':
+        return addYears(currentBestBefore, parseInt(amount, 10));
+      default:
+        return currentBestBefore;
+    }
+  };
+
+  const formatDate = (date) => {
+    if (!date) return '';
+    return format(date, 'dd.MM.yyyy');
+  };
+
   return (
     <>
       <MembershipStatus isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -167,17 +197,16 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
                       }`}
                     >
                       <div className="absolute right-3.5 top-3">
-                        <div
-                          className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                        <span
+                          className={`rounded px-2 py-1 text-xs ${
                             selectedOption === option.id
-                              ? 'border-accent bg-accent'
-                              : 'border-alternate'
+                              ? 'bg-accent text-container'
+                              : 'bg-alternate text-container'
                           }`}
                         >
-                          {selectedOption === option.id && (
-                            <FaCheck className="text-xs text-container" />
-                          )}
-                        </div>
+                          Līdz{' '}
+                          {userData?.bestBefore && formatDate(calculateFutureDate(option.time))}
+                        </span>
                       </div>
                       <div className="text-sm font-medium text-white">{option.label}</div>
                       <div className="mb-1 font-light text-white">
