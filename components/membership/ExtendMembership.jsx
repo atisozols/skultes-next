@@ -190,7 +190,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
                     <Container
                       key={option.id}
                       onClick={() => handleOptionClick(option.id)}
-                      className={`cursor-pointer px-3.5 py-3 transition-all ${
+                      className={`cursor-pointer px-3 py-3 transition-all ${
                         selectedOption === option.id
                           ? 'border-[1px] border-accent'
                           : 'border-[1px] border-alternate'
