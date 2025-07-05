@@ -147,7 +147,11 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
   const calculateFutureDate = (timeValue) => {
     if (!userData?.bestBefore) return null;
 
-    const currentBestBefore = new Date(userData.bestBefore);
+    // Use either current date or userData.bestBefore, whichever is later
+const now = new Date();
+const userBestBefore = new Date(userData.bestBefore);
+const currentBestBefore = userBestBefore > now ? userBestBefore : now;
+
     const [amount, unit] = timeValue.split(' ');
 
     switch (unit) {
