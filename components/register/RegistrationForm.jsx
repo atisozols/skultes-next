@@ -3,11 +3,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '../ui/Button';
-import countryCodes from '@/utils/countryCodes';
+import { validateRegistration } from '@/utils/registrationValidation';
 
 const RegistrationForm = () => {
-  const defaultCountryCode =
-    countryCodes.find((c) => c.code === 'LV')?.dial_code || countryCodes[0].dial_code;
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -15,7 +13,6 @@ const RegistrationForm = () => {
     phone: '',
     agreement: false,
     mailing: false,
-    countryCode: defaultCountryCode,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,12 +31,25 @@ const RegistrationForm = () => {
       setError('Nepieciešams apstiprināt piekrišanu privātuma politikai un lietošanas noteikumiem');
       return;
     }
-    if (!formData.phone || formData.phone.length !== 8) {
-      setError('Nepieciešams pareizs telefona numurs');
+
+    // Perform validation using the Joi schema
+    const validationResult = validateRegistration({
+      name: formData.name,
+      surname: formData.surname,
+      email: formData.email,
+      phone: formData.phone,
+      mailing: formData.mailing,
+    });
+
+    if (validationResult.error) {
+      // Use the first validation error message
+      setError(validationResult.error.details[0].message);
       return;
     }
+
     setLoading(true);
     setError('');
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/register`, {
         method: 'POST',
@@ -48,7 +58,7 @@ const RegistrationForm = () => {
           name: formData.name,
           surname: formData.surname,
           email: formData.email,
-          phone: `${formData.countryCode}${formData.phone}`,
+          phone: formData.phone,
           mailing: formData.mailing,
         }),
       });
@@ -115,30 +125,15 @@ const RegistrationForm = () => {
         <label htmlFor="phone" className="mb-1 text-left font-medium">
           Telefona numurs
         </label>
-        <div className="flex w-full gap-2">
-          <select
-            id="countryCode"
-            name="countryCode"
-            value={formData.countryCode}
-            onChange={handleChange}
-            className="rounded-md bg-container p-2"
-          >
-            {countryCodes.map((cc) => (
-              <option key={cc.code} value={cc.dial_code}>
-                {cc.emoji} {cc.dial_code}
-              </option>
-            ))}
-          </select>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            className="flex-grow rounded-md bg-container p-2 focus:outline-none"
-          />
-        </div>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+          className="w-full rounded-md bg-container p-2"
+        />
       </div>
       <div className="my-4 flex w-full flex-col gap-4">
         <div className="flex w-full items-center">

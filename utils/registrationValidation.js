@@ -1,45 +1,74 @@
 import Joi from 'joi';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
-// Custom Joi extension for phone validation
-const phoneValidator = (value, helpers) => {
-  const phoneNumber = parsePhoneNumberFromString(value, 'LV'); // fallback to Latvia
-  if (!phoneNumber || !phoneNumber.isValid()) {
-    return helpers.error('any.invalid'); // Joi error
+// Custom email validation function that works in browsers
+const emailValidator = (value, helpers) => {
+  // RFC 5322 compliant regex pattern for email validation
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(value)) {
+    return helpers.error('any.invalid');
   }
-  return phoneNumber.number; // Return formatted (E.164) phone number
+  return value;
 };
 
-const registrationSchema = Joi.object({
+// Custom Joi extension for phone validation
+const phoneValidator = (value, helpers) => {
+  // Try to parse with explicit country code first
+  let phoneNumber = parsePhoneNumberFromString(value);
+
+  // If not valid with explicit code, try with LV as default
+  if (!phoneNumber || !phoneNumber.isValid()) {
+    phoneNumber = parsePhoneNumberFromString(value, 'LV');
+    if (!phoneNumber || !phoneNumber.isValid()) {
+      return helpers.error('any.invalid'); // Joi error
+    }
+  }
+
+  // Always return E.164 format with country code
+  return phoneNumber.format('E.164'); // Return formatted (E.164) phone number with country code
+};
+
+// Error message translations - Latvian versions
+const errorMessages = {
+  name: 'Vārdam jāsatur tikai burti un jābūt vismaz 2 rakstzīmēm garam',
+  surname: 'Uzvārdam jāsatur tikai burti un jābūt vismaz 2 rakstzīmēm garam',
+  email: 'Lūdzu, ievadiet derīgu e-pasta adresi',
+  phone: 'Lūdzu, ievadiet derīgu telefona numuru',
+};
+
+export const registrationSchema = Joi.object({
   name: Joi.string()
     .pattern(/^[A-Za-zĀ-ž\s'-]{2,}$/)
     .required()
     .messages({
-      'string.pattern.base': 'Name must contain only letters and be at least 2 characters long',
+      'string.pattern.base': errorMessages.name,
+      'string.empty': errorMessages.name,
+      'any.required': errorMessages.name,
     }),
 
   surname: Joi.string()
     .pattern(/^[A-Za-zĀ-ž\s'-]{2,}$/)
     .required()
     .messages({
-      'string.pattern.base': 'Surname must contain only letters and be at least 2 characters long',
+      'string.pattern.base': errorMessages.surname,
+      'string.empty': errorMessages.surname,
+      'any.required': errorMessages.surname,
     }),
 
-  email: Joi.string().email().required(),
+  email: Joi.string().required().custom(emailValidator, 'Email validation').messages({
+    'any.invalid': errorMessages.email,
+    'string.empty': errorMessages.email,
+    'any.required': errorMessages.email,
+  }),
 
-  phone: Joi.string().required().custom(phoneValidator, 'Phone number validation'),
+  phone: Joi.string().required().custom(phoneValidator, 'Phone number validation').messages({
+    'any.invalid': errorMessages.phone,
+    'string.empty': errorMessages.phone,
+    'any.required': errorMessages.phone,
+  }),
+  mailing: Joi.boolean().optional(),
 });
 
-// Example usage
-const result = registrationSchema.validate({
-  name: 'Jānis',
-  surname: 'Ozols',
-  email: 'janis@example.com',
-  phone: '22345678',
-});
-
-if (result.error) {
-  console.error(result.error.details);
-} else {
-  console.log('Validated input:', result.value);
-}
+export const validateRegistration = (data) => {
+  return registrationSchema.validate(data, { abortEarly: false });
+};
