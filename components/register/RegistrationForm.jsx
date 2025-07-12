@@ -27,6 +27,7 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.agreement) {
       setError('Nepieciešams apstiprināt piekrišanu privātuma politikai un lietošanas noteikumiem');
       return;
@@ -54,13 +55,7 @@ const RegistrationForm = () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          surname: formData.surname,
-          email: formData.email,
-          phone: formData.phone,
-          mailing: formData.mailing,
-        }),
+        body: JSON.stringify(validationResult.value),
       });
       if (!res.ok) {
         throw new Error('Reģistrācija neizdevās');
