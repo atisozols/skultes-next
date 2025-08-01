@@ -454,7 +454,7 @@ const Landing = () => {
         </div>
       </section>
 
-      <footer className="flex flex-col items-center justify-center gap-16 pb-8 pt-16">
+      <footer className="relative z-10 flex flex-col items-center justify-center gap-16 pb-8 pt-16">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-evenly gap-10 text-alternate md:flex-row">
           <div className="flex w-1/3 items-center justify-center">
             <Link href="/log-in">
@@ -463,38 +463,86 @@ const Landing = () => {
               </Button>
             </Link>
           </div>
-          <div className="flex w-1/3 flex-col items-center justify-center gap-3">
-            <Link href="/contact">Kontakti</Link>
-            <Link href="/tc" className="hover:underline">
+          <div className="flex w-1/3 flex-col items-center justify-center gap-3 text-center">
+            <Link
+              href="/contact"
+              className="relative z-20 cursor-pointer transition-all duration-200 hover:cursor-pointer hover:underline"
+            >
+              Kontakti
+            </Link>
+            <Link
+              href="/tc"
+              className="relative z-20 cursor-pointer transition-all duration-200 hover:cursor-pointer hover:underline"
+            >
               Noteikumi
             </Link>
-            <Link href="/pp" className="hover:underline">
+            <Link
+              href="/pp"
+              className="relative z-20 cursor-pointer transition-all duration-200 hover:cursor-pointer hover:underline"
+            >
               Privātuma politika
             </Link>
           </div>
           <div className="flex w-1/3 flex-col items-center justify-center gap-3 text-alternate">
             <div className="flex items-center justify-center gap-6 text-2xl text-accent">
-              <Link href={'https://www.instagram.com/ozols_club'}>
+              <Link
+                href={'https://www.instagram.com/ozols_club'}
+                className="relative z-20 cursor-pointer transition-all duration-200 hover:scale-110 hover:cursor-pointer"
+              >
                 <FaInstagram />
               </Link>
-              <Link href={'https://www.facebook.com/ozols.club'}>
+              <Link
+                href={'https://www.facebook.com/ozols.club'}
+                className="relative z-20 cursor-pointer transition-all duration-200 hover:scale-110 hover:cursor-pointer"
+              >
                 <FaFacebook />
               </Link>
-              <Link href={'https://www.tiktok.com/@ozols_club'}>
+              <Link
+                href={'https://www.tiktok.com/@ozols_club'}
+                className="relative z-20 cursor-pointer transition-all duration-200 hover:scale-110 hover:cursor-pointer"
+              >
                 <FaTiktok />
               </Link>
             </div>
           </div>
         </div>
-        <Link href="https://dezain.studio">
-          <Image
-            src="/dezain.png"
-            alt="Developed by Dezan Studio"
-            width={300}
-            height={50}
-            className="w-full max-w-[200px]"
-          />
-        </Link>
+        <div className="mx-auto flex flex-col items-center justify-evenly gap-6">
+          <div className="flex items-center justify-center gap-20 opacity-60">
+            <Image
+              src="/project_logos/les.png"
+              alt="LES Logo"
+              width={80}
+              height={80}
+              className="h-auto max-h-16 w-auto object-contain"
+            />
+            <Image
+              src="/project_logos/nap.png"
+              alt="NAP Logo"
+              width={80}
+              height={80}
+              className="h-auto max-h-16 w-auto object-contain invert"
+            />
+            <Image
+              src="/project_logos/plj.png"
+              alt="PLJ Logo"
+              width={80}
+              height={80}
+              className="h-auto max-h-16 w-auto object-contain invert"
+            />
+          </div>
+          <Link
+            href="https://dezain.studio"
+            className="relative z-20 cursor-pointer transition-all duration-200 hover:cursor-pointer hover:opacity-80"
+          >
+            <Image
+              src="/dezain.png"
+              alt="Developed by Dezan Studio"
+              width={300}
+              height={50}
+              className="w-full max-w-[200px]"
+            />
+          </Link>
+        </div>
       </footer>
     </main>
   );
