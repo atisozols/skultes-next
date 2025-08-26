@@ -14,6 +14,7 @@ const MENU_SECTIONS = [
   { id: 'private', label: 'Privātā zāle' },
   { id: 'digital', label: 'Digitāla platforma' },
   { id: 'pricing', label: 'Cenas' },
+  { id: 'faq', label: 'BUJ' },
 ];
 
 const BLUR_AMOUNT = 16;

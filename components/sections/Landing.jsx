@@ -13,6 +13,8 @@ import useResponsiveValue from '../../hooks/useResponsiveValue';
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 import Link from 'next/link';
 
+import FAQ from './FAQ';
+
 const HeroSection = () => {
   return (
     <div className="relative min-h-screen w-full">
@@ -434,25 +436,15 @@ const Landing = () => {
             </div>
           </div>
         </div>
-        <p className="mx-auto mt-6 max-w-lg px-4 text-center font-extralight text-white md:max-w-xl">
-          Lielās zāles abonements ar 40% atlaidi pieejams{' '}
-          <span className="font-medium">
-            skolēniem, studentiem līdz 25 gadu vecumam un pensionāriem
-          </span>
-        </p>
-        <p className="mx-auto mt-4 max-w-md px-4 text-center text-sm font-extralight text-white">
-          Reģistrējies un{' '}
-          <Link href="/contact" className="underline">
-            sazinies ar mums
-          </Link>
-          , lai saņemtu šo piedāvājumu!
-        </p>
+
         <div className="mt-6 flex flex-col items-center justify-center gap-2">
           <Button href="/register" size="lg" className="font-medium uppercase" withArrow>
             Reģistrēties
           </Button>
         </div>
       </section>
+
+      <FAQ />
 
       <footer className="relative z-10 flex flex-col items-center justify-center gap-16 pb-8 pt-16">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-evenly gap-10 text-alternate md:flex-row">
