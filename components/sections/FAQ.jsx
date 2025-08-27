@@ -12,15 +12,32 @@ const FAQ = () => {
   const faqs = [
     {
       index: 0,
-      title: 'Kurš var saņemt atlaidi?',
-      text:
-        'Lielās zāles abonements ar 40% atlaidi pieejams skolēniem, studentiem līdz 25 gadu vecumam un pensionāriem (vīrieši no 65 gadu vecuma un sievietes no 63 gadu vecuma). Studentu atlaidei nepieciešama studentu apliecība, ISIC karte vai izziņa no skolas. Pensionāriem nepieciešama apliecība vai personu apliecinošs dokuments.',
+      title: 'Vai par Privāto zāli jāmaksā katram, kurš apmeklē zāli rezervētajā laikā?',
+      text: (
+        <span>
+          Nē, apmaksu veic tikai tas, kurš veic rezervāciju. Rezervētajā laikā zāli{' '}
+          <span className="font-light">var apmeklēt kopā ar citiem bez papildus maksas</span>.
+        </span>
+      ),
     },
     {
       index: 1,
-      title: 'Vai par Privāto zāli jāmaksā katram, kurš apmeklē zāli veiktajā rezervācijā?',
-      text:
-        'Nē, apmaksu veic tikai tas, kurš veic rezervāciju. Rezervētajā laikā zāli var apmeklēt kopā ar citiem bez papildus maksas.',
+      title: 'Vai varu saņemt atlaidi?',
+      text: (
+        <span>
+          Lielās zāles abonements ar 40% atlaidi pieejams{' '}
+          <span className="font-light">
+            skolēniem, studentiem līdz 25 gadu vecumam un pensionāriem
+          </span>{' '}
+          (vīrieši no 65 gadu vecuma un sievietes no 63 gadu vecuma). Studentu atlaidei nepieciešama
+          studentu apliecība, ISIC karte vai izziņa no skolas. Pensionāriem nepieciešama apliecība
+          vai personu apliecinošs dokuments. Pēc reģistrācijas nepieciešamais dokuments jānosūta uz{' '}
+          <a href="mailto:atis@ozols.club" className="underline">
+            atis@ozols.club
+          </a>
+          .
+        </span>
+      ),
     },
   ];
 
