@@ -55,7 +55,7 @@ const FAQ = () => {
               toggleOpen={() => toggleOpen(c.index)}
             >
               <span>{c.title}</span>
-              <p className="font-extralight text-white/90">{c.text}</p>
+              <p className="text-justify font-extralight text-white/90">{c.text}</p>
             </CollapsibleLight>
           ))}
         </div>
