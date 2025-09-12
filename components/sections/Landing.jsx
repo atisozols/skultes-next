@@ -478,7 +478,7 @@ const Landing = () => {
           <div className="flex w-1/3 flex-col items-center justify-center gap-3 text-alternate">
             <div className="flex items-center justify-center gap-6 text-2xl text-accent">
               <Link
-                href={'https://www.instagram.com/ozols_club'}
+                href={'https://www.instagram.com/ozols.club'}
                 className="relative z-20 cursor-pointer transition-all duration-200 hover:scale-110 hover:cursor-pointer"
               >
                 <FaInstagram />
@@ -490,7 +490,7 @@ const Landing = () => {
                 <FaFacebook />
               </Link>
               <Link
-                href={'https://www.tiktok.com/@ozols_club'}
+                href={'https://www.tiktok.com/@ozols.club'}
                 className="relative z-20 cursor-pointer transition-all duration-200 hover:scale-110 hover:cursor-pointer"
               >
                 <FaTiktok />
