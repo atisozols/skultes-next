@@ -14,6 +14,13 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
   const [showCountdown, setShowCountdown] = useState(false);
   const [timeoutId, setTimeoutId] = useState(null);
 
+  // Derive an immediate remaining time from bestBefore to avoid a brief false "ended" state
+  const derivedInitialRemaining = userData?.bestBefore
+    ? Math.max(0, new Date(userData.bestBefore) - new Date())
+    : null;
+  const effectiveRemaining = timeRemaining ?? derivedInitialRemaining;
+  const isMemberNow = (effectiveRemaining != null && effectiveRemaining > 0) || userData?.isMember;
+
   useEffect(() => {
     if (!userData?.bestBefore) return;
 
@@ -80,9 +87,9 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
   }
 
   const handleStatusClick = () => {
-    if (!userData.isMember || !timeRemaining || showAktivs || showCountdown) return;
+    if (!isMemberNow || !effectiveRemaining || showAktivs || showCountdown) return;
 
-    if (timeRemaining <= 12 * 60 * 60 * 1000) {
+    if (effectiveRemaining <= 12 * 60 * 60 * 1000) {
       setShowAktivs(true);
     } else {
       setShowCountdown(true);
@@ -95,8 +102,8 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
   let statusText = 'Abonements beidzies';
   let isActive = false;
 
-  if (userData.isMember && timeRemaining !== null) {
-    if (timeRemaining > 12 * 60 * 60 * 1000) {
+  if (isMemberNow && effectiveRemaining !== null) {
+    if (effectiveRemaining > 12 * 60 * 60 * 1000) {
       // More than 12 hours - emerald
       statusColor = 'text-success';
       bgColor = 'bg-success';
@@ -108,7 +115,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
           })}`
         : 'Abonements aktīvs';
       isActive = true;
-    } else if (timeRemaining > 0) {
+    } else if (effectiveRemaining > 0) {
       // Less than 12 hours - amber with countdown
       statusColor = 'text-warning';
       bgColor = 'bg-warning';

@@ -47,11 +47,15 @@ const fetchUserData = async (token) => {
 
 // Hook for fetching user data
 export function useUser() {
-  const { getToken } = useAuth();
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   return useQuery({
-    queryKey: USER_QUERY_KEY,
+    queryKey: [...USER_QUERY_KEY, isSignedIn ? userId : 'signedOut'],
     queryFn: async () => fetchUserData(await getToken()),
+    enabled: isLoaded && isSignedIn,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
+    refetchOnReconnect: 'always',
     retry: (failureCount, error) => {
       // Don't retry on 401 (Unauthorized)
       if (error?.status === 401) return false;
@@ -59,7 +63,7 @@ export function useUser() {
       return failureCount < 3;
     },
     retryDelay: 1000, // Wait 1 second between retries
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 0, // Always treat as stale to ensure fresh user data on mount
     gcTime: 10 * 60 * 1000, // 10 minutes
   });
 }
@@ -67,11 +71,18 @@ export function useUser() {
 // Hook for refreshing user data
 export function useRefreshUserMutation() {
   const queryClient = useQueryClient();
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   return useMutation({
-    mutationFn: fetchUserData,
+    mutationFn: async () => {
+      if (!isLoaded || !isSignedIn) return null;
+      const token = await getToken();
+      return fetchUserData(token);
+    },
     onSuccess: (data) => {
-      queryClient.setQueryData(USER_QUERY_KEY, data);
+      if (isSignedIn && userId) {
+        queryClient.setQueryData([...USER_QUERY_KEY, userId], data);
+      }
     },
   });
 }

@@ -138,10 +138,8 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
   };
 
   const applyDiscount = (price) => {
-    if (userData.discount) {
-      return price - price * (userData.discount / 100);
-    }
-    return price;
+    const discount = userData?.discount ?? 0;
+    return price - price * (discount / 100);
   };
 
   const calculateFutureDate = (timeValue) => {
