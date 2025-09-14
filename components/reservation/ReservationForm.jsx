@@ -7,6 +7,7 @@ import getCurrentDateInRiga from '../../utils/book/getCurrentDateInRiga';
 import { useCart } from '../../context/CartContext';
 import FormElement from '../ui/FormElement';
 import { Button } from '../ui/Button';
+import TimetableLayout from '../timetable/TimetableLayout';
 
 const ReservationForm = ({ availability }) => {
   const { cart, addToCart } = useCart();
@@ -71,7 +72,11 @@ const ReservationForm = ({ availability }) => {
   };
 
   return (
-    <form className="grid w-full grid-cols-1 justify-items-center" onSubmit={handleSubmit}>
+    <form className="grid w-full grid-cols-1 justify-items-center pt-2" onSubmit={handleSubmit}>
+      <div className="flex w-full items-center justify-center py-1.5">
+        <TimetableLayout availability={availability} />
+      </div>
+
       <FormElement className="border-none py-0">
         <label htmlFor="date">Datums</label>
         <input
@@ -146,7 +151,7 @@ const ReservationForm = ({ availability }) => {
       </FormElement>
 
       {/* Submit Button */}
-      <div className="flex w-full items-center justify-center px-3.5 py-3.5">
+      <div className="flex w-full items-center justify-center px-3.5 pb-3.5 pt-2.5">
         <Button
           variant="default"
           className="w-full font-medium uppercase"

@@ -17,16 +17,6 @@ const Membership = () => {
           <ExtendMembership containerRef={containerRef} />
         </div>
       </Container>
-      <p className="text-center text-xs text-alternate">
-        <span className="font-medium">
-          Skolēniem, studentiem līdz 25 gadu vecumam un pensionāriem
-        </span>{' '}
-        pieejama 40% atlaide.{' '}
-        <Link href="#contact" className="underline">
-          Sazinies ar mums
-        </Link>
-        , lai saņemtu šo piedāvājumu!
-      </p>
     </Section>
   );
 };

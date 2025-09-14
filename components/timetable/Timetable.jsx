@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import dateText from '@/utils/book/dateText';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Timetable = ({ availability, timetable }) => {
   const [showTimeIndicators, setShowTimeIndicators] = useState(false);
@@ -55,7 +56,7 @@ const Timetable = ({ availability, timetable }) => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center justify-center pt-4">
+    <div className="flex w-full flex-col items-center justify-center px-3 pb-3">
       <div className="flex w-full items-center justify-center">
         {/* Right Side (Dates and Timetable) */}
         <div className="relative flex w-full flex-col">
@@ -64,7 +65,7 @@ const Timetable = ({ availability, timetable }) => {
             {availability.slice(0, 7).map((object, objectIndex) => (
               <span
                 key={objectIndex}
-                className="text-center text-xs text-foreground sm:w-12 sm:text-sm"
+                className="text-center text-xs text-alternate sm:w-12 sm:text-sm"
               >
                 {dateText(object.date)}
               </span>
@@ -73,22 +74,32 @@ const Timetable = ({ availability, timetable }) => {
           {/* Timetable */}
           <div className="relative w-full" ref={timetableRef}>
             {/* Time Indicators Overlay */}
-            {showTimeIndicators && timetableRect && (
-              <div className="absolute inset-0 z-10" onClick={handleTimetableClick}>
-                {timeMarkers.map((marker, index) => (
-                  <div
-                    key={index}
-                    className="absolute left-0 right-0 flex items-center justify-center text-sm font-medium text-background"
-                    style={{ top: `${marker.top}px` }}
-                  >
-                    <span className="whitespace-nowrap rounded-full bg-accent px-2 py-1 text-xs text-background">
-                      {formatDisplayTime(marker.time)}
-                    </span>
-                    <div className="h-[2px] w-full bg-accent"></div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <AnimatePresence>
+              {showTimeIndicators && timetableRect && (
+                <motion.div
+                  key="time-overlay"
+                  className="absolute inset-0 z-10"
+                  onClick={handleTimetableClick}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {timeMarkers.map((marker, index) => (
+                    <div
+                      key={index}
+                      className="absolute left-0 right-0 flex items-center justify-center text-sm font-medium text-background"
+                      style={{ top: `${marker.top}px` }}
+                    >
+                      <span className="whitespace-nowrap rounded-full bg-accent px-2 py-1 text-xs text-background">
+                        {formatDisplayTime(marker.time)}
+                      </span>
+                      <div className="h-[2px] w-full bg-accent"></div>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
             {timetable.map((row, rowIndex) => (
               <div className={`flex w-full`} key={rowIndex} onClick={handleTimetableClick}>
                 {row.map((cell, cellIndex) => (

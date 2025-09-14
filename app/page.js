@@ -13,6 +13,8 @@ import GroupSessions from '@/components/sections/GroupSessions';
 import MySessions from '@/components/sections/MySessions';
 import Coaches from '@/components/sections/Coaches';
 import Contact from '@/components/sections/Contact';
+import FAQ from '@/components/sections/FAQ';
+import Section from '@/components/ui/Section';
 
 const page = () => {
   return (
@@ -31,7 +33,11 @@ const page = () => {
           <MakeReservation />
           <Cart />
           <Coaches />
-          <Contact />
+          <Section
+            title={<span className="flex items-center text-xl">Biežāk uzdotie jautājumi</span>}
+          >
+            <FAQ />
+          </Section>
           <Nav />
         </Main>
       </SignedIn>

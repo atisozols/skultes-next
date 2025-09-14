@@ -2,9 +2,8 @@
 import FormElement from '../ui/FormElement';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlus } from 'react-icons/fa6';
 import { useUser } from '@/hooks/queries/useUser';
-import { Button } from '../ui/Button';
+import PlusToggleButton from '../ui/PlusToggleButton';
 
 const MembershipStatus = ({ isOpen, setIsOpen }) => {
   const { data: userData, isLoading } = useUser();
@@ -160,17 +159,12 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
             </AnimatePresence>
           </div>
         </motion.div>
-        <Button
+        <PlusToggleButton
+          isOpen={isOpen}
           onClick={() => setIsOpen(!isOpen)}
-          variant="outline"
           size="sm"
-          className={`h-[36px] overflow-hidden rounded-full border-[0.5px] border-alternate px-2 py-1 font-medium uppercase ${isOpen ? 'text-alternate' : 'text-foreground'}`}
-        >
-          <span className="text-sm">{isOpen ? 'Aizvērt' : 'Papildināt'}</span>
-          <motion.div animate={{ rotate: isOpen ? -135 : 0 }} transition={{ duration: 0.25 }}>
-            <FaPlus className="text-sm" />
-          </motion.div>
-        </Button>
+          className={`h-[36px] overflow-hidden rounded-full border-none px-2 py-1 font-medium uppercase ${isOpen ? 'text-alternate' : 'text-foreground'}`}
+        />
       </FormElement>
     </>
   );

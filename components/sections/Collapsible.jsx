@@ -9,7 +9,7 @@ export function CollapsibleLight({ children, isOpen, toggleOpen }) {
   const prefersReduced = useReducedMotion();
 
   return (
-    <div className="w-full rounded-xl bg-container px-5 py-3 shadow-md">
+    <div className="w-full rounded-lg bg-container px-4 py-1.5 shadow-md sm:px-5 sm:py-3">
       <button
         type="button"
         className="flex w-full cursor-pointer items-center justify-between"
@@ -17,7 +17,7 @@ export function CollapsibleLight({ children, isOpen, toggleOpen }) {
         aria-controls={panelId}
         onClick={toggleOpen}
       >
-        <h2 className="py-2 text-left text-lg font-medium">{children[0]}</h2>
+        <h2 className="py-2 text-left text-base font-medium md:text-lg">{children[0]}</h2>
 
         <motion.div
           className="rounded-full bg-accent p-0.5"
@@ -33,7 +33,7 @@ export function CollapsibleLight({ children, isOpen, toggleOpen }) {
           <motion.div
             id={panelId}
             key="content"
-            className="overflow-hidden text-lg font-light"
+            className="overflow-hidden text-sm font-light md:text-base"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

@@ -9,7 +9,7 @@ const TanstackQueryProvider = dynamic(() => import('@/context/providers/Tanstack
 
 export const metadata = {
   title: 'Ozols | Sporta klubs',
-  description: 'Jauns sporta klubs Tukumā!',
+  description: 'Vieta, kur satiekas kustība, motivācija un veselīgs dzīvesveids.',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -36,7 +36,7 @@ export const metadata = {
 
   openGraph: {
     title: 'Ozols | Sporta klubs',
-    description: 'Jauns sporta klubs Tukumā!',
+    description: 'Vieta, kur satiekas kustība, motivācija un veselīgs dzīvesveids.',
     url: 'https://ozols.club',
     siteName: 'Ozols | Sporta klubs',
     images: [
@@ -52,7 +52,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Ozols | Sporta klubs',
-    description: 'Jauns sporta klubs Tukumā!',
+    description: 'Vieta, kur satiekas kustība, motivācija un veselīgs dzīvesveids.',
     images: ['/social-share.png'],
   },
   manifest: '/site.webmanifest',

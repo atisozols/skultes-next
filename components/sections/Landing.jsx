@@ -5,6 +5,7 @@ import { Button } from '../ui/Button';
 import Carousel from '../ui/Carousel';
 import Coach from '../sessions/Coach';
 import Container from '../ui/Container';
+import Section from '../ui/Section';
 import { LuCalendarCheck, LuLock, LuSmile, LuSun } from 'react-icons/lu';
 import { MdOutlineAutoAwesome } from 'react-icons/md';
 import { TbCoinEuro } from 'react-icons/tb';
@@ -444,7 +445,14 @@ const Landing = () => {
         </div>
       </section>
 
-      <FAQ />
+      <section id="coaches" className="pt-16">
+        <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
+          <h2 className="bakbak text-3xl font-semibold md:text-5xl">Biežāk uzdotie jautājumi</h2>
+        </div>
+        <Section id="faq" className="mx-auto max-w-4xl pt-8">
+          <FAQ />
+        </Section>
+      </section>
 
       <footer className="relative z-10 flex flex-col items-center justify-center gap-16 pb-8 pt-16">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-evenly gap-10 text-alternate md:flex-row">

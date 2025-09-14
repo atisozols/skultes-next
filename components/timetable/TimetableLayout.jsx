@@ -1,16 +1,20 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import Timetable from './Timetable';
-import TimetableLegend from './TimetableLegend';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MdArrowForwardIos } from 'react-icons/md';
-import { Button } from '../ui/Button';
+import { motion } from 'framer-motion';
+import PlusToggleButton from '../ui/PlusToggleButton';
 
 const TimetableLayout = ({ availability }) => {
   const [timetable, setTimetable] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef(null);
-  const [measuredHeight, setMeasuredHeight] = useState(0);
+  const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(40);
+  const [contentHeight, setContentHeight] = useState(0);
+  const labelRef = useRef(null);
+  const [labelWidth, setLabelWidth] = useState(0);
+  const rowRef = useRef(null);
+  const [rowWidth, setRowWidth] = useState(0);
 
   useEffect(() => {
     const isUnavailable = (column, row) => {
@@ -37,43 +41,80 @@ const TimetableLayout = ({ availability }) => {
     }
   }, [availability]);
 
+  useLayoutEffect(() => {
+    if (headerRef.current) setHeaderHeight(Math.max(40, headerRef.current.offsetHeight));
+    if (contentRef.current) setContentHeight(contentRef.current.scrollHeight);
+  }, [timetable, isOpen]);
+
+  useLayoutEffect(() => {
+    if (labelRef.current) setLabelWidth(labelRef.current.scrollWidth);
+  }, []);
+
   useEffect(() => {
-    if (isOpen && contentRef.current) {
-      setMeasuredHeight(contentRef.current.scrollHeight);
-    }
-  }, [isOpen, timetable]);
+    if (!rowRef.current) return;
+    const measure = () => setRowWidth(rowRef.current.clientWidth);
+    measure();
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setRowWidth(entry.contentRect.width);
+      }
+    });
+    ro.observe(rowRef.current);
+    return () => ro.disconnect();
+  }, []);
 
   return (
-    <div className="flex flex-col px-3.5 py-3.5">
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        size="sm"
-        variant="outline"
-        className={`font-medium uppercase ${isOpen ? 'border-alternate text-alternate' : ''}`}
-      >
-        Zāles noslogojums
-      </Button>
-      <AnimatePresence>
-        {isOpen && (
+    <div className="flex w-full flex-col px-4 py-0">
+      <div ref={rowRef} className="relative w-full border-none">
+        <motion.div
+          initial={false}
+          animate={
+            labelWidth
+              ? { maxWidth: isOpen ? 0 : labelWidth, opacity: isOpen ? 0 : 1 }
+              : { opacity: isOpen ? 0 : 1 }
+          }
+          style={{ maxWidth: labelWidth || 'none', height: headerHeight || 40 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-none absolute left-0 top-0 flex items-center overflow-hidden pr-2"
+        >
+          <span ref={labelRef} className="whitespace-nowrap text-foreground">
+            Noslogojums
+          </span>
+        </motion.div>
+        <motion.div
+          className={`relative z-10 ml-auto flex flex-col overflow-hidden rounded-lg bg-white bg-opacity-5`}
+          initial={{ width: 135, height: 40 }}
+          animate={{
+            width: isOpen ? rowWidth : 135,
+            height: isOpen ? (headerHeight || 40) + contentHeight : 40,
+          }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          style={{ width: 135 }}
+        >
+          <PlusToggleButton
+            ref={headerRef}
+            isOpen={isOpen}
+            onClick={() => setIsOpen(!isOpen)}
+            closedText="Atvērt"
+            variant="outline"
+            size="sm"
+            className={`h-[40px] w-fit shrink-0 self-end overflow-hidden rounded-full border-none px-2 py-1 font-medium uppercase ${isOpen ? 'text-alternate' : 'text-foreground'}`}
+          />
           <motion.div
-            key="timetable"
-            style={{ overflow: 'hidden' }}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: measuredHeight, opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            ref={contentRef}
+            initial={false}
+            animate={{ opacity: isOpen ? 1 : 0 }}
+            transition={{ duration: 0.25 }}
           >
-            <div ref={contentRef}>
-              {timetable.length > 0 && (
-                <>
-                  <Timetable availability={availability} timetable={timetable} />
-                  <TimetableLegend />
-                </>
-              )}
-            </div>
+            {timetable.length > 0 && (
+              <>
+                <Timetable availability={availability} timetable={timetable} />
+              </>
+            )}
           </motion.div>
-        )}
-      </AnimatePresence>
+        </motion.div>
+      </div>
+      {/* Content is now inside the expanding container above */}
     </div>
   );
 };

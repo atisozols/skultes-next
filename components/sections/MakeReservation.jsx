@@ -32,14 +32,7 @@ const MakeReservation = () => {
 
   return (
     <Section title={<span className="flex items-center text-2xl">Privātā zāle</span>}>
-      <Container>
-        {availability && (
-          <>
-            <TimetableLayout availability={availability} />
-            <ReservationForm availability={availability} />
-          </>
-        )}
-      </Container>
+      <Container>{availability && <ReservationForm availability={availability} />}</Container>
     </Section>
   );
 };
