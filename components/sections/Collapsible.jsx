@@ -17,7 +17,7 @@ export function CollapsibleLight({ children, isOpen, toggleOpen }) {
         aria-controls={panelId}
         onClick={toggleOpen}
       >
-        <h2 className="py-2 text-left text-base font-medium md:text-lg">{children[0]}</h2>
+        <h2 className="py-2 pr-2 text-left text-base font-medium md:text-lg">{children[0]}</h2>
 
         <motion.div
           className="rounded-full bg-accent p-0.5"
