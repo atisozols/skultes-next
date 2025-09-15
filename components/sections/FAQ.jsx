@@ -135,7 +135,6 @@ const FAQ = () => {
           <br /> SIA Nora24
           <br /> Reģ.nr. 40203540375
           <br /> PVN nr. LV40203540375
-          <br /> Adrese: Smilšu iela 38C - 20, Tukums, Tukuma nov., LV-3101
         </span>
       ),
     },
