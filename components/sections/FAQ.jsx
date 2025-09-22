@@ -43,7 +43,7 @@ const FAQ = () => {
           (vīrieši no 65 gadu vecuma un sievietes no 63 gadu vecuma). Studentu atlaidei nepieciešama
           studentu apliecība, ISIC karte vai izziņa no skolas. Pensionāriem nepieciešama apliecība
           vai personu apliecinošs dokuments. Pēc reģistrācijas nepieciešamais dokuments jānosūta uz{' '}
-          <a href="mailto:atis@ozols.club" className="underline">
+          <a href="mailto:atis@ozols.club" className="underline">atis@ozols.club</a>
         </span>
       ),
     },
