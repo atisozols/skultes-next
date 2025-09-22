@@ -35,7 +35,15 @@ const FAQ = () => {
             mūsu platformā
           </a>
           , izmantojot e-pastu vai tel. numuru, kurš bija reģistrācijas laikā. Tur varēsiet
-          izvēlēties abonementa laiku un veikt apmaksu.
+          izvēlēties abonementa laiku un veikt apmaksu. <br />
+          Lielās zāles abonements ar 40% atlaidi pieejams{' '}
+          <span className="font-light">
+            skolēniem, studentiem līdz 25 gadu vecumam un pensionāriem
+          </span>{' '}
+          (vīrieši no 65 gadu vecuma un sievietes no 63 gadu vecuma). Studentu atlaidei nepieciešama
+          studentu apliecība, ISIC karte vai izziņa no skolas. Pensionāriem nepieciešama apliecība
+          vai personu apliecinošs dokuments. Pēc reģistrācijas nepieciešamais dokuments jānosūta uz{' '}
+          <a href="mailto:atis@ozols.club" className="underline">
         </span>
       ),
     },
