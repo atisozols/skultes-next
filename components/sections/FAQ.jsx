@@ -43,7 +43,9 @@ const FAQ = () => {
           (vīrieši no 65 gadu vecuma un sievietes no 63 gadu vecuma). Studentu atlaidei nepieciešama
           studentu apliecība, ISIC karte vai izziņa no skolas. Pensionāriem nepieciešama apliecība
           vai personu apliecinošs dokuments. Pēc reģistrācijas nepieciešamais dokuments jānosūta uz{' '}
-          <a href="mailto:atis@ozols.club" className="underline">atis@ozols.club</a>
+          <a href="mailto:atis@ozols.club" className="underline">
+            atis@ozols.club
+          </a>
         </span>
       ),
     },
@@ -85,6 +87,17 @@ const FAQ = () => {
     },
     {
       index: 5,
+      title: 'Vai uz zāli varu līdzi ņemt bērnu?',
+      text: (
+        <span>
+          Privāto zāli drīkst apmeklēt ar visu vecumu bērniem, vecākiem pašiem uzņemoties atbildību.
+          No 8 gadu vecuma bērni drīkst trenēties pieaugušo, trenera pavadībā. No 12 gadu vecuma
+          bērni var apmeklēt zāles patstāvīgi.
+        </span>
+      ),
+    },
+    {
+      index: 6,
       title: 'Vai par Privāto zāli jāmaksā katram apmeklētājam?',
       text: (
         <span>
@@ -98,7 +111,7 @@ const FAQ = () => {
     },
 
     {
-      index: 6,
+      index: 7,
       title: 'Vai ir iespējams redzēt zāles noslogojumu?',
       text: (
         <span>
@@ -108,7 +121,7 @@ const FAQ = () => {
       ),
     },
     {
-      index: 7,
+      index: 8,
       title: 'Vai varu maksāt uz vietas?',
       text: (
         <span>
@@ -118,7 +131,7 @@ const FAQ = () => {
       ),
     },
     {
-      index: 8,
+      index: 9,
       title: 'Kā notiek piekļuve ar digitālajām ieejas kartēm?',
       text: (
         <span>
@@ -129,7 +142,7 @@ const FAQ = () => {
       ),
     },
     {
-      index: 9,
+      index: 10,
       title: 'Kā varu dabūt maksājuma čekus ar rekvizītiem?',
       text: (
         <span>
