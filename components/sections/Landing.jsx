@@ -18,7 +18,7 @@ import FAQ from './FAQ';
 
 const HeroSection = () => {
   return (
-    <div className="relative min-h-screen w-full">
+    <div id="hero" className="relative min-h-screen w-full">
       <TopNav />
       <Image
         src="/hero.jpg"

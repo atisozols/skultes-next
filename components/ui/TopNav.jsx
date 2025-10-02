@@ -13,12 +13,14 @@ const MENU_SECTIONS = [
   { id: 'main', label: 'Lielā zāle' },
   { id: 'private', label: 'Privātā zāle' },
   { id: 'digital', label: 'Digitāla platforma' },
+  { id: 'coaches', label: 'Treneri' },
   { id: 'pricing', label: 'Cenas' },
   { id: 'faq', label: 'BUJ' },
 ];
 
 const BLUR_AMOUNT = 16;
-const BG_OPACITY = 0.92;
+const BG_OPACITY = 0.6;
+const MAX_RADIUS = 16;
 
 const DesktopNav = () => {
   const router = useRouter();
@@ -165,6 +167,20 @@ const MobileNav = () => {
   const router = useRouter();
   const navRef = useRef(null);
   const menuAnimationRef = useRef(null);
+  const prevMenuOpenRef = useRef(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [menuCollapseDone, setMenuCollapseDone] = useState(true);
+  const closingTimerRef = useRef(null);
+  const [contentExitDone, setContentExitDone] = useState(true);
+
+  const handleMenuClick = () => {
+    if (!menuOpen) {
+      setMenuOpen(true);
+    } else {
+      setIsClosing(true);
+      setMenuOpen(false);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -189,7 +205,7 @@ const MobileNav = () => {
         !event.target.closest('.menu-content-wrapper') &&
         !event.target.closest('.menu-button')
       ) {
-        setMenuOpen(false);
+        handleMenuClick();
       }
     };
 
@@ -214,8 +230,37 @@ const MobileNav = () => {
     };
   }, [menuOpen]);
 
+  // Detect opening/closing to orchestrate reverse sequence precisely
+  useEffect(() => {
+    if (!prevMenuOpenRef.current && menuOpen) {
+      // Opening: reset collapse flag
+      setMenuCollapseDone(false);
+    }
+    if (prevMenuOpenRef.current && !menuOpen) {
+      // Start closing phase; will end on exit complete
+      setIsClosing(true);
+      setMenuCollapseDone(false);
+      setContentExitDone(false);
+    }
+    prevMenuOpenRef.current = menuOpen;
+  }, [menuOpen]);
+
+  // End closing phase once collapse animation reports done
+  useEffect(() => {
+    if (isClosing && menuCollapseDone) {
+      // wait for nav rounding/margins to animate after collapse
+      if (closingTimerRef.current) clearTimeout(closingTimerRef.current);
+      closingTimerRef.current = setTimeout(() => {
+        setIsClosing(false);
+      }, 25);
+    }
+    return () => {
+      if (closingTimerRef.current) clearTimeout(closingTimerRef.current);
+    };
+  }, [isClosing, menuCollapseDone]);
+
   const handleSectionClick = (sectionId) => {
-    setMenuOpen(false);
+    handleMenuClick();
 
     const isLoginPage = window.location.pathname.includes('/log-in');
 
@@ -232,89 +277,121 @@ const MobileNav = () => {
   };
 
   const contentVariants = {
-    hidden: {
-      opacity: 0,
-      transition: {
-        duration: 0.25,
-      },
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        delay: 0.15,
-      },
-    },
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
   };
 
   const menuVariants = {
-    hidden: {
-      height: 0,
-      transition: {
-        height: { duration: 0.3, delay: 0.1 },
-      },
-    },
-    visible: {
-      height: 'calc(100vh - 68px)',
-      transition: {
-        height: { duration: 0.3, ease: 'easeOut' },
-      },
-    },
+    hidden: { height: 0, opacity: 0 },
+    visible: { height: 'calc(100vh - 68px)', opacity: 1 },
   };
 
-  const getBackdropStyles = () => {
-    const blurValue = menuOpen ? BLUR_AMOUNT : Math.floor(scrollProgress * BLUR_AMOUNT);
-    const opacityValue = menuOpen ? BG_OPACITY : scrollProgress * BG_OPACITY;
+  const getBackdropStyles = (p) => {
+    const blurValue = BLUR_AMOUNT * p;
 
     return {
       backdropFilter: `blur(${blurValue}px)`,
-      backgroundColor: `rgba(0, 0, 0, ${opacityValue})`,
     };
   };
 
-  const backdropStyles = getBackdropStyles();
+  const scrollP = scrollProgress;
+  const blurProgress = menuOpen || (isClosing && (!menuCollapseDone || !contentExitDone)) ? 1 : scrollP;
+  const backdropStyles = getBackdropStyles(blurProgress);
+  const overlayOpacityTarget = menuOpen || (isClosing && (!menuCollapseDone || !contentExitDone))
+    ? BG_OPACITY
+    : BG_OPACITY * scrollP;
+
+  // Transition sequencing
+  const openTransition = {
+    top: { duration: 0.18, ease: 'easeInOut', delay: 0 },
+    left: { duration: 0.18, ease: 'easeInOut', delay: 0 },
+    right: { duration: 0.18, ease: 'easeInOut', delay: 0 },
+    borderRadius: { duration: 0.18, ease: 'easeInOut', delay: 0 },
+  };
+  const closingTransition = {
+    top: { duration: 0.18, ease: 'easeInOut', delay: 0 },
+    left: { duration: 0.18, ease: 'easeInOut', delay: 0 },
+    right: { duration: 0.18, ease: 'easeInOut', delay: 0 },
+    borderRadius: { duration: 0.18, ease: 'easeInOut', delay: 0 },
+  };
+  const scrollTransition = {
+    top: { duration: 0.15, ease: 'easeOut', delay: 0 },
+    left: { duration: 0.15, ease: 'easeOut', delay: 0 },
+    right: { duration: 0.15, ease: 'easeOut', delay: 0 },
+    borderRadius: { duration: 0.15, ease: 'easeOut', delay: 0 },
+  };
+  const navTransition = menuOpen
+    ? openTransition
+    : isClosing
+      ? closingTransition
+      : scrollTransition;
 
   return (
     <>
-      <div className="fixed left-1/2 top-4 z-50 -translate-x-1/2 transform">
-        <Image
-          className="h-10 w-auto"
-          src="/logo_red.png"
-          alt="Ozols Logo"
-          width={750}
-          height={204}
-        />
-      </div>
-
-      <div
-        className="fixed left-0 right-0 top-0 z-40 flex flex-col transition-all duration-300"
-        style={backdropStyles}
+      <motion.div
+        className="fixed left-0 right-0 top-0 z-40 flex flex-col overflow-hidden"
+        style={{ ...backdropStyles, willChange: 'border-radius, top, left, right' }}
+        animate={{
+          top: menuOpen || (isClosing && !menuCollapseDone) ? 0 : 12 * scrollP,
+          left: menuOpen || (isClosing && !menuCollapseDone) ? 0 : 12 * scrollP,
+          right: menuOpen || (isClosing && !menuCollapseDone) ? 0 : 12 * scrollP,
+          borderRadius: menuOpen || (isClosing && !menuCollapseDone) ? 0 : MAX_RADIUS * scrollP,
+        }}
+        transition={navTransition}
       >
-        <nav ref={navRef} className="z-50 flex items-center justify-between px-5 py-4">
+        <motion.div
+          className="pointer-events-none absolute inset-0 z-0"
+          initial={false}
+          animate={{ opacity: overlayOpacityTarget }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          style={{ backgroundColor: 'rgba(0,0,0,1)', borderRadius: 'inherit' }}
+        />
+        <nav ref={navRef} className="relative z-50 flex h-[68px] items-center justify-between px-5">
           <Link href="/log-in">
-            <MdPerson className="text-3xl text-accent" />
+            <MdPerson className="text-3xl leading-none text-accent" />
           </Link>
-          <div className="invisible h-10 w-10"></div>
+          <div
+            onClick={() => document.getElementById('hero').scrollIntoView()}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          >
+            <motion.div
+              className="pointer-events-none"
+              animate={{ scale: menuOpen ? 1 : 1 - 0.1 * scrollP }}
+              transition={{ duration: isClosing ? 0.2 : 0.2, delay: isClosing ? 0.25 : 0 }}
+            >
+              <Image
+                className="block h-10 w-auto"
+                src="/logo_red.png"
+                alt="Ozols Logo"
+                width={750}
+                height={204}
+              />
+            </motion.div>
+          </div>
           <button
             className="menu-button relative z-50 h-8 w-8 focus:outline-none"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => handleMenuClick()}
           >
-            <div className="absolute right-[90%] top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-              <span
-                className={`absolute block h-0.5 w-6 transform bg-accent transition duration-300 ease-in-out ${
-                  menuOpen ? 'rotate-45' : '-translate-y-2'
-                }`}
-              ></span>
-              <span
-                className={`absolute block h-0.5 w-6 bg-accent transition-opacity duration-300 ease-in-out ${
-                  menuOpen ? 'opacity-0' : 'opacity-100'
-                }`}
-              ></span>
-              <span
-                className={`absolute block h-0.5 w-6 transform bg-accent transition duration-300 ease-in-out ${
-                  menuOpen ? '-rotate-45' : 'translate-y-2'
-                }`}
-              ></span>
+            <div className="absolute inset-0 grid place-items-center">
+              <div className="relative h-6 w-6">
+                <div className="absolute inset-0">
+                  <span
+                    className={`absolute left-1/2 top-1/2 block h-0.5 w-6 origin-center -translate-x-1/2 -translate-y-1/2 transform-gpu rounded-full bg-accent transition-all duration-200 ease-out ${
+                      menuOpen ? 'w-5 translate-y-0 rotate-45' : 'w-6 -translate-y-[7px]'
+                    }`}
+                  ></span>
+                  <span
+                    className={`absolute left-1/2 top-[13px] block h-0.5 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent transition-opacity duration-200 ease-out ${
+                      menuOpen ? 'opacity-0' : 'opacity-100'
+                    }`}
+                  ></span>
+                  <span
+                    className={`absolute left-1/2 top-1/2 block h-0.5 w-6 origin-center -translate-x-1/2 -translate-y-1/2 transform-gpu rounded-full bg-accent transition-all duration-200 ease-out ${
+                      menuOpen ? 'w-5 translate-y-0 -rotate-45' : 'w-6 translate-y-[7px]'
+                    }`}
+                  ></span>
+                </div>
+              </div>
             </div>
           </button>
         </nav>
@@ -323,7 +400,7 @@ const MobileNav = () => {
           className="pointer-events-none fixed inset-x-0 top-[68px] flex items-center justify-center"
           style={{ height: 'calc(100vh - 68px)' }}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" onExitComplete={() => setContentExitDone(true)}>
             {menuOpen && (
               <motion.div
                 className="pointer-events-auto flex w-full flex-col items-start gap-1 p-4"
@@ -331,22 +408,26 @@ const MobileNav = () => {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
+                transition={{
+                  duration: 0.2,
+                  delay: isClosing ? 0 : 0.2,
+                }}
               >
                 {MENU_SECTIONS.map((section) => (
-                  <button
+                  <motion.button
                     key={section.id}
                     onClick={() => handleSectionClick(section.id)}
                     className="w-full rounded-lg px-4 py-3 text-left text-2xl font-light text-foreground transition-colors duration-200 hover:bg-white/10"
                   >
                     {section.label}
-                  </button>
+                  </motion.button>
                 ))}
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" onExitComplete={() => setMenuCollapseDone(true)}>
           {menuOpen && (
             <motion.div
               className="menu-content-wrapper overflow-hidden"
@@ -355,10 +436,13 @@ const MobileNav = () => {
               initial="hidden"
               animate="visible"
               exit="hidden"
+              transition={{
+                height: { duration: 0.2, ease: 'easeOut', delay: 0.1 },
+              }}
             />
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </>
   );
 };
