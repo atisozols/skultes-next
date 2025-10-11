@@ -24,7 +24,6 @@ const fetchAppointments = async (token) => {
   return response.json();
 };
 
-// Cancel an appointment
 const cancelAppointment = async (appointmentId, token) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/appointments/delete`, {
     method: 'POST',
@@ -38,6 +37,25 @@ const cancelAppointment = async (appointmentId, token) => {
   if (!response.ok) {
     const errorData = await response.json();
     console.error(errorData.message || 'Failed to cancel appointment');
+    return null;
+  }
+
+  return response.json();
+};
+
+const unlockDoor = async (appointmentId, token) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/appointments/unlock`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ id: appointmentId }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error(errorData.message || 'Failed to unlock appointment');
     return null;
   }
 
@@ -58,7 +76,7 @@ export function useAppointments() {
       return failureCount < 3;
     },
     retryDelay: 1000, // Wait 1 second between retries
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 30 * 1000, // 30 seconds
     gcTime: 10 * 60 * 1000, // 10 minutes
   });
 }
@@ -70,6 +88,20 @@ export function useCancelAppointmentMutation() {
 
   return useMutation({
     mutationFn: async (appointmentId) => cancelAppointment(appointmentId, await getToken()),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: APPOINTMENTS_QUERY_KEY });
+      return data;
+    },
+  });
+}
+
+// Hook for unlocking an appointment
+export function useUnlockDoorMutation() {
+  const { getToken } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (appointmentId) => unlockDoor(appointmentId, await getToken()),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: APPOINTMENTS_QUERY_KEY });
       return data;
