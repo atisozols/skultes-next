@@ -15,7 +15,7 @@ const GroupSessions = () => {
       <AvailableSessions sessions={data.sessions} />
       <p className="w-full text-center text-sm">
         Visiem biedriem ar aktīvu Lielās zāles abonementu nodarbības ir{' '}
-        <span className="font-medium text-accent">bezmaksas</span>.
+        <span className="font-medium text-accent">bezmaksas</span>
       </p>
     </Section>
   );
