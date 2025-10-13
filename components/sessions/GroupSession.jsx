@@ -118,10 +118,10 @@ const GroupSession = ({ session }) => {
                 <MdOutlineAccessTime />
                 <span>{formatDateTime(session.startTime, session.endTime).time}</span>
               </div>
-              <div className="flex items-center gap-1 text-sm">
+              {/* <div className="flex items-center gap-1 text-sm">
                 <LuTicket />
                 <span>&euro;{session.price} (Apmaksa klātienē)</span>
-              </div>
+              </div> */}
             </div>
             <div className="flex w-full items-center justify-between gap-2">
               <Button variant="outline" className="gap-1 font-medium uppercase" disabled>
