@@ -15,9 +15,7 @@ const GroupSessions = () => {
       <AvailableSessions sessions={data.sessions} />
       <p className="w-full text-center text-sm">
         Visiem biedriem ar aktīvu Lielās zāles abonementu nodarbības ir{' '}
-        <span className="font-semibold">bezmaksas</span>. <br />
-        Atcelt dalību iespējams divas stundas pirms nodarbības, pretējā gadījumā par nodarbību ir
-        jāmaksā &euro;10.
+        <span className="font-medium text-accent">bezmaksas</span>.
       </p>
     </Section>
   );

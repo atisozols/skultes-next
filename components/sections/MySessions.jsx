@@ -40,7 +40,8 @@ const MySessions = () => {
         <MySessionsList sessions={registeredSessions} />
       </Container>
       <p className="w-full text-center text-xs text-alternate">
-        Atcelt iespējams ne vēlāk kā 2 stundas pirms nodarbības sākuma
+        Atcelt iespējams ne vēlāk kā 2 stundas pirms nodarbības sākuma, pretējā gadījumā par
+        nodarbību ir jāmaksā &euro;10.
       </p>
     </Section>
   );
