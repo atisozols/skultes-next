@@ -6,6 +6,7 @@ import Container from '../ui/Container';
 import Section from '../ui/Section';
 import { useAvailabilityQuery } from '@/hooks/queries/useAvailability';
 import { FaLock } from 'react-icons/fa';
+import { FaCircleInfo } from 'react-icons/fa6';
 
 const MakeReservation = () => {
   const { data: availability, isLoading, error } = useAvailabilityQuery();
@@ -32,6 +33,14 @@ const MakeReservation = () => {
 
   return (
     <Section title={<span className="flex items-center text-2xl">Privātā zāle</span>}>
+      {new Date() < new Date('2026-01-01') && (
+        <Container className="mb-3 border border-foreground">
+          <div className="flex items-center px-4 py-2 text-sm text-foreground">
+            <FaCircleInfo className="mr-2" />{' '}
+            <span>No 01.01.2026. cena mainās uz 25&euro;/stundā</span>
+          </div>
+        </Container>
+      )}
       <Container>{availability && <ReservationForm availability={availability} />}</Container>
     </Section>
   );

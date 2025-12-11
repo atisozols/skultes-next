@@ -67,8 +67,8 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const total = (half = false) => {
-    return calculateTotalPricing(cart, half);
+  const total = () => {
+    return calculateTotalPricing(cart);
   };
 
   return (

@@ -1,14 +1,18 @@
 'use client';
 import { LuX } from 'react-icons/lu';
 import timeSlots from '../../utils/book/timeSlots';
-import { formatAppointmentDate } from '@/utils/appointmentFormatter';
 import { useCart } from '../../context/CartContext';
 import calculatePricing from '@/utils/pricing/calculatePricing';
-import { useUser } from '@clerk/nextjs';
+
+const NEW_PRICING_START_DATE = new Date('2026-01-01');
+
+const isBeforeNewPricing = (dateString) => {
+  const bookingDate = new Date(dateString);
+  return bookingDate < NEW_PRICING_START_DATE;
+};
 
 const CartItem = ({ item }) => {
   const { removeFromCart } = useCart();
-  const { isSignedIn } = useUser();
 
   return (
     <div className="flex w-full items-center justify-between">
@@ -27,7 +31,9 @@ const CartItem = ({ item }) => {
       <div className="flex items-center gap-2">
         <span className="text-base font-medium">
           &euro;
-          {(calculatePricing(item.start_index, item.end_index, isSignedIn) / 100).toFixed(2)}
+          {(
+            calculatePricing(item.start_index, item.end_index, isBeforeNewPricing(item.date)) / 100
+          ).toFixed(2)}
         </span>
         <div className="flex items-center">
           <button

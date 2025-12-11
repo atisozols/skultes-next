@@ -75,7 +75,7 @@ const PRIVATE_OPTIONS = [
   {
     id: 'day',
     label: 'Cena par stundu',
-    price: '€15.00',
+    price: '€25.00',
     description: 'Izbaudi netraucētu treniņu vidi',
     icon: true,
   },

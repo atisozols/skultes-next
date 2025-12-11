@@ -2,11 +2,9 @@
 import { useCart } from '../../context/CartContext';
 import { Button } from '../ui/Button';
 import CartItem from './CartItem';
-import { useUser } from '@clerk/nextjs';
 
 const CartContent = () => {
   const { cart, checkout, total, loading, cartError } = useCart();
-  const { isSignedIn } = useUser();
 
   return (
     <div id="cart">
@@ -34,7 +32,7 @@ const CartContent = () => {
           className="w-full font-medium uppercase"
           disabled={loading}
         >
-          Apmaksāt: &euro;{(total(isSignedIn) / 100).toFixed(2)}
+          Apmaksāt: &euro;{(total() / 100).toFixed(2)}
         </Button>
       </div>
     </div>

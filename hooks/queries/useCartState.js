@@ -27,34 +27,37 @@ export function useCartState() {
   }, [cart, queryClient]);
 
   // Add item to cart
-  const addToCart = useCallback((appointment) => {
-    setCart((prevCart) => {
-      const newCart = [...prevCart, appointment];
-      return newCart;
-    });
+  const addToCart = useCallback(
+    (appointment) => {
+      setCart((prevCart) => {
+        const newCart = [...prevCart, appointment];
+        return newCart;
+      });
 
-    // If this is the first time adding to cart in this session, scroll the cart into view
-    if (isFirstAddToCart) {
-      setTimeout(() => {
-        const cartElement = document.getElementById('cart');
-        if (cartElement) {
-          cartElement.scrollIntoView({ behavior: 'smooth' });
-        }
-        setIsFirstAddToCart(false);
-      }, 100);
-    }
-  }, [isFirstAddToCart]);
+      // If this is the first time adding to cart in this session, scroll the cart into view
+      if (isFirstAddToCart) {
+        setTimeout(() => {
+          const cartElement = document.getElementById('cart');
+          if (cartElement) {
+            cartElement.scrollIntoView({ behavior: 'smooth' });
+          }
+          setIsFirstAddToCart(false);
+        }, 100);
+      }
+    },
+    [isFirstAddToCart],
+  );
 
   // Remove item from cart
   const removeFromCart = useCallback((date, start_index) => {
     setCart((prevCart) =>
-      prevCart.filter((item) => !(item.start_index === start_index && item.date === date))
+      prevCart.filter((item) => !(item.start_index === start_index && item.date === date)),
     );
   }, []);
 
   // Calculate total price
-  const total = useCallback((half = false) => {
-    return calculateTotalPricing(cart, half);
+  const total = useCallback(() => {
+    return calculateTotalPricing(cart);
   }, [cart]);
 
   // Clear cart
@@ -67,6 +70,6 @@ export function useCartState() {
     addToCart,
     removeFromCart,
     total,
-    clearCart
+    clearCart,
   };
 }
