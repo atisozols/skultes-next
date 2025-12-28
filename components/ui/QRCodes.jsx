@@ -113,12 +113,15 @@ const QRCodes = () => {
           priority
         />
         <div
-          className={`rounded-2xl bg-white p-4 shadow-xl transition-opacity duration-150 ${overlayVisible ? 'opacity-100' : 'opacity-0'}`}
+          className={`qr-force-light rounded-2xl bg-white p-4 shadow-xl transition-opacity duration-150 ${overlayVisible ? 'opacity-100' : 'opacity-0'}`}
+          style={{ backgroundColor: '#ffffff', color: '#000000', colorScheme: 'light' }}
         >
           {QR_OPTIONS[selected] && QR_OPTIONS[selected].code ? (
             <QRCode
               value={QR_OPTIONS[selected].code}
               className="h-full max-h-[288px] w-full max-w-[288px]"
+              bgColor="#ffffff"
+              fgColor="#000000"
             />
           ) : (
             <p className="p-8 text-sm text-gray-500">QR kods nav pieejams</p>

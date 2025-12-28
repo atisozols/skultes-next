@@ -13,11 +13,25 @@
   --success: #34c759;
   --warning: #ffcc00;
   --error: #ff2429;
+  color-scheme: dark;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
+}
+
+.qr-force-light {
+  color-scheme: only light;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  isolation: isolate;
+}
+
+.qr-force-light svg {
+  background-color: #ffffff !important;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -68,7 +82,7 @@ body {
         transparent 100%
       );
     }
-    
+
     /* iOS specific fixes */
     transform: translateZ(0); /* Force hardware acceleration */
     will-change: transform; /* Hint browser for optimization */

@@ -55,6 +55,10 @@ export const metadata = {
     description: 'Vieta, kur satiekas kustība, motivācija un veselīgs dzīvesveids.',
     images: ['/social-share.png'],
   },
+  other: {
+    'color-scheme': 'dark',
+    'supported-color-schemes': 'dark',
+  },
   manifest: '/site.webmanifest',
 };
 
