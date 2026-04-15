@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { addDays, format } from 'date-fns';
+import { addDays, differenceInCalendarDays, format } from 'date-fns';
 import { usePhotoVerification } from '@/hooks/queries/usePhotoVerification';
 import { useDiscountVerification } from '@/hooks/queries/useDiscountVerification';
 import PhotoUploadModal from './PhotoUploadModal';
@@ -27,6 +27,13 @@ function formatDateLabel(dateValue) {
 function getPhotoGraceDeadline(gracePeriodStartedAt) {
   if (!gracePeriodStartedAt) return null;
   return addDays(new Date(gracePeriodStartedAt), 7);
+}
+
+function isWithinTwoWeeks(dateValue) {
+  if (!dateValue) return false;
+  const parsed = dateValue instanceof Date ? dateValue : new Date(dateValue);
+  if (Number.isNaN(parsed.getTime())) return false;
+  return differenceInCalendarDays(parsed, new Date()) < 14;
 }
 
 function StatusStackCard({
@@ -121,7 +128,7 @@ const PhotoCard = () => {
   const config = photoConfig(status);
 
   const secondaryCard =
-    status === 'missing' && graceDeadlineLabel
+    status === 'missing' && graceDeadlineLabel && isWithinTwoWeeks(graceDeadline)
       ? {
           label: 'Līdz',
           value: graceDeadlineLabel,
@@ -201,7 +208,7 @@ const DiscountCard = () => {
   const config = discountConfig(status, discountActive);
 
   const secondaryCard =
-    discountActive && discountUntil
+    discountActive && discountUntil && isWithinTwoWeeks(discountUntil)
       ? {
           label: 'Līdz',
           value: formatDateLabel(discountUntil),

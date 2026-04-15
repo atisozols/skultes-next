@@ -130,26 +130,22 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
           className={`flex items-center gap-1 rounded-full text-background ${bgColor} cursor-pointer overflow-hidden whitespace-nowrap px-4 py-1`}
           onClick={handleStatusClick}
           layout
-          style={{
-            height: '36px',
-            transition: 'width 0.3s ease-in-out',
-          }}
-          transition={{ duration: 0.3, type: 'spring', stiffness: 500, damping: 30 }}
+          style={{ height: '36px' }}
+          transition={{ layout: { duration: 0.3, type: 'spring', stiffness: 500, damping: 30 } }}
         >
-          <div className="relative w-full overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={statusText}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="block w-full text-center"
-              >
-                {statusText}
-              </motion.span>
-            </AnimatePresence>
-          </div>
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={statusText}
+              layout="position"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ opacity: { duration: 0.15 } }}
+              className="block whitespace-nowrap text-center"
+            >
+              {statusText}
+            </motion.span>
+          </AnimatePresence>
         </motion.div>
         <PlusToggleButton
           isOpen={isOpen}
