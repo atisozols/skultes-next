@@ -1,7 +1,7 @@
 'use client';
 import FormElement from '../ui/FormElement';
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useUser } from '@/hooks/queries/useUser';
 import PlusToggleButton from '../ui/PlusToggleButton';
 
@@ -12,6 +12,8 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
   const [showAktivs, setShowAktivs] = useState(false);
   const [showCountdown, setShowCountdown] = useState(false);
   const [timeoutId, setTimeoutId] = useState(null);
+  const [displayedText, setDisplayedText] = useState('');
+  const [textOpacity, setTextOpacity] = useState(1);
 
   // Derive an immediate remaining time from bestBefore to avoid a brief false "ended" state
   const derivedInitialRemaining = userData?.bestBefore
@@ -19,6 +21,51 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
     : null;
   const effectiveRemaining = timeRemaining ?? derivedInitialRemaining;
   const isMemberNow = (effectiveRemaining != null && effectiveRemaining > 0) || userData?.isMember;
+
+  // Determine status color and text (computed before hooks that depend on statusText)
+  let bgColor = 'bg-zinc-600';
+  let statusText = 'Abonements beidzies';
+
+  if (isMemberNow && effectiveRemaining !== null) {
+    if (effectiveRemaining > 12 * 60 * 60 * 1000) {
+      bgColor = 'bg-success';
+      statusText = showCountdown
+        ? `Līdz ${userData?.bestBefore ? new Date(userData.bestBefore).toLocaleDateString('lv-LV', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }) : ''}`
+        : 'Abonements aktīvs';
+    } else if (effectiveRemaining > 0) {
+      bgColor = 'bg-warning';
+      statusText = showAktivs ? `${countdown}` : 'Abonements aktīvs';
+    }
+  }
+
+  // Orchestrate text transition: fade out -> resize (layout) -> fade in
+  useEffect(() => {
+    if (displayedText === '') {
+      setDisplayedText(statusText);
+      return;
+    }
+    if (displayedText === statusText) return;
+    setTextOpacity(0);
+    const fadeOutMs = 280;
+    const resizeMs = 320;
+    const t1 = setTimeout(() => {
+      setDisplayedText(statusText);
+      const t2 = setTimeout(() => {
+        setTextOpacity(1);
+      }, resizeMs);
+      // store for cleanup
+      t1.inner = t2;
+    }, fadeOutMs);
+    return () => {
+      clearTimeout(t1);
+      if (t1.inner) clearTimeout(t1.inner);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusText]);
 
   useEffect(() => {
     if (!userData?.bestBefore) return;
@@ -95,34 +142,6 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
     }
   };
 
-  // Determine status color and text
-  let statusColor = 'text-zinc-400';
-  let bgColor = 'bg-zinc-600';
-  let statusText = 'Abonements beidzies';
-  let isActive = false;
-
-  if (isMemberNow && effectiveRemaining !== null) {
-    if (effectiveRemaining > 12 * 60 * 60 * 1000) {
-      // More than 12 hours - emerald
-      statusColor = 'text-success';
-      bgColor = 'bg-success';
-      statusText = showCountdown
-        ? `Līdz ${new Date(userData.bestBefore).toLocaleDateString('lv-LV', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          })}`
-        : 'Abonements aktīvs';
-      isActive = true;
-    } else if (effectiveRemaining > 0) {
-      // Less than 12 hours - amber with countdown
-      statusColor = 'text-warning';
-      bgColor = 'bg-warning';
-      statusText = showAktivs ? `${countdown}` : 'Abonements aktīvs';
-      isActive = true;
-    }
-  }
-
   return (
     <>
       <FormElement className="border-none">
@@ -131,21 +150,18 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
           onClick={handleStatusClick}
           layout
           style={{ height: '36px' }}
-          transition={{ layout: { duration: 0.3, type: 'spring', stiffness: 500, damping: 30 } }}
+          transition={{
+            layout: { duration: 0.32, ease: [0.4, 0, 0.2, 1] },
+            backgroundColor: { duration: 0.4, ease: 'easeInOut' },
+          }}
         >
-          <AnimatePresence mode="popLayout" initial={false}>
-            <motion.span
-              key={statusText}
-              layout="position"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ opacity: { duration: 0.15 } }}
-              className="block whitespace-nowrap text-center"
-            >
-              {statusText}
-            </motion.span>
-          </AnimatePresence>
+          <motion.span
+            animate={{ opacity: textOpacity }}
+            transition={{ duration: 0.28, ease: 'easeInOut' }}
+            className="block whitespace-nowrap text-center"
+          >
+            {displayedText || statusText}
+          </motion.span>
         </motion.div>
         <PlusToggleButton
           isOpen={isOpen}
