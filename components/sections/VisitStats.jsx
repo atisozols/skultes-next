@@ -82,6 +82,16 @@ const VisitStats = () => {
         onClick={() => setShowModal(true)}
       >
         <div className="flex gap-[3px]">
+          <div className="flex flex-1 flex-col gap-[3px] pr-0.5">
+            {['P', 'O', 'T', 'C', 'P', 'S', 'S'].map((label, i) => (
+              <div
+                key={i}
+                className="flex aspect-square w-full items-center justify-center text-[7px] leading-none text-alternate"
+              >
+                {label}
+              </div>
+            ))}
+          </div>
           {weeks.map((week, wi) => (
             <div key={wi} className="flex flex-1 flex-col gap-[3px]">
               {week.map((day) => (
