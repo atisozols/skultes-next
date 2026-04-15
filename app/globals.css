@@ -10,9 +10,19 @@
   --foreground: #ffffff;
   --accent: #ff2429;
   --ozols: #ff0006;
+
   --success: #34c759;
+  --success-surface: #0a2a14;
+  --success-elevated: #0f3d1d;
+  --success-border: rgba(52, 199, 89, 0.34);
   --warning: #ffcc00;
+  --warning-surface: #332800;
+  --warning-elevated: #4d3d00;
+  --warning-border: rgba(255, 204, 0, 0.34);
   --error: #ff2429;
+  --error-surface: #330709;
+  --error-elevated: #4d0b0d;
+  --error-border: rgba(255, 36, 41, 0.34);
   color-scheme: dark;
 }
 

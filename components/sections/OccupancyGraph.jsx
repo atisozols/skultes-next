@@ -19,17 +19,17 @@ const getOccupancyInfo = (live, avg) => {
   const situation = getSituation(live);
 
   if (live === 0) {
-    return { comparison: null, situation, color: 'text-success' };
+    return { comparison: null, situation, tone: 'success' };
   }
   if (avg === 0 || avg == null) {
-    const color = live < 15 ? 'text-success' : live < 20 ? 'text-warning' : 'text-error';
-    return { comparison: null, situation, color };
+    const tone = live < 15 ? 'success' : live < 20 ? 'warning' : 'error';
+    return { comparison: null, situation, tone };
   }
   const ratio = live / avg;
-  if (ratio < 0.8) return { comparison: 'Mierīgāk nekā parasti', situation, color: 'text-success' };
-  if (ratio <= 1.2) return { comparison: 'Kā parasti', situation, color: 'text-success' };
-  if (ratio <= 1.6) return { comparison: 'Rosīgāk nekā parasti', situation, color: 'text-warning' };
-  return { comparison: 'Daudz rosīgāk nekā parasti', situation, color: 'text-error' };
+  if (ratio < 0.8) return { comparison: 'Mierīgāk nekā parasti', situation, tone: 'success' };
+  if (ratio <= 1.2) return { comparison: 'Kā parasti', situation, tone: 'success' };
+  if (ratio <= 1.6) return { comparison: 'Rosīgāk nekā parasti', situation, tone: 'warning' };
+  return { comparison: 'Daudz rosīgāk nekā parasti', situation, tone: 'error' };
 };
 
 const OccupancyGraph = () => {
@@ -58,12 +58,10 @@ const OccupancyGraph = () => {
   const info = getOccupancyInfo(live, avgForCurrentHour);
   const isWithinHours = currentHour >= GYM_OPEN && currentHour < GYM_CLOSE;
 
-  const dotColor =
-    info.color === 'text-success'
-      ? 'bg-success'
-      : info.color === 'text-warning'
-        ? 'bg-warning'
-        : 'bg-error';
+  const toneTextClass =
+    info.tone === 'success' ? 'text-success' : info.tone === 'warning' ? 'text-warning' : 'text-error';
+  const toneFillClass =
+    info.tone === 'success' ? 'bg-success' : info.tone === 'warning' ? 'bg-warning' : 'bg-error';
 
   return (
     <div
@@ -77,11 +75,11 @@ const OccupancyGraph = () => {
             <>
               <span className="relative flex h-2 w-2">
                 <span
-                  className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${dotColor}`}
+                  className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${toneFillClass}`}
                 />
-                <span className={`relative inline-flex h-2 w-2 rounded-full ${dotColor}`} />
+                <span className={`relative inline-flex h-2 w-2 rounded-full ${toneFillClass}`} />
               </span>
-              <span className={`text-xs font-medium ${info.color}`}>
+              <span className={`text-xs font-medium ${toneTextClass}`}>
                 {info.comparison ? `${info.comparison} · ${info.situation}` : info.situation}
               </span>
             </>
@@ -112,7 +110,7 @@ const OccupancyGraph = () => {
                   style={{ height: `${Math.max(avgPct, 4)}%` }}
                 />
                 <div
-                  className="relative w-full rounded-sm bg-accent"
+                  className={`relative w-full rounded-sm ${toneFillClass}`}
                   style={{ height: `${Math.max(livePct, 4)}%` }}
                 />
               </div>
@@ -141,7 +139,7 @@ const OccupancyGraph = () => {
               {showLabel && (
                 <span
                   className={`text-[10px] tabular-nums ${
-                    isCurrent ? 'font-medium text-accent' : 'text-alternate'
+                    isCurrent ? `font-medium ${toneTextClass}` : 'text-alternate'
                   }`}
                 >
                   {hour}

@@ -21,7 +21,7 @@ function formatDateLabel(dateValue) {
   const parsedDate = new Date(dateValue);
   if (Number.isNaN(parsedDate.getTime())) return null;
 
-  return format(parsedDate, 'MM.dd.yyyy');
+  return format(parsedDate, 'dd.MM.yyyy');
 }
 
 function getPhotoGraceDeadline(gracePeriodStartedAt) {
@@ -44,8 +44,9 @@ function StatusStackCard({
     <div className={`${WRAPPER_BASE} ${secondary ? 'pb-9' : ''}`}>
       {secondary ? (
         <div className={`${SECONDARY_CARD_BASE} ${secondary.colorClass}`}>
-          <p className="text-white/88 flex justify-between text-center text-xs font-semibold">
-            {secondary.label} <span className="tabular-nums text-white">{secondary.value}</span>
+          <p className="text-white/88 flex justify-between text-center text-xs font-normal tracking-[0.08em]">
+            {secondary.label}{' '}
+            <span className="font-semibold tabular-nums text-white">{secondary.value}</span>
           </p>
         </div>
       ) : null}
@@ -75,36 +76,36 @@ const photoConfig = (status) => {
   switch (status) {
     case 'approved':
       return {
-        colorClass: 'bg-green-950 border-green-800',
-        icon: <LuCircleCheck className="shrink-0 text-2xl text-green-400 sm:text-3xl" />,
+        colorClass: 'bg-[var(--success-surface)] border-[var(--success-border)]',
+        icon: <LuCircleCheck className="shrink-0 text-2xl text-success sm:text-3xl" />,
         label: 'Konts verificēts',
         tappable: false,
-        loaderClass: 'text-green-300',
+        loaderClass: 'text-success',
       };
     case 'pending':
       return {
-        colorClass: 'bg-yellow-950 border-yellow-800',
-        icon: <LuClock className="shrink-0 text-2xl text-yellow-400 sm:text-3xl" />,
+        colorClass: 'bg-[var(--warning-surface)] border-[var(--warning-border)]',
+        icon: <LuClock className="shrink-0 text-2xl text-warning sm:text-3xl" />,
         label: 'Notiek pārbaude',
         tappable: false,
-        loaderClass: 'text-yellow-300',
+        loaderClass: 'text-warning',
       };
     case 'rejected':
       return {
-        colorClass: 'bg-red-950 border-red-800',
-        icon: <LuCircleX className="shrink-0 text-2xl text-red-400 sm:text-3xl" />,
+        colorClass: 'bg-[var(--error-surface)] border-[var(--error-border)]',
+        icon: <LuCircleX className="shrink-0 text-2xl text-error sm:text-3xl" />,
         label: 'Verifikācija neveiksmīga',
         tappable: true,
-        loaderClass: 'text-red-300',
+        loaderClass: 'text-error',
       };
     case 'missing':
     default:
       return {
-        colorClass: 'bg-red-950 border-red-800',
-        icon: <LuCamera className="shrink-0 text-2xl text-red-400 sm:text-3xl" />,
+        colorClass: 'bg-[var(--error-surface)] border-[var(--error-border)]',
+        icon: <LuCamera className="shrink-0 text-2xl text-error sm:text-3xl" />,
         label: 'Verificē sevi',
         tappable: true,
-        loaderClass: 'text-red-300',
+        loaderClass: 'text-error',
       };
   }
 };
@@ -124,7 +125,7 @@ const PhotoCard = () => {
       ? {
           label: 'Līdz',
           value: graceDeadlineLabel,
-          colorClass: 'bg-red-900 border-red-800',
+          colorClass: 'bg-[var(--error-elevated)] border-[var(--error-border)]',
         }
       : null;
 
@@ -152,31 +153,31 @@ const PhotoCard = () => {
 const discountConfig = (status, discountActive) => {
   if (discountActive) {
     return {
-      colorClass: 'bg-green-950 border-green-800',
-      icon: <LuPercent className="shrink-0 text-2xl text-green-400 sm:text-3xl" />,
+      colorClass: 'bg-[var(--success-surface)] border-[var(--success-border)]',
+      icon: <LuPercent className="shrink-0 text-2xl text-success sm:text-3xl" />,
       label: 'Atlaide aktīva',
       tappable: false,
-      loaderClass: 'text-green-300',
+      loaderClass: 'text-success',
     };
   }
 
   if (status === 'pending') {
     return {
-      colorClass: 'bg-yellow-950 border-yellow-800',
-      icon: <LuClock className="shrink-0 text-2xl text-yellow-400 sm:text-3xl" />,
+      colorClass: 'bg-[var(--warning-surface)] border-[var(--warning-border)]',
+      icon: <LuClock className="shrink-0 text-2xl text-warning sm:text-3xl" />,
       label: 'Notiek pārbaude',
       tappable: false,
-      loaderClass: 'text-yellow-300',
+      loaderClass: 'text-warning',
     };
   }
 
   if (status === 'rejected') {
     return {
-      colorClass: 'bg-red-950 border-red-800',
-      icon: <LuCircleX className="shrink-0 text-2xl text-red-400 sm:text-3xl" />,
+      colorClass: 'bg-[var(--error-surface)] border-[var(--error-border)]',
+      icon: <LuCircleX className="shrink-0 text-2xl text-error sm:text-3xl" />,
       label: 'Pārbaude neveiksmīga',
       tappable: true,
-      loaderClass: 'text-red-300',
+      loaderClass: 'text-error',
     };
   }
 
@@ -204,7 +205,7 @@ const DiscountCard = () => {
       ? {
           label: 'Līdz',
           value: formatDateLabel(discountUntil),
-          colorClass: 'bg-green-900 border-green-800',
+          colorClass: 'bg-[var(--success-elevated)] border-[var(--success-border)]',
         }
       : null;
 
