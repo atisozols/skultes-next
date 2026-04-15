@@ -10,7 +10,7 @@ import Container from '../ui/Container';
 import MembershipStatus from './MembershipStatus';
 import { Button } from '../ui/Button';
 import { useAuth } from '@clerk/nextjs';
-import { useUser } from '@/hooks/queries';
+import { useUser } from '@/hooks/queries/useUser';
 import PhotoUploadModal from '../ui/PhotoUploadModal';
 import { LuCamera } from 'react-icons/lu';
 
@@ -151,12 +151,11 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
   };
 
   const calculateFutureDate = (timeValue) => {
-    if (!userData?.bestBefore) return null;
-
-    // Use either current date or userData.bestBefore, whichever is later
     const now = new Date();
-    const userBestBefore = new Date(userData.bestBefore);
-    const currentBestBefore = userBestBefore > now ? userBestBefore : now;
+    const hasBestBefore = Boolean(userData?.bestBefore);
+    const userBestBefore = hasBestBefore ? new Date(userData.bestBefore) : null;
+    const currentBestBefore =
+      userBestBefore && userBestBefore > now ? userBestBefore : now;
 
     const [amount, unit] = timeValue.split(' ');
 
@@ -214,8 +213,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
                               : 'bg-alternate text-container'
                           }`}
                         >
-                          Līdz{' '}
-                          {userData?.bestBefore && formatDate(calculateFutureDate(option.time))}
+                          Līdz {formatDate(calculateFutureDate(option.time))}
                         </span>
                       </div>
                       <div className="text-sm font-medium text-white">{option.label}</div>

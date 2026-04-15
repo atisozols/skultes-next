@@ -7,6 +7,11 @@ const TanstackQueryProvider = dynamic(() => import('@/context/providers/Tanstack
   ssr: false,
 });
 
+export const viewport = {
+  themeColor: '#000000',
+  colorScheme: 'dark',
+};
+
 export const metadata = {
   title: 'Ozols | Sporta klubs',
   description: 'Vieta, kur satiekas kustība, motivācija un veselīgs dzīvesveids.',
@@ -64,12 +69,12 @@ export const metadata = {
 
 export default function layout({ children }) {
   return (
-    <html lang="en">
-      <body className={`bg-background`}>
+    <html lang="lv" className="dark-theme-lock" style={{ colorScheme: 'dark', backgroundColor: '#000000' }}>
+      <body className="dark-theme-lock bg-background text-foreground">
         <ClerkProvider>
           <CartProvider>
             <TanstackQueryProvider>
-              <div className="mx-auto flex min-h-screen w-full flex-col items-center">
+              <div className="dark-theme-lock mx-auto flex min-h-screen w-full flex-col items-center">
                 {children}
               </div>
             </TanstackQueryProvider>

@@ -16,6 +16,17 @@
   color-scheme: dark;
 }
 
+html {
+  color-scheme: dark !important;
+  background-color: var(--background) !important;
+}
+
+html,
+body {
+  min-height: 100%;
+  background-color: var(--background) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -27,6 +38,28 @@
 body {
   color: var(--foreground);
   background: var(--background);
+}
+
+.dark-theme-lock {
+  color-scheme: dark !important;
+  forced-color-adjust: none;
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+.dark-theme-lock button,
+.dark-theme-lock input,
+.dark-theme-lock select,
+.dark-theme-lock textarea {
+  color-scheme: dark !important;
+}
+
+.dark-surface-lock {
+  appearance: none;
+  -webkit-appearance: none;
+  color-scheme: dark !important;
+  forced-color-adjust: none;
+  color: var(--foreground) !important;
 }
 
 .qr-force-light {

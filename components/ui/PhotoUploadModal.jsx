@@ -7,6 +7,7 @@ import { usePhotoUploadMutation } from '@/hooks/queries/usePhotoVerification';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { LuCamera } from 'react-icons/lu';
 import { Button } from './Button';
+import Loader from './Loader';
 
 const MAX_BYTES = 5 * 1024 * 1024;
 
@@ -150,7 +151,7 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[60] flex flex-col bg-background"
+      className="dark-theme-lock fixed inset-0 z-[60] flex flex-col bg-background"
       initial={shouldReduce ? false : { y: '100%' }}
       animate={{ y: isClosing ? '100%' : 0 }}
       transition={
@@ -316,7 +317,7 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
 
             {step === 'uploading' && (
               <div className="flex flex-col items-center gap-4 py-8">
-                <span className="loading loading-spinner loading-lg text-accent" />
+                <Loader size="text-3xl" className="text-accent" />
                 <p className="text-sm text-alternate">Augšupielādē...</p>
               </div>
             )}

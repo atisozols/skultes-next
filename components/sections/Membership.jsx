@@ -10,18 +10,20 @@ import { useRef } from 'react';
 const Membership = () => {
   const containerRef = useRef(null);
   const { data: userData, isLoading } = useUser();
-  const isMember = userData?.isMember;
+  const isMember = Boolean(userData?.isMember);
 
-  if (isLoading || !isMember) return null;
+  if (isLoading || !userData) return null;
 
   return (
     <>
-      <Section title={<span className="flex items-center text-lg">Apmeklējumi</span>}>
-        <VisitStats />
-      </Section>
+      {isMember ? (
+        <Section title={<span className="flex items-center text-lg">Apmeklējumi</span>}>
+          <VisitStats />
+        </Section>
+      ) : null}
       <Section title={<span className="flex items-center text-lg">Lielā zāle</span>}>
         <Container className="py-2">
-          <OccupancyGraph />
+          {isMember ? <OccupancyGraph /> : null}
           <div ref={containerRef}>
             <ExtendMembership containerRef={containerRef} />
           </div>

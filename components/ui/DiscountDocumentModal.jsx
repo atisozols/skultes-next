@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useDocumentUploadMutation } from '@/hooks/queries/useDiscountVerification';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Button } from './Button';
+import Loader from './Loader';
 
 const MAX_BYTES = 5 * 1024 * 1024;
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'application/pdf'];
@@ -85,7 +86,7 @@ const DiscountDocumentModal = ({ onClose, rejectionReason }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[60] flex flex-col bg-background"
+      className="dark-theme-lock fixed inset-0 z-[60] flex flex-col bg-background"
       initial={shouldReduce ? false : { y: '100%' }}
       animate={{ y: isClosing ? '100%' : 0 }}
       transition={
@@ -177,7 +178,10 @@ const DiscountDocumentModal = ({ onClose, rejectionReason }) => {
                 {selectedFiles.length > 0 && (
                   <ul className="flex flex-col gap-1">
                     {selectedFiles.map((f, i) => (
-                      <li key={i} className="flex items-center justify-between rounded-lg bg-base-200 px-3 py-2 text-sm">
+                      <li
+                        key={i}
+                        className="dark-surface-lock flex items-center justify-between rounded-lg border border-white/5 bg-container/90 px-3 py-2 text-sm text-foreground"
+                      >
                         <span className="truncate">{f.name}</span>
                         <span className="ml-2 shrink-0 text-alternate">
                           {(f.size / 1024 / 1024).toFixed(1)} MB
@@ -203,7 +207,7 @@ const DiscountDocumentModal = ({ onClose, rejectionReason }) => {
 
             {step === 'uploading' && (
               <div className="flex flex-col items-center gap-4 py-8">
-                <span className="loading loading-spinner loading-lg text-accent" />
+                <Loader size="text-3xl" className="text-accent" />
                 <p className="text-sm text-alternate">Augšupielādē...</p>
               </div>
             )}
