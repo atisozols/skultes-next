@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { HiMiniSquares2X2, HiMiniQrCode } from 'react-icons/hi2';
 import QRCodes from './QRCodes';
+import { motion } from 'framer-motion';
 
 const Nav = () => {
   // Prevent hydration errors by ensuring the component is mounted on the client
@@ -28,8 +29,21 @@ const Nav = () => {
 
   return (
     <>
-      {selectedSection === 'qr' && <QRCodes />}
-      <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[600px] -translate-x-1/2 transform rounded-2xl bg-background p-3 pb-8 shadow-lg sm:bottom-4 sm:max-w-[350px] md:bottom-10">
+      {/* QR view — always mounted, slides in/out via Framer Motion */}
+      <motion.div
+        className="fixed inset-0 z-40"
+        initial={false}
+        animate={{ y: selectedSection === 'qr' ? 0 : '100%' }}
+        transition={
+          selectedSection === 'qr'
+            ? { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+            : { duration: 0.28, ease: [0.55, 0, 1, 0.5] }
+        }
+        style={{ willChange: 'transform' }}
+      >
+        <QRCodes isOpen={selectedSection === 'qr'} />
+      </motion.div>
+      <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 bg-background px-6 pb-8 pt-3">
         <ul className="flex justify-around">
           <li
             className="flex flex-col items-center gap-2"

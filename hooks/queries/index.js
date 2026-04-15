@@ -21,3 +21,9 @@ export { useCartState, CART_QUERY_KEY } from './useCartState';
 
 // Cart checkout
 export { useCartMutation } from './useCartMutation';
+
+// Photo verification
+export { usePhotoVerification, usePhotoUploadMutation, PHOTO_VERIFICATION_QUERY_KEY } from './usePhotoVerification';
+
+// Discount document verification
+export { useDiscountVerification, useDocumentUploadMutation, DISCOUNT_VERIFICATION_QUERY_KEY } from './useDiscountVerification';

@@ -7,7 +7,7 @@ import Section from '../ui/Section';
 
 const Coaches = () => {
   return (
-    <Section title={<span className="text-2xl font-bold">Mūsu treneri</span>}>
+    <Section title={<span className="text-lg font-bold">Mūsu treneri</span>}>
       <Carousel
         width="100%"
         mode="snap"

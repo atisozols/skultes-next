@@ -77,7 +77,7 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
 
   if (isLoading || !userData) {
     return (
-      <FormElement className="border-none py-4">
+      <FormElement className="border-none py-2">
         <div className="flex h-[36px] items-center gap-1 rounded-full bg-zinc-600 px-6 py-1 text-background">
           Ielādē
         </div>
@@ -125,21 +125,13 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
 
   return (
     <>
-      <FormElement className="border-none py-4">
+      <FormElement className="border-none">
         <motion.div
-          className={`flex items-center gap-1 rounded-full text-background ${bgColor} cursor-pointer overflow-hidden px-2 py-1`}
+          className={`flex items-center gap-1 rounded-full text-background ${bgColor} cursor-pointer overflow-hidden whitespace-nowrap px-4 py-1`}
           onClick={handleStatusClick}
           layout
           style={{
             height: '36px',
-            width:
-              statusText === 'Abonements aktīvs'
-                ? '170px'
-                : statusText === 'Abonements beidzies'
-                  ? '178px'
-                  : statusColor === 'text-warning'
-                    ? '90px'
-                    : '150px',
             transition: 'width 0.3s ease-in-out',
           }}
           transition={{ duration: 0.3, type: 'spring', stiffness: 500, damping: 30 }}

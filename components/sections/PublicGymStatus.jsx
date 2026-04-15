@@ -44,7 +44,7 @@ const PublicGymStatus = () => {
   const occupancyInfo = getOccupancyInfo();
 
   return (
-    <FormElement className="py-4">
+    <FormElement className="pt-2 pb-3">
       <div className="flex w-full items-center gap-4">
         <div className="flex items-center text-3xl">{occupancyInfo.icon}</div>
         <div className="flex flex-col">
