@@ -81,7 +81,7 @@ const OccupancyGraph = () => {
                 />
                 <span className={`relative inline-flex h-2 w-2 rounded-full ${dotColor}`} />
               </span>
-              <span className={`text-sm font-medium ${info.color}`}>
+              <span className={`text-xs font-medium ${info.color}`}>
                 {info.comparison ? `${info.comparison} · ${info.situation}` : info.situation}
               </span>
             </>
