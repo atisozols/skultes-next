@@ -104,22 +104,7 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
       }
     }
 
-    // Mirror selfies so they match what the user saw in the viewfinder
-    const isCameraCapture = !file.name || file.name === 'image.jpg';
-    if (isCameraCapture) {
-      const bitmap = await createImageBitmap(processedFile);
-      const canvas = document.createElement('canvas');
-      canvas.width = bitmap.width;
-      canvas.height = bitmap.height;
-      const ctx = canvas.getContext('2d');
-      ctx.translate(canvas.width, 0);
-      ctx.scale(-1, 1);
-      ctx.drawImage(bitmap, 0, 0);
-      const blob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', 0.92));
-      setImageSrc(URL.createObjectURL(blob));
-    } else {
-      setImageSrc(URL.createObjectURL(processedFile));
-    }
+    setImageSrc(URL.createObjectURL(processedFile));
     setStep('crop');
   };
 
