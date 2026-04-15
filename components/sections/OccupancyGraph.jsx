@@ -110,7 +110,7 @@ const OccupancyGraph = () => {
                   style={{ height: `${Math.max(avgPct, 4)}%` }}
                 />
                 <div
-                  className={`relative w-full rounded-sm ${toneFillClass}`}
+                  className="relative w-full rounded-sm bg-accent"
                   style={{ height: `${Math.max(livePct, 4)}%` }}
                 />
               </div>
@@ -139,7 +139,7 @@ const OccupancyGraph = () => {
               {showLabel && (
                 <span
                   className={`text-[10px] tabular-nums ${
-                    isCurrent ? `font-medium ${toneTextClass}` : 'text-alternate'
+                    isCurrent ? 'font-medium text-accent' : 'text-alternate'
                   }`}
                 >
                   {hour}
