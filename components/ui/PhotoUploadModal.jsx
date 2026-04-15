@@ -252,26 +252,6 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
                     onZoomChange={setZoom}
                     onCropComplete={onCropComplete}
                   />
-                  {/* Silhouette guide overlay */}
-                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                    <div className="aspect-square h-full">
-                      <svg
-                        viewBox="0 0 100 100"
-                        className="h-full w-full"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M 0 105 C 10 95 20 88 30 86 Q 38 84 42 72 C 26 68 26 22 50 20 C 74 22 74 68 58 72 Q 62 84 70 86 C 80 88 90 95 100 105"
-                          fill="none"
-                          stroke="white"
-                          strokeWidth="1.2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          opacity="0.45"
-                        />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
                 <input
                   type="range"

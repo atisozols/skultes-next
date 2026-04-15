@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePhotoVerification } from '@/hooks/queries/usePhotoVerification';
 import { useDiscountVerification } from '@/hooks/queries/useDiscountVerification';
 import PhotoUploadModal from './PhotoUploadModal';
@@ -78,19 +78,19 @@ const PhotoCard = () => {
 // ── Discount card ─────────────────────────────────────────────────────────────
 
 const discountConfig = (status, discountActive) => {
+  if (discountActive) {
+    return {
+      color: 'bg-green-950/70 border-green-800/50',
+      icon: <LuPercent className="shrink-0 text-lg text-green-400" />,
+      label: 'Atlaide aktīva',
+      tappable: false,
+    };
+  }
   if (status === 'pending') {
     return {
       color: 'bg-yellow-950/70 border-yellow-800/50',
       icon: <LuClock className="shrink-0 text-lg text-yellow-400" />,
       label: 'Notiek pārbaude',
-      tappable: false,
-    };
-  }
-  if (status === 'approved' && discountActive) {
-    return {
-      color: 'bg-green-950/70 border-green-800/50',
-      icon: <LuPercent className="shrink-0 text-lg text-green-400" />,
-      label: 'Atlaide aktīva',
       tappable: false,
     };
   }
@@ -121,21 +121,12 @@ const formatDate = (dateStr) => {
 const DiscountCard = () => {
   const { data, isLoading } = useDiscountVerification();
   const [showModal, setShowModal] = useState(false);
-  const [showDate, setShowDate] = useState(false);
 
   const status = data?.data?.status ?? 'missing';
   const discountActive = data?.data?.discountActive ?? false;
   const discountUntil = data?.data?.discountUntil ?? null;
   const rejectionReason = data?.data?.rejectionReason ?? null;
   const config = discountConfig(status, discountActive);
-
-  const hasDate = discountActive && discountUntil;
-
-  useEffect(() => {
-    if (!hasDate) return;
-    const interval = setInterval(() => setShowDate((v) => !v), 5000);
-    return () => clearInterval(interval);
-  }, [hasDate]);
 
   return (
     <>
@@ -149,23 +140,10 @@ const DiscountCard = () => {
         ) : (
           <>
             {config.icon}
-            <span className="relative text-xs font-semibold leading-snug">
-              {hasDate ? (
-                <>
-                  <span
-                    className={`transition-opacity duration-500 ${showDate ? 'opacity-0' : 'opacity-100'}`}
-                  >
-                    {config.label}
-                  </span>
-                  <span
-                    className={`absolute inset-0 whitespace-nowrap transition-opacity duration-500 ${showDate ? 'opacity-100' : 'opacity-0'}`}
-                  >
-                    Līdz {formatDate(discountUntil)}
-                  </span>
-                </>
-              ) : (
-                config.label
-              )}
+            <span className="text-xs font-semibold leading-snug">
+              {discountActive && discountUntil
+                ? `Atlaide līdz ${formatDate(discountUntil)}`
+                : config.label}
             </span>
           </>
         )}
