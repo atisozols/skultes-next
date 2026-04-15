@@ -191,21 +191,39 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
           >
             {step === 'input' && (
               <div className="flex flex-col gap-5">
+                <div className="flex justify-center">
+                  <img
+                    src="/id_photo_example.jpg"
+                    alt="Foto piemērs"
+                    className="h-28 w-28 rounded-2xl object-cover"
+                  />
+                </div>
                 <div className="flex flex-col gap-3 text-sm">
                   <p className="font-medium">Foto prasības:</p>
                   <ul className="flex flex-col gap-1.5 text-alternate">
-                    <li className="flex gap-2"><span className="text-accent">—</span>Skaidri redzama seja, skatiens taisni uz kameru</li>
-                    <li className="flex gap-2"><span className="text-accent">—</span>Vienmērīgs apgaismojums, bez asām ēnām</li>
-                    <li className="flex gap-2"><span className="text-accent">—</span>Gaišs vai neitrāls fons</li>
-                    <li className="flex gap-2"><span className="text-accent">—</span>Bez cepures, saulesbrillēm vai maskas</li>
-                    <li className="flex gap-2"><span className="text-accent">—</span>Tikai viena persona fotogrāfijā</li>
+                    <li className="flex gap-2">
+                      <span className="text-accent">—</span>Skaidri redzama seja, skatiens taisni uz
+                      kameru
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-accent">—</span>Vienmērīgs apgaismojums, bez asām ēnām
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-accent">—</span>Gaišs vai neitrāls fons
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-accent">—</span>Bez cepures, saulesbrillēm vai maskas
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-accent">—</span>Tikai viena persona fotogrāfijā
+                    </li>
                   </ul>
                 </div>
 
                 {/* Upload zone */}
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="flex h-36 w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-white/15 transition-colors hover:border-accent/40 hover:bg-accent/5 active:opacity-70"
+                  className="hover:border-accent/40 hover:bg-accent/5 flex h-36 w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-white/15 transition-colors active:opacity-70"
                 >
                   <LuCamera className="text-4xl text-alternate" />
                   <div className="text-center">
@@ -222,8 +240,7 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
                 />
 
                 <p className="text-sm text-alternate">
-                  Pārbaude aizņem līdz{' '}
-                  <span className="text-white">2 darba dienām</span>.
+                  Pārbaude aizņem līdz <span className="text-white">2 darba dienām</span>.
                 </p>
                 <p className="text-xs text-alternate">
                   Augšupielādējot, tu piekrīti mūsu{' '}
@@ -260,7 +277,11 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
                   onChange={(e) => setZoom(Number(e.target.value))}
                   className="h-1 w-full cursor-pointer appearance-none rounded-full bg-white/10 accent-[var(--accent)]"
                 />
-                <Button variant="default" className="w-full font-medium uppercase" onClick={handleCropConfirm}>
+                <Button
+                  variant="default"
+                  className="w-full font-medium uppercase"
+                  onClick={handleCropConfirm}
+                >
                   Apstiprināt izgriezumu
                 </Button>
               </div>
@@ -275,10 +296,18 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
                 />
                 <p className="text-sm text-alternate">Izskatās labi? Apstiprini augšupielādi.</p>
                 <div className="flex w-full gap-3">
-                  <Button variant="outline" className="flex-1 font-medium uppercase" onClick={() => setStep('input')}>
+                  <Button
+                    variant="outline"
+                    className="flex-1 font-medium uppercase"
+                    onClick={() => setStep('input')}
+                  >
                     Mainīt
                   </Button>
-                  <Button variant="default" className="flex-1 font-medium uppercase" onClick={handleUpload}>
+                  <Button
+                    variant="default"
+                    className="flex-1 font-medium uppercase"
+                    onClick={handleUpload}
+                  >
                     Augšupielādēt
                   </Button>
                 </div>
@@ -306,7 +335,11 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
                 <p className="text-center text-sm text-alternate">
                   Pārbaude aizņem līdz 2 darba dienām.
                 </p>
-                <Button variant="default" className="w-full font-medium uppercase" onClick={handleClose}>
+                <Button
+                  variant="default"
+                  className="w-full font-medium uppercase"
+                  onClick={handleClose}
+                >
                   Aizvērt
                 </Button>
               </div>
@@ -315,7 +348,11 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
             {step === 'error' && (
               <div className="flex flex-col gap-4">
                 <p className="text-sm text-red-400">{errorMsg}</p>
-                <Button variant="outline" className="w-full font-medium uppercase" onClick={() => setStep('input')}>
+                <Button
+                  variant="outline"
+                  className="w-full font-medium uppercase"
+                  onClick={() => setStep('input')}
+                >
                   Mēģināt vēlreiz
                 </Button>
               </div>
