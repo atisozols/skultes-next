@@ -13,10 +13,16 @@ import { TiStarOutline } from 'react-icons/ti';
 import useResponsiveValue from '../../hooks/useResponsiveValue';
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 import Link from 'next/link';
+import { motion, useReducedMotion } from 'framer-motion';
 
 import FAQ from './FAQ';
 
+const EASE_OUT_EXPO = [0.16, 1, 0.3, 1];
+const EASE_OUT_QUART = [0.25, 1, 0.5, 1];
+
 const HeroSection = () => {
+  const shouldReduce = useReducedMotion();
+
   return (
     <div id="hero" className="relative min-h-screen w-full">
       <TopNav />
@@ -35,18 +41,33 @@ const HeroSection = () => {
         <div className="min-h-[55%] px-4 py-12 text-center">
           <div className="flex flex-col items-center justify-start">
             <div className="mb-6 md:space-y-6">
-              <h1 className="bakbak xs:text-5xl mb-4 text-4xl text-white sm:text-6xl md:text-7xl">
+              <motion.h1
+                className="bakbak xs:text-5xl mb-4 text-4xl text-white sm:text-6xl md:text-7xl"
+                initial={shouldReduce ? false : { opacity: 0, y: 48 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.85, delay: 0.15, ease: EASE_OUT_EXPO }}
+              >
                 Sasniedz jaunas spēka virsotnes
-              </h1>
-              <p className="font-slight text-lg text-white md:text-2xl">
+              </motion.h1>
+              <motion.p
+                className="font-slight text-lg text-white md:text-2xl"
+                initial={shouldReduce ? false : { opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.38, ease: EASE_OUT_EXPO }}
+              >
                 Izbaudi ceļu uz saviem mērķiem, trenējoties modernā un iedvesmojošā vidē
-              </p>
+              </motion.p>
             </div>
-            <div className="mt-6 flex items-center justify-center">
+            <motion.div
+              className="mt-6 flex items-center justify-center"
+              initial={shouldReduce ? false : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.58, ease: EASE_OUT_QUART }}
+            >
               <Button href="/register" size="lg" className="font-medium uppercase" withArrow>
                 Reģistrēties
               </Button>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -82,6 +103,15 @@ const PRIVATE_OPTIONS = [
 ];
 
 const Landing = () => {
+  const shouldReduce = useReducedMotion();
+
+  const fadeUp = (delay = 0) => ({
+    initial: shouldReduce ? false : { opacity: 0, y: 28 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-60px' },
+    transition: { duration: 0.6, delay, ease: EASE_OUT_QUART },
+  });
+
   const publicGymImages = [
     {
       src: '/carousel/public-gym/liela-landscape-2.jpg',
@@ -185,7 +215,10 @@ const Landing = () => {
         id="main"
         className="flex flex-col items-center justify-center gap-6 pt-16 md:min-h-screen md:gap-16"
       >
-        <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
+        <motion.div
+          className="flex flex-col items-center justify-center gap-2 px-5 text-center"
+          {...fadeUp(0)}
+        >
           <h2 className="bakbak text-3xl font-semibold md:text-5xl">Lielā zāle</h2>
           <p className="max-w-2xl font-extralight md:text-xl">
             Gaišas un plašas telpas, veidotas{' '}
@@ -193,7 +226,7 @@ const Landing = () => {
             <span className="font-light">aprīkotas ar moderniem trenažieriem</span>, ļaus sasniegt
             mērķus <span className="font-light">ērtāk un ātrāk</span>
           </p>
-        </div>
+        </motion.div>
         <Carousel
           width="100%"
           mode="snap"
@@ -218,24 +251,28 @@ const Landing = () => {
         <div className="flex flex-col items-center justify-center gap-6 px-5 text-center font-extralight">
           <ul className="flex flex-col items-center justify-center md:flex-row">
             {mainFeatures.map((feature, index) => (
-              <li
+              <motion.li
                 key={index}
                 className={`${index < mainFeatures.length - 1 ? 'border-b md:border-none' : ''} flex items-center justify-center gap-3 border-transparent p-3 font-light`}
                 style={{
                   borderImage:
                     'linear-gradient(to right, transparent, var(--accent), transparent) 1',
                 }}
+                {...fadeUp(index * 0.1)}
               >
                 {feature.icon}
                 <span className="text-lg">{feature.title}</span>
-              </li>
+              </motion.li>
             ))}
           </ul>
-          <div className="flex flex-col items-center justify-center gap-2">
+          <motion.div
+            className="flex flex-col items-center justify-center gap-2"
+            {...fadeUp(mainFeatures.length * 0.1)}
+          >
             <Button href="/register" size="lg" className="font-medium uppercase" withArrow>
               Reģistrēties
             </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -243,12 +280,15 @@ const Landing = () => {
         id="private"
         className="flex flex-col items-center justify-center gap-6 pt-16 md:min-h-screen md:gap-8"
       >
-        <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
+        <motion.div
+          className="flex flex-col items-center justify-center gap-2 px-5 text-center"
+          {...fadeUp(0)}
+        >
           <h2 className="bakbak text-3xl font-semibold md:text-5xl">Privātā zāle</h2>
           <p className="font-extralight md:text-xl">
             Gūsti ekskluzīvu treniņu pieredzi netraucētā vidē, sasniedzot rezultātu ātrāk.
           </p>
-        </div>
+        </motion.div>
         <Carousel
           width="100%"
           mode="snap"
@@ -273,36 +313,49 @@ const Landing = () => {
         <div className="flex flex-col items-center justify-center gap-6 px-5 text-center font-extralight">
           <ul className="flex flex-col items-center justify-center md:flex-row">
             {privateFeatures.map((feature, index) => (
-              <li
+              <motion.li
                 key={index}
                 className={`${index < privateFeatures.length - 1 ? 'border-b md:border-none' : ''} flex items-center justify-center gap-3 border-transparent p-3 font-light`}
                 style={{
                   borderImage:
                     'linear-gradient(to right, transparent, var(--accent), transparent) 1',
                 }}
+                {...fadeUp(index * 0.1)}
               >
                 {feature.icon}
                 <span className="text-lg">{feature.title}</span>
-              </li>
+              </motion.li>
             ))}
           </ul>
-          <div className="flex flex-col items-center justify-center gap-2">
+          <motion.div
+            className="flex flex-col items-center justify-center gap-2"
+            {...fadeUp(privateFeatures.length * 0.1)}
+          >
             <Button href="/register" size="lg" className="font-medium uppercase" withArrow>
               Reģistrēties
             </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       <section id="digital" className="pt-16">
-        <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
+        <motion.div
+          className="flex flex-col items-center justify-center gap-2 px-5 text-center"
+          {...fadeUp(0)}
+        >
           <h2 className="bakbak text-3xl font-semibold md:text-5xl">Digitāla platforma</h2>
           <p className="max-w-2xl font-extralight md:text-xl">
             Pārvaldi abonementu un rezervē Privāto zāli
           </p>
-        </div>
+        </motion.div>
         <div className="mx-auto flex max-w-xl flex-row items-center justify-center gap-6 p-6">
-          <div className="overflow-hidden rounded-3xl border-4 border-alternate">
+          <motion.div
+            className="overflow-hidden rounded-3xl border-4 border-alternate"
+            initial={shouldReduce ? false : { opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, delay: 0.1, ease: EASE_OUT_QUART }}
+          >
             <Image
               src="/digital/digital-2.png"
               quality={100}
@@ -312,8 +365,14 @@ const Landing = () => {
               className="object-cover"
               priority
             />
-          </div>
-          <div className="overflow-hidden rounded-3xl border-4 border-alternate">
+          </motion.div>
+          <motion.div
+            className="overflow-hidden rounded-3xl border-4 border-alternate"
+            initial={shouldReduce ? false : { opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, delay: 0.22, ease: EASE_OUT_QUART }}
+          >
             <Image
               src="/digital/digital-1.png"
               quality={100}
@@ -323,62 +382,78 @@ const Landing = () => {
               className="object-cover"
               priority
             />
-          </div>
+          </motion.div>
         </div>
-        <div className="flex flex-col items-center justify-center gap-2">
+        <motion.div
+          className="flex flex-col items-center justify-center gap-2"
+          {...fadeUp(0.35)}
+        >
           <Button href="/register" size="lg" className="font-medium uppercase" withArrow>
             Reģistrēties
           </Button>
-        </div>
+        </motion.div>
       </section>
 
       <section id="coaches" className="pt-16">
-        <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
+        <motion.div
+          className="flex flex-col items-center justify-center gap-2 px-5 text-center"
+          {...fadeUp(0)}
+        >
           <h2 className="bakbak text-3xl font-semibold md:text-5xl">
             Tev pielāgots ceļš uz rezultātu
           </h2>
           <p className="max-w-2xl font-extralight md:text-xl">
             Satiec mūsu trenerus un atrod sev piemērotāko ceļu uz mērķiem
           </p>
-        </div>
+        </motion.div>
         <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-8 px-4 sm:grid-cols-2">
-          <Coach
-            phone="+37126089445"
-            size="default"
-            name="Iveta Jansone"
-            title="Apļa un personalizētie spēka treniņi"
-            image="iveta.jpg"
-            quote="Mana galvenā misija ir radīt vidi, kurā ikviens justos piederīgs, neatkarīgi no vecuma, dzimuma vai citiem faktoriem, tādējādi veicinot fizisko un mentālo veselību sabiedrībā"
-            specialties={['Personalizēti spēka treniņi', 'Apļa treniņi', 'Privāti treniņi']}
-          />
-          <Coach
-            phone="+37129241681"
-            size="default"
-            name="Jānis Ozols"
-            title="Vispārīgā fiziskā sagatavotība"
-            image="janis.jpg"
-            quote="Tiecos enerģiski un motivējoši palīdzēt sasniegt Jūsu mērķus, vienlaikus veicinot ilgstošu mīlestību pret aktīvu dzīvesveidu"
-            specialties={[
-              'Fitness un bodibildings',
-              'Spēka treniņi',
-              'Svara samazināšana',
-              'Treniņi ar savu ķermeņa svaru',
-              'Treniņi iesācējiem',
-            ]}
-          />
+          <motion.div {...fadeUp(0.1)}>
+            <Coach
+              phone="+37126089445"
+              size="default"
+              name="Iveta Jansone"
+              title="Apļa un personalizētie spēka treniņi"
+              image="iveta.jpg"
+              quote="Mana galvenā misija ir radīt vidi, kurā ikviens justos piederīgs, neatkarīgi no vecuma, dzimuma vai citiem faktoriem, tādējādi veicinot fizisko un mentālo veselību sabiedrībā"
+              specialties={['Personalizēti spēka treniņi', 'Apļa treniņi', 'Privāti treniņi']}
+            />
+          </motion.div>
+          <motion.div {...fadeUp(0.22)}>
+            <Coach
+              phone="+37129241681"
+              size="default"
+              name="Jānis Ozols"
+              title="Vispārīgā fiziskā sagatavotība"
+              image="janis.jpg"
+              quote="Tiecos enerģiski un motivējoši palīdzēt sasniegt Jūsu mērķus, vienlaikus veicinot ilgstošu mīlestību pret aktīvu dzīvesveidu"
+              specialties={[
+                'Fitness un bodibildings',
+                'Spēka treniņi',
+                'Svara samazināšana',
+                'Treniņi ar savu ķermeņa svaru',
+                'Treniņi iesācējiem',
+              ]}
+            />
+          </motion.div>
         </div>
       </section>
 
       <section id="pricing" className="flex flex-col items-center justify-center pt-16">
-        <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
+        <motion.div
+          className="flex flex-col items-center justify-center gap-2 px-5 text-center"
+          {...fadeUp(0)}
+        >
           <p className="bakbak text-2xl md:text-3xl">Cenas</p>
           <h2 className="bakbak text-3xl font-semibold tracking-wide md:text-5xl">
             Vienkārši. Elastīgi. Pieejami.
           </h2>
-        </div>
+        </motion.div>
 
         <div className="flex w-full max-w-5xl flex-col items-start justify-center md:flex-row md:gap-6">
-          <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4">
+          <motion.div
+            className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4"
+            {...fadeUp(0.1)}
+          >
             <span className="relative top-5 bg-background p-2 font-light uppercase text-accent md:text-xl">
               Lielā zāle
             </span>
@@ -408,9 +483,12 @@ const Landing = () => {
                 </Container>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4">
+          <motion.div
+            className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4"
+            {...fadeUp(0.22)}
+          >
             <span className="relative top-5 bg-background p-2 font-light uppercase text-accent md:text-xl">
               Privātā zāle
             </span>
@@ -435,26 +513,35 @@ const Landing = () => {
                 </Container>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="mt-6 flex flex-col items-center justify-center gap-2">
+        <motion.div
+          className="mt-6 flex flex-col items-center justify-center gap-2"
+          {...fadeUp(0.3)}
+        >
           <Button href="/register" size="lg" className="font-medium uppercase" withArrow>
             Reģistrēties
           </Button>
-        </div>
+        </motion.div>
       </section>
 
       <section id="coaches" className="pt-16">
-        <div className="flex flex-col items-center justify-center gap-2 px-5 text-center">
+        <motion.div
+          className="flex flex-col items-center justify-center gap-2 px-5 text-center"
+          {...fadeUp(0)}
+        >
           <h2 className="bakbak text-3xl font-semibold md:text-5xl">Biežāk uzdotie jautājumi</h2>
-        </div>
+        </motion.div>
         <Section id="faq" className="mx-auto max-w-4xl pt-8">
           <FAQ />
         </Section>
       </section>
 
-      <footer className="relative z-10 flex flex-col items-center justify-center gap-16 pb-8 pt-16">
+      <motion.footer
+        className="relative z-10 flex flex-col items-center justify-center gap-16 pb-8 pt-16"
+        {...fadeUp(0)}
+      >
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-evenly gap-10 text-alternate md:flex-row">
           <div className="flex w-1/3 items-center justify-center">
             <Link href="/log-in">
@@ -543,7 +630,7 @@ const Landing = () => {
             />
           </Link>
         </div>
-      </footer>
+      </motion.footer>
     </main>
   );
 };

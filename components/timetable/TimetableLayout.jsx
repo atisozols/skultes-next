@@ -9,7 +9,7 @@ const TimetableLayout = ({ availability }) => {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef(null);
   const headerRef = useRef(null);
-  const [headerHeight, setHeaderHeight] = useState(40);
+  const [headerHeight, setHeaderHeight] = useState(34);
   const [contentHeight, setContentHeight] = useState(0);
   const labelRef = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
@@ -42,7 +42,7 @@ const TimetableLayout = ({ availability }) => {
   }, [availability]);
 
   useLayoutEffect(() => {
-    if (headerRef.current) setHeaderHeight(Math.max(40, headerRef.current.offsetHeight));
+    if (headerRef.current) setHeaderHeight(Math.max(34, headerRef.current.offsetHeight));
     if (contentRef.current) setContentHeight(contentRef.current.scrollHeight);
   }, [timetable, isOpen]);
 
@@ -73,20 +73,20 @@ const TimetableLayout = ({ availability }) => {
               ? { maxWidth: isOpen ? 0 : labelWidth, opacity: isOpen ? 0 : 1 }
               : { opacity: isOpen ? 0 : 1 }
           }
-          style={{ maxWidth: labelWidth || 'none', height: headerHeight || 40 }}
+          style={{ maxWidth: labelWidth || 'none', height: headerHeight || 34 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className="pointer-events-none absolute left-0 top-0 flex items-center overflow-hidden pr-2"
         >
-          <span ref={labelRef} className="whitespace-nowrap text-foreground">
+          <span ref={labelRef} className="whitespace-nowrap text-sm text-alternate">
             Noslogojums
           </span>
         </motion.div>
         <motion.div
           className={`relative z-10 ml-auto flex flex-col overflow-hidden rounded-lg bg-white bg-opacity-5`}
-          initial={{ width: 135, height: 40 }}
+          initial={{ width: 135, height: 34 }}
           animate={{
             width: isOpen ? rowWidth : 135,
-            height: isOpen ? (headerHeight || 40) + contentHeight : 40,
+            height: isOpen ? (headerHeight || 34) + contentHeight : 34,
           }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           style={{ width: 135 }}
@@ -98,7 +98,7 @@ const TimetableLayout = ({ availability }) => {
             closedText="Atvērt"
             variant="outline"
             size="sm"
-            className={`h-[40px] w-fit shrink-0 self-end overflow-hidden rounded-full border-none px-2 py-1 font-medium uppercase ${isOpen ? 'text-alternate' : 'text-foreground'}`}
+            className={`h-[34px] w-fit shrink-0 self-end overflow-hidden rounded-full border-none px-2 py-1 font-medium uppercase ${isOpen ? 'text-alternate' : 'text-foreground'}`}
           />
           <motion.div
             ref={contentRef}

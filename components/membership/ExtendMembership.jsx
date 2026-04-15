@@ -11,6 +11,8 @@ import MembershipStatus from './MembershipStatus';
 import { Button } from '../ui/Button';
 import { useAuth } from '@clerk/nextjs';
 import { useUser } from '@/hooks/queries';
+import PhotoUploadModal from '../ui/PhotoUploadModal';
+import { LuCamera } from 'react-icons/lu';
 
 const MEMBERSHIP_OPTIONS = [
   {
@@ -45,6 +47,8 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
   const [selectedOption, setSelectedOption] = useState('month');
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [checkoutError, setCheckoutError] = useState(null);
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
 
   useEffect(() => {
     if (userData) {
@@ -61,7 +65,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
     if (isOpen && contentRef.current) {
       setMeasuredHeight(contentRef.current.scrollHeight);
     }
-  }, [isOpen, parentContainerRef]);
+  }, [isOpen, parentContainerRef, checkoutError]);
 
   // Add click outside listener to close the collapse
   useEffect(() => {
@@ -120,9 +124,13 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error('Server error response:', errorData);
-        console.error('Status code:', response.status);
-        alert(`Error: ${errorData.error || response.statusText}. Check console for details.`);
+        const msg = errorData.error || errorData.msg || '';
+        if (response.status === 403 && msg.toLowerCase().includes('photo verification')) {
+          setCheckoutError('verification');
+          setIsLoading(false);
+          return;
+        }
+        setCheckoutError('generic');
         throw new Error(`Failed to create checkout session: ${JSON.stringify(errorData)}`);
       }
 
@@ -131,24 +139,24 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
       window.location.href = data.url;
     } catch (error) {
       console.error('Error creating checkout:', error);
-      alert('Kļūda, mēģiniet vēlreiz!');
     } finally {
       setIsLoading(false);
     }
   };
 
   const applyDiscount = (price) => {
-    const discount = userData?.discount ?? 0;
-    return price - price * (discount / 100);
+    const hasActiveDiscount =
+      userData?.discountUntil && new Date(userData.discountUntil) > new Date();
+    return hasActiveDiscount ? price - price * 0.4 : price;
   };
 
   const calculateFutureDate = (timeValue) => {
     if (!userData?.bestBefore) return null;
 
     // Use either current date or userData.bestBefore, whichever is later
-const now = new Date();
-const userBestBefore = new Date(userData.bestBefore);
-const currentBestBefore = userBestBefore > now ? userBestBefore : now;
+    const now = new Date();
+    const userBestBefore = new Date(userData.bestBefore);
+    const currentBestBefore = userBestBefore > now ? userBestBefore : now;
 
     const [amount, unit] = timeValue.split(' ');
 
@@ -184,9 +192,9 @@ const currentBestBefore = userBestBefore > now ? userBestBefore : now;
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: measuredHeight, opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div ref={contentRef} className="px-3.5">
+              <div ref={contentRef} className="px-3.5 py-2">
                 <div className="flex flex-col gap-3.5">
                   {MEMBERSHIP_OPTIONS.map((option) => (
                     <Container
@@ -231,27 +239,58 @@ const currentBestBefore = userBestBefore > now ? userBestBefore : now;
                     </Container>
                   ))}
                 </div>
+
+                {/* Checkout error banners */}
+                {checkoutError === 'verification' && (
+                  <div className="mt-3 flex items-center gap-3 rounded-xl bg-red-950/60 px-3.5 py-3">
+                    <LuCamera className="shrink-0 text-lg text-red-400" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-red-200">
+                        Nepieciešama foto verifikācija
+                      </p>
+                      <p className="mt-0.5 text-xs text-red-300/70">
+                        Pirms pirkuma jāaugšupielādē foto.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setShowPhotoModal(true)}
+                      className="shrink-0 rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-semibold text-red-200 transition-colors active:bg-red-500/30"
+                    >
+                      Augšupielādēt
+                    </button>
+                  </div>
+                )}
+                {checkoutError === 'generic' && (
+                  <p className="mt-3 text-center text-sm text-red-400">Kļūda, mēģiniet vēlreiz!</p>
+                )}
+
+                {/* Payment button */}
+                <div className="flex w-full items-center justify-center pt-3.5">
+                  <Button
+                    variant="default"
+                    className="w-full font-medium uppercase"
+                    onClick={handleButtonClick}
+                    disabled={isLoading}
+                    loading={isLoading}
+                    withArrow
+                  >
+                    Apmaksāt
+                  </Button>
+                </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Button that serves as both toggle and payment button */}
-        {isOpen && (
-          <div className="flex w-full items-center justify-center px-3.5 py-4">
-            <Button
-              variant="default"
-              className="w-full font-medium uppercase"
-              onClick={handleButtonClick}
-              disabled={isLoading}
-              loading={isLoading}
-              withArrow
-            >
-              Apmaksāt
-            </Button>
-          </div>
-        )}
       </div>
+
+      {showPhotoModal && (
+        <PhotoUploadModal
+          onClose={() => {
+            setShowPhotoModal(false);
+            setCheckoutError(null);
+          }}
+        />
+      )}
     </>
   );
 };
