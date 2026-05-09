@@ -55,7 +55,12 @@ const QRCodes = ({ isOpen }) => {
   const [selected, setSelected] = useState(0);
   const shouldReduce = useReducedMotion();
 
-  const { data: qrCodes, isLoading, isError, error } = useEntryQRCodes();
+  const {
+    data: qrCodes,
+    isLoading,
+    isFetching,
+    dataUpdatedAt,
+  } = useEntryQRCodes();
   const { data: userData } = useUser();
   const QR_OPTIONS = getQROptions(qrCodes);
 
@@ -65,7 +70,13 @@ const QRCodes = ({ isOpen }) => {
     }
   }, [userData, selected]);
 
-  if (isLoading) {
+  // TTLock cyclic payload rotates every 3 minutes, so anything older than
+  // 90s should be treated as untrustworthy while a refetch is in flight.
+  const hasStaleData =
+    !qrCodes || !dataUpdatedAt || Date.now() - dataUpdatedAt > 90 * 1000;
+  const showLoader = isLoading || (isFetching && hasStaleData);
+
+  if (showLoader) {
     return (
       <motion.div
         className="fixed inset-0 bottom-[78px] z-10 flex flex-col items-center justify-center gap-12 bg-background"
@@ -91,30 +102,6 @@ const QRCodes = ({ isOpen }) => {
             </div>
           </div>
           <div className="h-[50px]"></div>
-        </div>
-      </motion.div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <motion.div
-        className="fixed inset-0 bottom-[78px] z-10 flex flex-col items-center justify-center gap-12 bg-background"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isOpen ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
-      >
-        <div className="flex flex-col items-center gap-4">
-          <Image
-            src="/logo_red.png"
-            alt="Ozols Sports Club Logo"
-            width={300}
-            height={82}
-            className="mb-12 max-w-[200px]"
-            priority
-          />
-          <p className="text-red-500">Neizdevās ielādēt QR kodu. Lūdzu, mēģiniet vēlreiz.</p>
-          <p className="text-xs text-gray-500">{error?.message}</p>
         </div>
       </motion.div>
     );

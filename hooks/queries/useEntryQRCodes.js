@@ -1,9 +1,9 @@
 'use client';
 
 import { useAuth } from '@clerk/nextjs';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
-// Query key constants
 export const ENTRY_QR_CODES_QUERY_KEY = ['entryQRCodes'];
 
 /**
@@ -35,7 +35,7 @@ const fetchEntryQRCodes = async (token) => {
 
     return {
       dressingRoom: data.dressingRoom,
-      gym: data.gym, // This could be null for non-members
+      gym: data.gym,
     };
   } catch (error) {
     console.error('Error fetching entry QR codes:', error);
@@ -44,23 +44,44 @@ const fetchEntryQRCodes = async (token) => {
 };
 
 /**
- * Hook for fetching QR codes for gym entry
- * Fetches QR codes with a stale time of 2 minutes (refresh interval of QR codes)
+ * Hook for fetching QR codes for gym entry.
+ *
+ * The TTLock cyclic payload rotates every 3 minutes (refreshTime=3 in
+ * skultesapi/utilities/ttlockFunctions.js), so we poll every 60 seconds and
+ * also force a refetch whenever the page becomes visible again — important
+ * for PWAs resuming from a locked screen or app switch, where TanStack's
+ * default focus detection is unreliable on iOS.
  */
 export function useEntryQRCodes() {
   const { getToken } = useAuth();
+  const queryClient = useQueryClient();
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ENTRY_QR_CODES_QUERY_KEY,
     queryFn: async () => fetchEntryQRCodes(await getToken()),
-    retry: (failureCount, error) => {
-      // Don't retry on 401 (Unauthorized)
-      if (error?.status === 401) return false;
-      // Retry up to 3 times for other errors
-      return failureCount < 3;
-    },
-    retryDelay: 1000, // Wait 1 second between retries
-    staleTime: 10 * 1000, // 10 seconds (QR code refresh interval)
-    gcTime: 5 * 60 * 1000, // 5 minutes
+    retry: (_failureCount, error) => error?.status !== 401,
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 15000),
+    staleTime: 0,
+    gcTime: 5 * 60 * 1000,
+    refetchInterval: 60 * 1000,
+    refetchIntervalInBackground: false,
   });
+
+  useEffect(() => {
+    const invalidate = () => {
+      if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
+        queryClient.invalidateQueries({ queryKey: ENTRY_QR_CODES_QUERY_KEY });
+      }
+    };
+
+    document.addEventListener('visibilitychange', invalidate);
+    window.addEventListener('pageshow', invalidate);
+
+    return () => {
+      document.removeEventListener('visibilitychange', invalidate);
+      window.removeEventListener('pageshow', invalidate);
+    };
+  }, [queryClient]);
+
+  return query;
 }
