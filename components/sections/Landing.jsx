@@ -84,6 +84,13 @@ const MEMBERSHIP_OPTIONS = [
     icon: false,
   },
   {
+    id: 'tenDay',
+    label: '10 dienas',
+    price: '€35.00',
+    description: 'Neregulāriem treniņu cikliem vai biežiem ceļotājiem',
+    icon: false,
+  },
+  {
     id: 'month',
     label: 'Mēnesis',
     price: '€59.00',

@@ -266,14 +266,25 @@ const MobileNav = () => {
 
     if (isLoginPage) {
       router.push(`/#${sectionId}`);
-    } else {
+      return;
+    }
+
+    // Release body scroll lock immediately — without this, scrollIntoView
+    // is silently ignored on iOS PWA because the menu-open effect set
+    // overflow:hidden and the cleanup useEffect hasn't committed yet.
+    document.body.style.overflow = '';
+
+    // Defer the scroll until after the menu close has committed and the
+    // collapse animation has had a frame to settle, so the scroll target's
+    // post-close offset is what we land on.
+    requestAnimationFrame(() => {
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       } else {
         router.push(`/#${sectionId}`);
       }
-    }
+    });
   };
 
   const contentVariants = {

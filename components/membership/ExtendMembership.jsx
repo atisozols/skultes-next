@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { FaCheck } from 'react-icons/fa';
 import { TbCoinEuro } from 'react-icons/tb';
 import { TiStarOutline } from 'react-icons/ti';
 import { format, addDays, addMonths, addYears } from 'date-fns';
@@ -22,6 +21,14 @@ const MEMBERSHIP_OPTIONS = [
     description: 'Ideāli, lai izmēģinātu lielo zāli vienu vai divas reizes',
     icon: false,
     time: '1 day',
+  },
+  {
+    id: 'tenDay',
+    label: '10 dienas',
+    price: 35.0,
+    description: 'Neregulāriem treniņu cikliem vai biežiem ceļotājiem',
+    icon: false,
+    time: '10 days',
   },
   {
     id: 'month',
@@ -61,11 +68,19 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
   const contentRef = useRef(null);
   const [measuredHeight, setMeasuredHeight] = useState(0);
 
+  // ResizeObserver re-measures whenever content height changes — handles
+  // userData arriving late (changes discount strikethrough), error banners
+  // appearing/disappearing, and any other content shift without needing
+  // every cause listed as a dep.
   useEffect(() => {
-    if (isOpen && contentRef.current) {
-      setMeasuredHeight(contentRef.current.scrollHeight);
-    }
-  }, [isOpen, parentContainerRef, checkoutError]);
+    if (!isOpen || !contentRef.current) return;
+    const el = contentRef.current;
+    const update = () => setMeasuredHeight(el.scrollHeight);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [isOpen]);
 
   // Add click outside listener to close the collapse
   useEffect(() => {
@@ -144,11 +159,12 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
     }
   };
 
-  const applyDiscount = (price) => {
-    const hasActiveDiscount =
-      userData?.discountUntil && new Date(userData.discountUntil) > new Date();
-    return hasActiveDiscount ? price - price * 0.4 : price;
-  };
+  const hasActiveDiscount =
+    Boolean(userData?.discountUntil) &&
+    new Date(userData.discountUntil) > new Date();
+
+  const applyDiscount = (price) =>
+    hasActiveDiscount ? price - price * 0.4 : price;
 
   const calculateFutureDate = (timeValue) => {
     const now = new Date();
@@ -217,8 +233,19 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
                         </span>
                       </div>
                       <div className="text-sm font-medium text-white">{option.label}</div>
-                      <div className="mb-1 font-light text-white">
-                        €{applyDiscount(option.price).toFixed(2)}
+                      <div className="mb-1 flex items-baseline gap-2 font-light text-white">
+                        {hasActiveDiscount ? (
+                          <>
+                            <span className="text-alternate line-through">
+                              €{option.price.toFixed(2)}
+                            </span>
+                            <span className="text-accent">
+                              €{applyDiscount(option.price).toFixed(2)}
+                            </span>
+                          </>
+                        ) : (
+                          <span>€{option.price.toFixed(2)}</span>
+                        )}
                       </div>
                       <div className="flex items-center text-xs">
                         {option.icon ? (

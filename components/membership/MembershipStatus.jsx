@@ -52,17 +52,16 @@ const MembershipStatus = ({ isOpen, setIsOpen }) => {
     setTextOpacity(0);
     const fadeOutMs = 280;
     const resizeMs = 320;
-    const t1 = setTimeout(() => {
+    let innerTimer;
+    const outerTimer = setTimeout(() => {
       setDisplayedText(statusText);
-      const t2 = setTimeout(() => {
+      innerTimer = setTimeout(() => {
         setTextOpacity(1);
       }, resizeMs);
-      // store for cleanup
-      t1.inner = t2;
     }, fadeOutMs);
     return () => {
-      clearTimeout(t1);
-      if (t1.inner) clearTimeout(t1.inner);
+      clearTimeout(outerTimer);
+      clearTimeout(innerTimer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusText]);
