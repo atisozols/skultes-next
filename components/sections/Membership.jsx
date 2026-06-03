@@ -2,6 +2,7 @@
 import Section from '../ui/Section';
 import Container from '../ui/Container';
 import ExtendMembership from '../membership/ExtendMembership';
+import OccupancyGraph from './OccupancyGraph';
 import VisitStats from './VisitStats';
 import { useUser } from '@/hooks/queries/useUser';
 import { useRef } from 'react';
@@ -22,6 +23,7 @@ const Membership = () => {
       ) : null}
       <Section title={<span className="flex items-center text-lg">Lielā zāle</span>}>
         <Container className="py-2">
+          {isMember ? <OccupancyGraph /> : null}
           <div ref={containerRef}>
             <ExtendMembership containerRef={containerRef} />
           </div>
