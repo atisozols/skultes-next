@@ -16,27 +16,17 @@ function campaignMessage(p) {
   return 'Apmeklē klubu šomēnes un trenējies papildus dienas bez maksas!';
 }
 
-// Node positions (percent of full width). Symmetric breathing room on both
-// ends: the first node is inset so there's room to show progress toward the
-// first bonus (0 → first tier), and the last node is inset by the same margin
-// so it isn't jammed against the right edge (its label can centre under it).
-const NODE_MARGIN = 10;
-const nodePos = (i, n) => NODE_MARGIN + (i / (n - 1)) * (100 - 2 * NODE_MARGIN); // 10/50/90 for n=3
+// Positions along the bar are PROPORTIONAL to visit count, not evenly spaced.
+// The 0 → first-tier stretch is the longest (8 visits — a whole month for most
+// members), so it fills the biggest share of the bar and every visit visibly
+// advances it. Later tiers are fewer visits apart and take the smaller right
+// portion. The last tier is inset from the right edge so its label can centre.
+const RIGHT_MARGIN = 10;
+const posForVisits = (v, maxVisits) =>
+  (Math.min(v, maxVisits) / maxVisits) * (100 - RIGHT_MARGIN);
 
-// Percent (0..100) the accent fill should reach: 0 visits → 0% (bar start),
-// each tier's visit count → its node position, interpolated between.
 function fillPercent(counted, tiers) {
-  const n = tiers.length;
-  const vx = [0, ...tiers.map((t) => t.visitsRequired)];
-  const px = [0, ...tiers.map((_, i) => nodePos(i, n))];
-  if (counted >= vx[vx.length - 1]) return px[px.length - 1];
-  for (let i = 1; i < vx.length; i++) {
-    if (counted < vx[i]) {
-      const frac = (counted - vx[i - 1]) / (vx[i] - vx[i - 1]);
-      return px[i - 1] + frac * (px[i] - px[i - 1]);
-    }
-  }
-  return 0;
+  return posForVisits(counted, tiers[tiers.length - 1].visitsRequired);
 }
 
 const CampaignCard = ({ campaign, visitHistory }) => {
@@ -44,9 +34,9 @@ const CampaignCard = ({ campaign, visitHistory }) => {
   const p = campaignProgress(visitHistory, campaign);
   if (!p) return null;
 
-  const n = p.tiers.length;
+  const maxVisits = p.tiers[p.tiers.length - 1].visitsRequired;
   const fill = fillPercent(p.countedVisits, p.tiers);
-  const trackEnd = nodePos(n - 1, n); // last node position; track stops here
+  const trackEnd = 100 - RIGHT_MARGIN; // last node position; track stops here
 
   // Per-tier display state, computed once and shared by the node + label rows.
   const tierState = p.tiers.map((t) => ({
@@ -74,13 +64,13 @@ const CampaignCard = ({ campaign, visitHistory }) => {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           />
           {/* nodes */}
-          {tierState.map(({ t, cleared }, i) => (
+          {tierState.map(({ t, cleared }) => (
             <div
               key={t.visitsRequired}
               className={`absolute top-1/2 flex h-4 w-4 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 ${
                 cleared ? 'border-accent bg-accent text-background' : 'border-white/20 bg-background'
               }`}
-              style={{ left: `${nodePos(i, n)}%` }}
+              style={{ left: `${posForVisits(t.visitsRequired, maxVisits)}%` }}
             >
               {cleared && <FaCheck className="text-[9px]" />}
             </div>
@@ -89,11 +79,11 @@ const CampaignCard = ({ campaign, visitHistory }) => {
 
         {/* labels centred under each node */}
         <div className="relative mt-3 h-9">
-          {tierState.map(({ t, cleared }, i) => (
+          {tierState.map(({ t, cleared }) => (
             <div
               key={t.visitsRequired}
-              className="absolute flex -translate-x-1/2 flex-col items-center gap-0.5 text-center"
-              style={{ left: `${nodePos(i, n)}%` }}
+              className="absolute flex -translate-x-1/2 flex-col items-center gap-0.5 whitespace-nowrap text-center"
+              style={{ left: `${posForVisits(t.visitsRequired, maxVisits)}%` }}
             >
               <span
                 className={`text-base font-bold leading-none ${cleared ? 'text-foreground' : 'text-alternate'}`}
