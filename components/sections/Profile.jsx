@@ -2,40 +2,31 @@ import Section from '../ui/Section';
 import { currentUser } from '@clerk/nextjs/server';
 import UserButtonWrapper from './UserButtonWrapper';
 
+// Latvian vocative for a first name — replaces the old external Tezaurs API
+// call (http, non-standard port), which was unreliable and blocked the whole
+// server-rendered greeting for up to 2.5s on every load.
+//
+// Masculine names in the 1st/2nd/3rd declensions end in -s / -š and drop that
+// ending in the vocative:
+//   1st  -s   Toms → Tom, Roberts → Robert
+//   2nd  -is  Jānis → Jāni, Kārlis → Kārli
+//   3rd  -us  Ingus → Ingu, Markus → Marku
+//        -š   Mārtiņš → Mārtiņ
+// Names ending in a vowel (Renē, Otto, Anna, Ilze, …) are left unchanged —
+// their vocative equals the nominative.
+function latvianVocative(name) {
+  if (!name) return name;
+  if (name.endsWith('š')) return name.slice(0, -1);
+  if (name.endsWith('s')) return name.slice(0, -1);
+  return name;
+}
+
 const Profile = async () => {
   const user = await currentUser();
 
   if (!user) return null;
 
-  const firstName = user.firstName ?? '';
-  let vokativs = { Vārds: firstName, Dzimte: 'Nepiemīt' };
-
-  try {
-    if (firstName) {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
-
-      try {
-        const res = await fetch(
-          `http://api.tezaurs.lv:8182/inflect_people/json/${encodeURIComponent(firstName)}`,
-          {
-            signal: controller.signal,
-            cache: 'no-store',
-          },
-        );
-
-        if (res.ok) {
-          const data = await res.json();
-          const tezaursVokativs = data?.[0]?.[5] ?? data?.[0]?.[0];
-          if (tezaursVokativs && typeof tezaursVokativs === 'object') {
-            vokativs = tezaursVokativs;
-          }
-        }
-      } finally {
-        clearTimeout(timeoutId);
-      }
-    }
-  } catch {}
+  const greeting = latvianVocative(user.firstName ?? '');
 
   return (
     <Section>
@@ -48,14 +39,7 @@ const Profile = async () => {
               month: 'long',
             })}
           </span>
-          <h2 className="text-3xl font-bold">
-            {vokativs['Dzimte'] === 'Sieviešu'
-              ? `Čau, ${vokativs['Vārds']}`
-              : vokativs['Dzimte'] === 'Nepiemīt'
-                ? `Čau, ${vokativs['Vārds']}`
-                : `Čau, ${vokativs['Vārds']}`}
-            !
-          </h2>
+          <h2 className="text-3xl font-bold">Čau{greeting ? `, ${greeting}` : ''}!</h2>
         </div>
         <UserButtonWrapper />
       </div>
