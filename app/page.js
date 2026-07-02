@@ -3,6 +3,7 @@ import MakeReservation from '@/components/sections/MakeReservation';
 import MyReservations from '@/components/sections/MyReservations';
 import Profile from '@/components/sections/Profile';
 import Membership from '@/components/sections/Membership';
+import MembershipProgress from '@/components/sections/MembershipProgress';
 import dynamic from 'next/dynamic';
 import { SignedOut, SignedIn } from '@clerk/nextjs';
 import React from 'react';
@@ -36,6 +37,9 @@ const page = () => {
               <VerificationCards />
             </FadeSection>
             <FadeSection delay={0.1}>
+              <MembershipProgress />
+            </FadeSection>
+            <FadeSection delay={0.12}>
               <Membership />
             </FadeSection>
             <FadeSection>
