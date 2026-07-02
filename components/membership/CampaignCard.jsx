@@ -5,12 +5,16 @@ import { campaignProgress } from '@/lib/challenges/progress';
 
 // "+3 dienas" / "+1 diena" (nominative)
 const daysNom = (n) => `${n} ${n === 1 ? 'diena' : 'dienas'}`;
-// "par 3 dienām" / "par 1 dienu" (dative)
-const daysDat = (n) => `${n} ${n === 1 ? 'dienu' : 'dienām'}`;
-// "līdz +1 dienai" / "līdz +2 dienām"
-const daysDatToward = (n) => `${n} ${n === 1 ? 'dienai' : 'dienām'}`;
-// 1 apmeklējums / 9 apmeklējumi
-const visitWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'apmeklējums' : 'apmeklējumi');
+
+// Message driven by how many bonus tiers the member has cleared this month
+// (tiers are 8/12/16 → visit ranges 0-7, 8-11, 12-15, 16+).
+function campaignMessage(p) {
+  const cleared = p.tiersCleared.length;
+  if (cleared >= p.tiers.length) return 'Visi mēneša bonusi sasniegti!';
+  if (cleared >= 2) return 'Vēl tikai nedaudz līdz pēdējam bonusam!';
+  if (cleared >= 1) return 'Pirmais bonuss sasniegts - turpini un saņem papildus dienas šomēnes!';
+  return 'Apmeklē klubu šomēnes un trenējies papildus dienas bez maksas!';
+}
 
 // Piecewise-linear interpolation of the fill line: maps counted visits to a
 // percent along the track so the fill reaches each node exactly when its tier
@@ -47,25 +51,15 @@ const CampaignCard = ({ campaign, visitHistory }) => {
   }));
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex flex-col gap-0.5">
-        <span className="text-xs font-semibold uppercase tracking-wide text-alternate">
-          Šī mēneša progress
-        </span>
-        <span className="text-base font-semibold text-foreground">
-          <span className="text-accent">{p.countedVisits}</span> {visitWord(p.countedVisits)} šomēnes
-        </span>
-        <p className="mt-1 text-sm text-alternate">
-          Apmeklē klubu šomēnes un saņem papildus dienas bez maksas.
-        </p>
-      </div>
+    <div className="flex flex-col gap-8">
+      <p className="text-base font-medium leading-snug text-foreground">{campaignMessage(p)}</p>
 
-      {/* Node stepper */}
-      <div className="mt-2">
-        <div className="relative" style={{ height: 34 }}>
+      <div>
+        {/* Node stepper */}
+        <div className="relative" style={{ height: 28 }}>
           {/* track */}
           <div
-            className="absolute top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-container"
+            className="absolute top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-white/10"
             style={{ left: 0, width: `${trackEndPct}%` }}
           />
           {/* fill */}
@@ -81,12 +75,12 @@ const CampaignCard = ({ campaign, visitHistory }) => {
             {tierState.map(({ t, cleared, isNext }) => (
               <div key={t.visitsRequired} className="flex flex-1 items-center justify-center">
                 <div
-                  className={`flex h-7 w-7 items-center justify-center rounded-full border-2 ${
+                  className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${
                     cleared
                       ? 'border-accent bg-accent text-background'
                       : isNext
-                        ? 'border-accent bg-background'
-                        : 'border-border bg-container'
+                        ? 'border-white/20 bg-background'
+                        : 'border-white/20 bg-background'
                   }`}
                 >
                   {cleared && <FaCheck className="text-[11px]" />}
@@ -97,38 +91,25 @@ const CampaignCard = ({ campaign, visitHistory }) => {
         </div>
 
         {/* labels under each node */}
-        <div className="mt-2 flex">
-          {tierState.map(({ t, cleared, isNext }) => (
-            <div key={t.visitsRequired} className="flex flex-1 flex-col items-center text-center">
+        <div className="mt-3 flex">
+          {tierState.map(({ t, cleared }) => (
+            <div
+              key={t.visitsRequired}
+              className="flex flex-1 flex-col items-center gap-0.5 text-center"
+            >
               <span
-                className={`text-sm font-semibold leading-tight ${cleared || isNext ? 'text-foreground' : 'text-alternate'}`}
+                className={`text-base font-bold leading-none ${cleared ? 'text-foreground' : 'text-alternate'}`}
               >
                 {t.visitsRequired}
               </span>
               <span
-                className={`text-[11px] leading-tight ${cleared ? 'text-accent' : 'text-alternate'}`}
+                className={`text-xs leading-none ${cleared ? 'text-accent' : 'text-alternate'}`}
               >
                 +{daysNom(t.daysToAward)}
               </span>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Footer status */}
-      <div className="flex flex-col gap-1 border-t border-border pt-4">
-        {p.daysEarned > 0 && (
-          <span className="text-sm font-semibold text-accent">
-            Abonements pagarināts par {daysDat(p.daysEarned)}
-          </span>
-        )}
-        {p.nextTier ? (
-          <span className="text-sm text-alternate">
-            Vēl {p.visitsToNext} {visitWord(p.visitsToNext)} līdz +{daysDatToward(p.nextTier.daysToAward)}
-          </span>
-        ) : (
-          <span className="text-sm text-alternate">Visi mērķi sasniegti šomēnes</span>
-        )}
       </div>
     </div>
   );

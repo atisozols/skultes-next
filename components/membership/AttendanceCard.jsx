@@ -18,14 +18,12 @@ const AttendanceCard = ({ totalVisits = 0, visitHistory = [] }) => {
   const [showModal, setShowModal] = useState(false);
   const { level, nextThreshold, progress, isMax } = levelFromVisits(totalVisits);
 
-  // Clamp the node/label/fill position so the moving current node and its label
-  // never clip the card edges (true progress drives it; extremes are nudged in).
-  const pos = Math.min(Math.max(progress, 0.1), 0.9);
-
   // Contribution grid — identical bucketing to VisitStats.
   const weeks = useMemo(() => {
     const visitDates = new Set((visitHistory || []).map((v) => v.date));
-    const todayStr = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Riga' }).format(new Date());
+    const todayStr = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Riga' }).format(
+      new Date(),
+    );
     const [y, m, d] = todayStr.split('-').map(Number);
     const todayDate = new Date(y, m - 1, d);
 
@@ -76,57 +74,29 @@ const AttendanceCard = ({ totalVisits = 0, visitHistory = [] }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-6 px-5 py-5">
-        {/* Level — transit-line style: current position → level-up target */}
-        <div className="flex flex-col gap-2.5">
-          {/* header row */}
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-light uppercase tracking-[0.18em] text-white/80">
+      <div className="flex flex-col gap-5 px-5 py-5">
+        <div className="flex flex-col gap-5">
+          {/* header: level | visits / target */}
+          <div className="flex items-center justify-between gap-3">
+            <span className="whitespace-nowrap text-sm font-light uppercase tracking-[0.18em] text-white/80">
               LVL {level}
             </span>
-            <span className="rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
-              Tagad
+            <span className="whitespace-nowrap text-sm font-bold uppercase tracking-wide text-foreground">
+              {totalFmt} apmeklējumi
+              {!isMax && (
+                <span className="font-normal text-alternate"> / {nf.format(nextThreshold)}</span>
+              )}
             </span>
           </div>
 
-          {/* line with current + end nodes */}
-          <div className="relative h-3.5">
-            <div className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-white/10" />
+          {/* progress bar — full-bleed, doubles as the divider under the header */}
+          <div className="relative -mx-5 h-[3px] bg-white/10">
             <motion.div
-              className="absolute left-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-accent"
+              className="absolute inset-y-0 left-0 bg-accent"
               initial={shouldReduce ? false : { width: 0 }}
-              animate={{ width: `${pos * 100}%` }}
+              animate={{ width: `${progress * 100}%` }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             />
-            <div
-              className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-accent bg-white"
-              style={{ left: `${pos * 100}%` }}
-            />
-            {!isMax && (
-              <div className="absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 translate-x-1/2 rounded-full bg-white/25" />
-            )}
-          </div>
-
-          {/* endpoint counts — one compact row */}
-          <div className="flex items-baseline justify-between">
-            <span className="flex items-baseline gap-1">
-              <span className="text-sm font-semibold leading-none text-foreground">{totalFmt}</span>
-              <span className="text-[10px] uppercase tracking-wide text-alternate">apmeklējumi</span>
-            </span>
-            {isMax ? (
-              <span className="text-[10px] uppercase tracking-wide text-accent">
-                Augstākais līmenis
-              </span>
-            ) : (
-              <span className="flex items-baseline gap-1">
-                <span className="text-sm font-semibold leading-none text-foreground">
-                  {nf.format(nextThreshold)}
-                </span>
-                <span className="text-[10px] uppercase tracking-wide text-accent">
-                  {level + 1}. līmenis
-                </span>
-              </span>
-            )}
           </div>
         </div>
 
