@@ -6,6 +6,16 @@ import { campaignProgress } from '@/lib/challenges/progress';
 // "+3 dienas" / "+1 diena" (nominative)
 const daysNom = (n) => `${n} ${n === 1 ? 'diena' : 'dienas'}`;
 
+// "2026-08" → "31.08" — the campaign's last day, for the deadline badge.
+// Derived from periodKey rather than hardcoded so the badge stays correct if a
+// later month is added. Day 0 of the next month is the last day of this one;
+// plain UTC arithmetic, since this is a calendar label and never a timestamp.
+function periodEndLabel(periodKey) {
+  const [year, month] = periodKey.split('-').map(Number);
+  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  return `${String(lastDay).padStart(2, '0')}.${String(month).padStart(2, '0')}`;
+}
+
 // Message driven by how many bonus tiers the member has cleared this month
 // (tiers are 8/12/16 → visit ranges 0-7, 8-11, 12-15, 16+).
 function campaignMessage(p) {
@@ -46,7 +56,12 @@ const CampaignCard = ({ campaign, visitHistory }) => {
 
   return (
     <div className="flex flex-col gap-8">
-      <p className="text-base font-medium leading-snug text-foreground">{campaignMessage(p)}</p>
+      <div className="flex flex-col gap-3">
+        <span className="self-start rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-accent">
+          līdz {periodEndLabel(campaign.periodKey)}
+        </span>
+        <p className="text-base font-medium leading-snug text-foreground">{campaignMessage(p)}</p>
+      </div>
 
       <div>
         {/* Node stepper — intro segment leads into the first node; the last node

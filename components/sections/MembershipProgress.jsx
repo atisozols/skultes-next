@@ -24,7 +24,7 @@ const MembershipProgress = () => {
     <>
       {campaign && (
         <Section title="Izaicinājums">
-          <Container>
+          <Container className="border border-accent">
             <div className="px-5 py-5">
               <CampaignCard campaign={campaign} visitHistory={visitHistory} />
             </div>
