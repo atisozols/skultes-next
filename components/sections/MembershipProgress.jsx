@@ -4,7 +4,7 @@ import Container from '../ui/Container';
 import AttendanceCard from '../membership/AttendanceCard';
 import CampaignCard from '../membership/CampaignCard';
 import { useUser } from '@/hooks/queries/useUser';
-import { getActiveCampaign } from '@/lib/challenges/campaigns';
+import { getActiveCampaign, periodEndLabel } from '@/lib/challenges/campaigns';
 
 const MembershipProgress = () => {
   const { data: userData, isLoading } = useUser();
@@ -24,11 +24,18 @@ const MembershipProgress = () => {
     <>
       {campaign && (
         <Section title="Izaicinājums">
-          <Container className="border border-accent">
-            <div className="px-5 py-5">
-              <CampaignCard campaign={campaign} visitHistory={visitHistory} />
-            </div>
-          </Container>
+          {/* The badge straddles the card's top border, so it sits OUTSIDE
+              Container — Container is overflow-hidden and would clip it. */}
+          <div className="relative">
+            <Container className="border border-accent">
+              <div className="px-5 py-5">
+                <CampaignCard campaign={campaign} visitHistory={visitHistory} />
+              </div>
+            </Container>
+            <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-background">
+              līdz {periodEndLabel(campaign.periodKey)}
+            </span>
+          </div>
         </Section>
       )}
 
