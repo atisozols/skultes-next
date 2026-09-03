@@ -6,8 +6,7 @@ import CartItem from './CartItem';
 import PhotoUploadModal from '../ui/PhotoUploadModal';
 import { LuCamera } from 'react-icons/lu';
 
-const isVerificationError = (msg) =>
-  typeof msg === 'string' && msg.toLowerCase().includes('photo verification');
+const isVerificationError = (error) => error?.code === 'PHOTO_VERIFICATION_REQUIRED';
 
 const CartContent = () => {
   const { cart, checkout, total, loading, cartError } = useCart();
@@ -26,8 +25,8 @@ const CartContent = () => {
           </div>
         ))}
       </div>
-      {cartError.msg.length > 0 && (
-        isVerificationError(cartError.msg) ? (
+      {(cartError.msg?.length > 0 || isVerificationError(cartError)) && (
+        isVerificationError(cartError) ? (
           <div className="mx-3.5 my-2 flex items-center gap-3 rounded-xl bg-red-950/60 px-3.5 py-3">
             <LuCamera className="shrink-0 text-lg text-red-400" />
             <div className="flex-1">

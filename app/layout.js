@@ -7,6 +7,10 @@ const TanstackQueryProvider = dynamic(() => import('@/context/providers/Tanstack
   ssr: false,
 });
 
+const PhotoVerificationGate = dynamic(() => import('@/components/ui/PhotoVerificationGate'), {
+  ssr: false,
+});
+
 export const viewport = {
   themeColor: '#000000',
   colorScheme: 'dark',
@@ -77,6 +81,7 @@ export default function layout({ children }) {
               <div className="dark-theme-lock mx-auto flex min-h-screen w-full flex-col items-center">
                 {children}
               </div>
+              <PhotoVerificationGate />
             </TanstackQueryProvider>
           </CartProvider>
         </ClerkProvider>

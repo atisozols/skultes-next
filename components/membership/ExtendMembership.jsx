@@ -139,8 +139,7 @@ const ExtendMembership = ({ containerRef: parentContainerRef }) => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        const msg = errorData.error || errorData.msg || '';
-        if (response.status === 403 && msg.toLowerCase().includes('photo verification')) {
+        if (errorData.code === 'PHOTO_VERIFICATION_REQUIRED') {
           setCheckoutError('verification');
           setIsLoading(false);
           return;

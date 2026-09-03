@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { addDays, differenceInCalendarDays, format } from 'date-fns';
 import { usePhotoVerification } from '@/hooks/queries/usePhotoVerification';
 import { useDiscountVerification } from '@/hooks/queries/useDiscountVerification';
-import PhotoUploadModal from './PhotoUploadModal';
 import DiscountDocumentModal from './DiscountDocumentModal';
 import Loader from './Loader';
 import { LuCircleCheck, LuClock, LuCircleX, LuCamera, LuPercent } from 'react-icons/lu';
@@ -86,7 +85,6 @@ const photoConfig = (status) => {
         colorClass: 'bg-[var(--success-surface)] border-[var(--success-border)]',
         icon: <LuCircleCheck className="shrink-0 text-2xl text-success sm:text-3xl" />,
         label: 'Konts verificēts',
-        tappable: false,
         loaderClass: 'text-success',
       };
     case 'pending':
@@ -94,7 +92,6 @@ const photoConfig = (status) => {
         colorClass: 'bg-[var(--warning-surface)] border-[var(--warning-border)]',
         icon: <LuClock className="shrink-0 text-2xl text-warning sm:text-3xl" />,
         label: 'Notiek pārbaude',
-        tappable: false,
         loaderClass: 'text-warning',
       };
     case 'rejected':
@@ -102,7 +99,6 @@ const photoConfig = (status) => {
         colorClass: 'bg-[var(--error-surface)] border-[var(--error-border)]',
         icon: <LuCircleX className="shrink-0 text-2xl text-error sm:text-3xl" />,
         label: 'Verifikācija neveiksmīga',
-        tappable: true,
         loaderClass: 'text-error',
       };
     case 'missing':
@@ -111,18 +107,17 @@ const photoConfig = (status) => {
         colorClass: 'bg-[var(--error-surface)] border-[var(--error-border)]',
         icon: <LuCamera className="shrink-0 text-2xl text-error sm:text-3xl" />,
         label: 'Verificē sevi',
-        tappable: true,
         loaderClass: 'text-error',
       };
   }
 };
 
+// Display only. `missing` and `rejected` always force PhotoVerificationGate,
+// so this card is never the way into the upload flow.
 const PhotoCard = () => {
   const { data, isLoading } = usePhotoVerification();
-  const [showModal, setShowModal] = useState(false);
 
   const status = data?.data?.status ?? 'missing';
-  const rejectionReason = data?.data?.rejectionReason ?? null;
   const graceDeadline = getPhotoGraceDeadline(data?.data?.gracePeriodStartedAt);
   const graceDeadlineLabel = formatDateLabel(graceDeadline);
   const config = photoConfig(status);
@@ -137,23 +132,16 @@ const PhotoCard = () => {
       : null;
 
   return (
-    <>
-      <StatusStackCard
-        colorClass={config.colorClass}
-        icon={config.icon}
-        label={config.label}
-        secondary={secondaryCard}
-        tappable={config.tappable}
-        disabled={!config.tappable || isLoading}
-        loading={isLoading}
-        loaderClass={config.loaderClass}
-        onClick={() => config.tappable && setShowModal(true)}
-      />
-
-      {showModal ? (
-        <PhotoUploadModal onClose={() => setShowModal(false)} rejectionReason={rejectionReason} />
-      ) : null}
-    </>
+    <StatusStackCard
+      colorClass={config.colorClass}
+      icon={config.icon}
+      label={config.label}
+      secondary={secondaryCard}
+      tappable={false}
+      disabled
+      loading={isLoading}
+      loaderClass={config.loaderClass}
+    />
   );
 };
 

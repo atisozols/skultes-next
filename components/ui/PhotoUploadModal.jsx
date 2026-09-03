@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import Cropper from 'react-easy-crop';
 import imageCompression from 'browser-image-compression';
+import { useClerk } from '@clerk/nextjs';
 import { usePhotoUploadMutation } from '@/hooks/queries/usePhotoVerification';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { LuCamera } from 'react-icons/lu';
@@ -51,7 +52,7 @@ async function getCroppedBlob(imageSrc, croppedAreaPixels) {
   return new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.92));
 }
 
-const PhotoUploadModal = ({ onClose, rejectionReason }) => {
+const PhotoUploadModal = ({ onClose, rejectionReason, forced = false }) => {
   const [step, setStep] = useState('input');
   const [imageSrc, setImageSrc] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -65,6 +66,7 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
   const shouldReduce = useReducedMotion();
 
   const uploadMutation = usePhotoUploadMutation();
+  const { signOut } = useClerk();
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -164,14 +166,18 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
       }}
     >
       <div className="relative flex flex-1 flex-col overflow-y-auto p-6">
-        <button
-          onClick={handleClose}
-          className="absolute right-5 top-5 text-xl text-alternate hover:text-white"
-        >
-          ✕
-        </button>
+        {!forced && (
+          <button
+            onClick={handleClose}
+            className="absolute right-5 top-5 text-xl text-alternate hover:text-white"
+          >
+            ✕
+          </button>
+        )}
 
-        <h2 className="mb-5 pr-8 text-xl font-bold">Foto verifikācija</h2>
+        <h2 className="mb-5 pr-8 text-xl font-bold">
+          {forced ? 'Verificē sevi, lai turpinātu' : 'Foto verifikācija'}
+        </h2>
 
         <StepProgress step={step} />
 
@@ -228,14 +234,15 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
                 >
                   <LuCamera className="text-4xl text-alternate" />
                   <div className="text-center">
-                    <p className="text-sm font-medium">Fotografēt vai izvēlēties</p>
-                    <p className="mt-0.5 text-xs text-alternate">JPG, PNG, HEIC</p>
+                    <p className="text-sm font-medium">Fotografēt</p>
+                    <p className="mt-0.5 text-xs text-alternate">Uzņem foto ar kameru</p>
                   </div>
                 </button>
                 <input
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
+                  capture="user"
                   className="hidden"
                   onChange={handleFileChange}
                 />
@@ -336,14 +343,25 @@ const PhotoUploadModal = ({ onClose, rejectionReason }) => {
                 <p className="text-center text-sm text-alternate">
                   Pārbaude aizņem līdz 2 darba dienām.
                 </p>
-                <Button
-                  variant="default"
-                  className="w-full font-medium uppercase"
-                  onClick={handleClose}
-                >
-                  Aizvērt
-                </Button>
+                {!forced && (
+                  <Button
+                    variant="default"
+                    className="w-full font-medium uppercase"
+                    onClick={handleClose}
+                  >
+                    Aizvērt
+                  </Button>
+                )}
               </div>
+            )}
+
+            {forced && (step === 'input' || step === 'error') && (
+              <button
+                onClick={() => signOut()}
+                className="mt-6 w-full text-center text-xs text-alternate underline underline-offset-4"
+              >
+                Iziet no konta
+              </button>
             )}
 
             {step === 'error' && (
