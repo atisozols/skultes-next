@@ -17,6 +17,7 @@ export const viewport = {
 };
 
 export const metadata = {
+  metadataBase: new URL('https://ozols.club'),
   title: 'Ozols | Sporta klubs',
   description: 'Vieta, kur satiekas kustība, motivācija un veselīgs dzīvesveids.',
   icons: {
@@ -51,8 +52,10 @@ export const metadata = {
     images: [
       {
         url: '/social-share.png',
-        width: 2295,
-        height: 1531,
+        width: 1200,
+        height: 630,
+        alt: 'Ozols sporta kluba treniņu zāle',
+        type: 'image/png',
       },
     ],
     locale: 'lv_LV',
