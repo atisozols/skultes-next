@@ -23,8 +23,8 @@ const Page = () => {
               <h2 className="mb-3 text-xl font-medium text-accent">Ievads</h2>
               <ol className="list-decimal space-y-3 pl-5">
                 <li>
-                  Šī Privātuma politika attiecas uz SIA &quot;Ozols sporta klubs&quot;, reģ. Nr.
-                  41203062733, veikto datu apstrādi (turpmāk — Ozols sporta klubs).
+                  Šī Privātuma politika attiecas uz SIA &quot;Nora24&quot;, reģ. Nr. 40203540375,
+                  veikto datu apstrādi (turpmāk — Ozols sporta klubs).
                 </li>
                 <li>
                   Ozols sporta klubam ir svarīgi nodrošināt pienācīgu personas datu aizsardzību, kas
